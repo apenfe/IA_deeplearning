@@ -23,8 +23,20 @@
 
  float alfa = 0.23;
 
+ // Matriz con los pesos y bias
+
+ float Pesos[M][N+1]={
+  {1.0,1.0,1.0,1.0,1.0}
+ };
+
+ int i,j;
+ float Neta;
+ float SalidaRed[M];
+ float EntradaRed[N];
+
 void setup() {
   // put your setup code here, to run once:
+  Serial.begin(9600);
 
 }
 
