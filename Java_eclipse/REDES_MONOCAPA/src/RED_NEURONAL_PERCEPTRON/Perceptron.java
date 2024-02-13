@@ -35,58 +35,146 @@ import java.util.Arrays;
 
 public class Perceptron {
 
-	private double[] entradas = new double[0];
-	private double[] salidaEsperada = new double[0];
+	private int[][] entradas = new int[0][0];
+	private int[][] salidaEsperada = new int[0][0];
 	private double[] pesosSinapticos = new double[0];
 	private double umbral_Bias;
-	private double costo;
 
-	public Perceptron(int[] entradas, double[] salidaEsperada, double costo) {
+	public Perceptron(int[][] entradas, int[][] salidaEsperada, double costo) {
 		
+		this.entradas=entradas;
 		this.salidaEsperada=salidaEsperada;
-		this.pesosSinapticos = new double[entradas.length];
-		this.costo = costo;
+		this.pesosSinapticos = new double[entradas[0].length];
 		this.umbral_Bias = Math.random()* 2 - 1;
 
-		for (int i = 0; i < entradas.length; i++) {
+		for (int i = 0; i < entradas[0].length; i++) {
 			pesosSinapticos[i] = Math.random()* 2 - 1;
 		}
 		
 	}
 
-	public double calcularNeta(double[] entradas) {
+	public double calcularNeta(int[] entradas) {
 		
 		double neta = 0;
 		
 		for (int i = 0; i < entradas.length; i++) {
 			
-			neta += entradas[i] * pesosSinapticos[i] + umbral_Bias;
+			neta += entradas[i] * pesosSinapticos[i];
 			
 		}
 		
-		return neta;
+		return neta + umbral_Bias;
 	}
 
 	private int activate(double neta) {
 		
-		return (neta >= 0) ? 1 : -1;
+		return (neta >= 0) ? 1 : 0;
 		
 	}
 
-	public void train(double[] inputs, int deseado) {
+	public void train() {
 		
-		double neta = calcularNeta(inputs);
-		int salida = activate(neta);
-		
-		double error = deseado - salida;
-		
-		for (int i = 0; i < pesosSinapticos.length; i++) {
+		for (int i = 0; i < salidaEsperada.length; i++) { // 4
 			
-			pesosSinapticos[i] += error * inputs[i] * costo; // Aplicando la regla de actualización
+			int[] entradaActual = entradas[i];
+			
+			do {
+				
+				double neta = calcularNeta(entradaActual);
+				int salida = activate(neta);
+				
+				double error = salidaEsperada[i][0] - salida;
+				
+				if(error==0) {//costo
+					
+					break;
+					
+				}else {
+					
+					for(int j = 0; j < pesosSinapticos.length; j++) {
+						
+						pesosSinapticos[j] = pesosSinapticos[j] +(1*error*entradaActual[j]); // Aplicando la regla de actualización
+						
+					}
+
+					umbral_Bias = umbral_Bias + (1*error); // Actualización del umbral
+					
+				}	
+				
+			}while(true);
 			
 		}
-
-		umbral_Bias += error * costo; // Actualización del umbral
+		
+		if(check()) {
+			
+			System.err.println("Entrenada correctamente...");
+			
+		}else {
+			train();
+		}
+		
+	}
+	
+	public boolean probar() {
+		
+		int cont=0;
+		
+		for (int i = 0; i < salidaEsperada.length; i++) { // 4
+			
+			int[] entradaActual = entradas[i];
+			double neta = calcularNeta(entradaActual);
+			int salida = activate(neta);
+			
+			System.out.println("\nTanda "+(i+1)+"º.");
+			System.out.println("Entradas: "+entradas[i][0]+" y "+entradas[i][1]);
+			
+			if(salida==salidaEsperada[i][0]) {
+				
+				System.out.println("Salida esperada: "+salidaEsperada[i][0]+" ---> Salida real: "+salida);
+				System.out.println();
+				cont++;
+				
+			}else {
+				
+				System.err.println("Salida esperada: "+salidaEsperada[i][0]+" ---> Salida real: "+salida);
+				System.out.println();
+				
+			}
+			
+		}
+		
+		if(cont<salidaEsperada.length) {
+			return false;
+		}else {
+			return true;
+		}
+		
+	}
+	
+	public boolean check() {
+		
+		int cont=0;
+		
+		for (int i = 0; i < salidaEsperada.length; i++) { // 4
+			
+			int[] entradaActual = entradas[i];
+			double neta = calcularNeta(entradaActual);
+			int salida = activate(neta);
+			
+			if(salida==salidaEsperada[i][0]) {
+				
+				cont++;
+				
+			}
+			
+		}
+		
+		if(cont<salidaEsperada.length) {
+			return false;
+		}else {
+			return true;
+		}
+		
 	}
 
 	public void printWeights() {
