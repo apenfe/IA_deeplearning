@@ -118,6 +118,7 @@ public class Perceptron {
 	public boolean probar() {
 		
 		int cont=0;
+		printWeights();
 		
 		for (int i = 0; i < salidaEsperada.length; i++) { // 4
 			
@@ -185,7 +186,7 @@ public class Perceptron {
 
 	public void printWeights() {
 		
-		System.out.println(Arrays.toString(pesosSinapticos));
+		System.out.println("Pesos sinapticos: "+Arrays.toString(pesosSinapticos));
 		System.out.println("Umbral: "+umbral_Bias);
 		
 	}
