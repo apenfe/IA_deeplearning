@@ -40,7 +40,7 @@ public class Perceptron {
 	private double[] pesosSinapticos = new double[0];
 	private double umbral_Bias;
 
-	public Perceptron(int[][] entradas, int[][] salidaEsperada, double costo) {
+	public Perceptron(int[][] entradas, int[][] salidaEsperada) {
 		
 		this.entradas=entradas;
 		this.salidaEsperada=salidaEsperada;
@@ -126,11 +126,17 @@ public class Perceptron {
 			int salida = activate(neta);
 			
 			System.out.println("\nTanda "+(i+1)+"º.");
-			System.out.println("Entradas: "+entradas[i][0]+" y "+entradas[i][1]);
+			
+			System.out.print("Entradas: ");
+			
+			for (int j = 0; j < entradaActual.length; j++) {
+				System.out.print(entradaActual[j]+", ");
+			}
+		
 			
 			if(salida==salidaEsperada[i][0]) {
 				
-				System.out.println("Salida esperada: "+salidaEsperada[i][0]+" ---> Salida real: "+salida);
+				System.out.println("\nSalida esperada: "+salidaEsperada[i][0]+" ---> Salida real: "+salida);
 				System.out.println();
 				cont++;
 				

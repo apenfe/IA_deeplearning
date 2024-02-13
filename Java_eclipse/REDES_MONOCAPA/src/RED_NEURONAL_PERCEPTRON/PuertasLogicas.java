@@ -18,14 +18,14 @@ public class PuertasLogicas{
 		
 		and(entradas_AND,salidas_AND);
 		or(entradas_OR,salidas_OR);
-		//not(entradas_NOT,salidas_NOT);	
+		not(entradas_NOT,salidas_NOT);	
 				
 	}
 	
 	public static void and(int[][] entradas, int[][] salidas) {
 		
 		System.out.println("PUERTA AND...");
-		Perceptron perceptron = new Perceptron(entradas,salidas,0);
+		Perceptron perceptron = new Perceptron(entradas,salidas);
 		perceptron.train();
 		perceptron.probar();
 
@@ -34,7 +34,7 @@ public class PuertasLogicas{
 	public static void or(int[][] entradas, int[][] salidas) {
 		
 		System.out.println("PUERTA OR...");
-		Perceptron perceptron = new Perceptron(entradas,salidas,0);
+		Perceptron perceptron = new Perceptron(entradas,salidas);
 		perceptron.train();
 		perceptron.probar();
 		
@@ -43,7 +43,8 @@ public class PuertasLogicas{
 	
 	public static void not(int[][] entradas, int[][] salidas) {
 		
-		Perceptron perceptron = new Perceptron(entradas,salidas,0);
+		System.out.println("PUERTA NOT...");
+		Perceptron perceptron = new Perceptron(entradas,salidas);
 		perceptron.train();
 		perceptron.probar();
 		
