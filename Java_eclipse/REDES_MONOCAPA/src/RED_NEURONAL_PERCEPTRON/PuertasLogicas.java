@@ -13,16 +13,12 @@ public class PuertasLogicas{
 		double[][] salidas_XOR = {{0},{1},{1},{0}};
 		
 		// Puerta AND
-				double[][] entradas_OR = {{1,1,1},{1,1,0},{1,0,1},{1,0,0},{0,1,1},{0,1,0},{0,0,1},{0,0,0}};
-				double[][] salidas_OR = {{1},{1},{1},{1},{1},{1},{1},{0}};
+		double[][] entradas_OR = {{1,1,1},{1,1,0},{1,0,1},{1,0,0},{0,1,1},{0,1,0},{0,0,1},{0,0,0}};
+		double[][] salidas_OR = {{1},{1},{1},{1},{1},{1},{1},{0}};
 		
 		// Puerta NOR
 		double[][] entradas_NOT = {{0},{1}};
 		double[][] salidas_NOT = {{1},{0}};
-		
-		// Puerta OR
-		//int[][] entradas_OR = {{1,1},{1,0},{0,1},{0,0}};
-		//int[][] salidas_OR = {{1},{1},{1},{0}};
 		
 		and(entradas_AND,salidas_AND);
 		or(entradas_OR,salidas_OR);

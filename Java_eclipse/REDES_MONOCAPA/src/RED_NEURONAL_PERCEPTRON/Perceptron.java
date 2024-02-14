@@ -35,10 +35,9 @@ import java.util.Arrays;
 
 public class Perceptron {
 	
+	private int id;
 	private double[][] entradas = new double[0][0];
 	private double[][] salidaEsperada = new double[0][0];
-	//private int[][] entradas = new int[0][0];
-	//private int[][] salidaEsperada = new int[0][0];
 	private double[] pesosSinapticos = new double[0];
 	private double umbral_Bias;
 	
@@ -54,7 +53,22 @@ public class Perceptron {
 		}
 		
 	}
+	
+	public Perceptron(double[][] entradasD, double[][] salidaEsperadaD, int id) {
+		
+		this.id=id;
+		this.entradas=entradasD;
+		this.salidaEsperada=salidaEsperadaD;
+		this.pesosSinapticos = new double[entradas[0].length];
+		this.umbral_Bias = Math.random()* 2 - 1;
 
+		for (int i = 0; i < entradas[0].length; i++) {
+			pesosSinapticos[i] = Math.random()* 2 - 1;
+		}
+		
+	}
+
+	
 	public double calcularNeta(double[] entradas) {
 		
 		double neta = 0;
@@ -68,7 +82,7 @@ public class Perceptron {
 		return neta + umbral_Bias;
 	}
 
-	private int activate(double neta) {
+	public int activate(double neta) {
 		
 		return (neta >= 0) ? 1 : 0;
 		
@@ -76,7 +90,7 @@ public class Perceptron {
 
 	public void train() {
 		
-		for (int i = 0; i < salidaEsperada.length; i++) { // 4
+		for (int i = 0; i < salidaEsperada.length; i++) { // ver salidaEsperada.length  /* OK */
 			
 			double[] entradaActual = entradas[i];
 			
@@ -85,7 +99,7 @@ public class Perceptron {
 				double neta = calcularNeta(entradaActual);
 				int salida = activate(neta);
 				
-				double error = salidaEsperada[i][0] - salida;
+				double error = salidaEsperada[i][id] - salida; // CAMBIO 0 POR ID
 				
 				if(error==0) {//costo
 					
@@ -137,15 +151,15 @@ public class Perceptron {
 			}
 		
 			
-			if(salida==salidaEsperada[i][0]) {
+			if(salida==salidaEsperada[i][id]) { // 0 por id
 				
-				System.out.println("\nSalida esperada: "+salidaEsperada[i][0]+" ---> Salida real: "+salida);
+				System.out.println("\nSalida esperada: "+salidaEsperada[i][id]+" ---> Salida real: "+salida); // 0 por id
 				System.out.println();
 				cont++;
 				
 			}else {
 				
-				System.err.println("Salida esperada: "+salidaEsperada[i][0]+" ---> Salida real: "+salida);
+				System.err.println("Salida esperada: "+salidaEsperada[i][id]+" ---> Salida real: "+salida); // 0 por id
 				System.out.println();
 				
 			}
@@ -170,7 +184,7 @@ public class Perceptron {
 			double neta = calcularNeta(entradaActual);
 			int salida = activate(neta);
 			
-			if(salida==salidaEsperada[i][0]) {
+			if(salida==salidaEsperada[i][id]) { // 0 por id
 				
 				cont++;
 				
@@ -191,6 +205,10 @@ public class Perceptron {
 		System.out.println("Pesos sinapticos: "+Arrays.toString(pesosSinapticos));
 		System.out.println("Umbral: "+umbral_Bias);
 		
+	}
+
+	public int getId() {
+		return id;
 	}
 
 }
