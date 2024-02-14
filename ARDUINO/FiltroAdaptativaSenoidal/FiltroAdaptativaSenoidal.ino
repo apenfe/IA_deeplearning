@@ -21,7 +21,7 @@
 
  // Razon de aprendizaje
 
- float alfa = 0.23;
+ float alfa = 0.10;
 
  // Matriz con los pesos y bias
 
@@ -35,13 +35,13 @@
  float EntradaRed[N];
 
 void setup() {
-  // put your setup code here, to run once:
+  
   Serial.begin(9600);
 
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
+  
   float Entrada;
   float Salida;
   float Tiempo;
@@ -62,7 +62,7 @@ void loop() {
 
   // Definicion entradas red
   EntradaRed[0]=X_K;
-    EntradaRed[1]=X_K_1;
+  EntradaRed[1]=X_K_1;
   EntradaRed[2]=X_K_2;
   EntradaRed[3]=X_K_3;
   D=SenoOri;
@@ -72,6 +72,7 @@ void loop() {
   for(i=0; i<M; i++){
 
     Neta=Pesos[i][N];
+
     for(j=0; j<N; j++){
     
       Neta+=Pesos[i][j]*EntradaRed[j];
@@ -81,6 +82,7 @@ void loop() {
     SalidaRed[i]=Neta;
 
   }
+
     Salida=SalidaRed[0];
 
     // actualizar pesos
@@ -106,6 +108,6 @@ Serial.print(Salida);
 Serial.print(SenoRuido);
  Serial.print("\t");
 Serial.println(SenoOri);
-delay(10);
+delay(5);
 
 }
