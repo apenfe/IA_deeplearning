@@ -8,9 +8,9 @@ public class PuertasLogicas{
 		double[][] entradas_AND = {{1,1,1},{1,1,0},{1,0,1},{1,0,0},{0,1,1},{0,1,0},{0,0,1},{0,0,0}};
 		double[][] salidas_AND = {{1},{0},{0},{0},{0},{0},{0},{0}};
 		
-		// Puerta AND
-		//int[][] entradas_AND = {{1,1},{1,0},{0,1},{0,0}};
-		//int[][] salidas_AND = {{1},{0},{0},{0}};
+		// Puerta XOR
+		double[][] entradas_XOR = {{1,1},{1,0},{0,1},{0,0}};
+		double[][] salidas_XOR = {{0},{1},{1},{0}};
 		
 		// Puerta AND
 				double[][] entradas_OR = {{1,1,1},{1,1,0},{1,0,1},{1,0,0},{0,1,1},{0,1,0},{0,0,1},{0,0,0}};
@@ -26,7 +26,8 @@ public class PuertasLogicas{
 		
 		and(entradas_AND,salidas_AND);
 		or(entradas_OR,salidas_OR);
-		not(entradas_NOT,salidas_NOT);	
+		not(entradas_NOT,salidas_NOT);
+		xor(entradas_XOR,salidas_XOR);
 				
 	}
 	
@@ -55,6 +56,16 @@ public class PuertasLogicas{
 		Perceptron perceptron = new Perceptron(entradas,salidas);
 		perceptron.train();
 		perceptron.probar();
+		
+	}
+	
+	public static void xor(double[][] entradas, double[][] salidas) {
+		
+		System.out.println("PUERTA XOR...");
+		Perceptron perceptron = new Perceptron(entradas,salidas);
+		//perceptron.train(); STACK OVERFLOW
+		perceptron.probar();
+		
 		
 	}
 		
