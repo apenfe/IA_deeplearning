@@ -34,16 +34,18 @@ package RED_NEURONAL_PERCEPTRON;
 import java.util.Arrays;
 
 public class Perceptron {
-
-	private int[][] entradas = new int[0][0];
-	private int[][] salidaEsperada = new int[0][0];
+	
+	private double[][] entradas = new double[0][0];
+	private double[][] salidaEsperada = new double[0][0];
+	//private int[][] entradas = new int[0][0];
+	//private int[][] salidaEsperada = new int[0][0];
 	private double[] pesosSinapticos = new double[0];
 	private double umbral_Bias;
-
-	public Perceptron(int[][] entradas, int[][] salidaEsperada) {
+	
+	public Perceptron(double[][] entradasD, double[][] salidaEsperadaD) {
 		
-		this.entradas=entradas;
-		this.salidaEsperada=salidaEsperada;
+		this.entradas=entradasD;
+		this.salidaEsperada=salidaEsperadaD;
 		this.pesosSinapticos = new double[entradas[0].length];
 		this.umbral_Bias = Math.random()* 2 - 1;
 
@@ -53,7 +55,7 @@ public class Perceptron {
 		
 	}
 
-	public double calcularNeta(int[] entradas) {
+	public double calcularNeta(double[] entradas) {
 		
 		double neta = 0;
 		
@@ -76,7 +78,7 @@ public class Perceptron {
 		
 		for (int i = 0; i < salidaEsperada.length; i++) { // 4
 			
-			int[] entradaActual = entradas[i];
+			double[] entradaActual = entradas[i];
 			
 			do {
 				
@@ -122,7 +124,7 @@ public class Perceptron {
 		
 		for (int i = 0; i < salidaEsperada.length; i++) { // 4
 			
-			int[] entradaActual = entradas[i];
+			double[] entradaActual = entradas[i];
 			double neta = calcularNeta(entradaActual);
 			int salida = activate(neta);
 			
@@ -164,7 +166,7 @@ public class Perceptron {
 		
 		for (int i = 0; i < salidaEsperada.length; i++) { // 4
 			
-			int[] entradaActual = entradas[i];
+			double[] entradaActual = entradas[i];
 			double neta = calcularNeta(entradaActual);
 			int salida = activate(neta);
 			
