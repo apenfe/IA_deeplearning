@@ -4,27 +4,40 @@
 % *.mat
 
 % Cargar el archivo de audio WAV
-voz_ori = audioread("filtrado_voz_Adaline.wav");
+% Cargar el archivo de audio
+[A, Fs] = audioread('A.wma');
 
-% Se genera la señal de ruido
+% Obtener el número de muestras del archivo de audio
+numero_muestras_A = length(A);
 
-ruido = -0.05+0.1*sin(2*pi*10000*[0:33074]/Fs);
-ruido=ruido';
+% Cargar el archivo de audio para la señal de ruido
+ruido = -0.05 + 0.1 * sin(2*pi*10000*(0:numero_muestras_A-1)/Fs)';
+
+% Verificar si la señal de ruido tiene más muestras que la señal de voz
+if length(ruido) > numero_muestras_A
+    % Truncar la señal de ruido si tiene más muestras
+    ruido = ruido(1:numero_muestras_A);
+elseif length(ruido) < numero_muestras_A
+    % Extender la señal de ruido si tiene menos muestras
+    ruido = [ruido; zeros(numero_muestras_A - length(ruido), 1)];
+end
 
 % Se contamina voz con el ruido
 
-voz_contaminada=voz_ori+ruido;
+voz_contaminada=A+ruido;
 obj_audio=audioplayer(voz_contaminada,Fs);
 play(obj_audio);
-time=[0:33074]/Fs;
+time=(0:370660)/Fs;
 
-X=ruido';
-P=con2seq(X);
-T=con2seq(voz_contaminada');
+
+P=con2seq(voz_contaminada);
+T=con2seq(ruido);
+
+
 
 % Se crea red Adaline con 15 retardos
 
-net=newlin([-0.2 0.2],1,[0:15],0.01);
+net=newlin([-0.2 0.2],1,0:15,0.01);
 
 % Entrenamiento
 
@@ -34,6 +47,6 @@ net=newlin([-0.2 0.2],1,[0:15],0.01);
 
 plot(time,cat(2,Y{:}),'b',time,cat(2,T{:}),'r',time,cat(2,E{:}),'g',[1 2.5],[0 0],'k')
 legend({'Salida','Salida deseada','voz filtrada'})
-Econ=seq2con(E)
+Econ=seq2con(E);
 obj_audio=audioplayer(Econ{1,1},Fs);
 play(obj_audio);

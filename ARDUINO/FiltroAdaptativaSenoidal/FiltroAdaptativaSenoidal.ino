@@ -42,5 +42,70 @@ void setup() {
 
 void loop() {
   // put your main code here, to run repeatedly:
+  float Entrada;
+  float Salida;
+  float Tiempo;
+  float SenoOri;
+  float SenoRuido;
+  Entrada = millis();
+
+  Tiempo=Entrada/1000;
+
+  //Señal seno sin contaminacion
+  SenoOri=sin(10*pi*0.05*Tiempo);
+  // Señal seno contaminada
+  SenoRuido=sin(10*pi*0.05*Tiempo)+0.30*sin(10*pi*0.050*5*Tiempo);
+
+  // Muestra actual de la señal a filtrar
+
+  X_K=SenoRuido;
+
+  // Definicion entradas red
+  EntradaRed[0]=X_K;
+    EntradaRed[1]=X_K_1;
+  EntradaRed[2]=X_K_2;
+  EntradaRed[3]=X_K_3;
+  D=SenoOri;
+
+  // calculo de la salida de red
+
+  for(i=0; i<M; i++){
+
+    Neta=Pesos[i][N];
+    for(j=0; j<N; j++){
+    
+      Neta+=Pesos[i][j]*EntradaRed[j];
+
+    }
+
+    SalidaRed[i]=Neta;
+
+  }
+    Salida=SalidaRed[0];
+
+    // actualizar pesos
+
+    Pesos[0][0]=Pesos[0][0]+alfa*(D-Salida)*X_K;
+    Pesos[0][1]=Pesos[0][1]+alfa*(D-Salida)*X_K_1;
+    Pesos[0][2]=Pesos[0][2]+alfa*(D-Salida)*X_K_2;
+    Pesos[0][3]=Pesos[0][3]+alfa*(D-Salida)*X_K_3;
+    Pesos[0][4]=Pesos[0][4]+alfa*(D-Salida);
+
+    // ACTUALIZAR MUESTRAS SIGUIENTE ITERACION
+
+    X_K_3=X_K_2;
+    X_K_2=X_K_1;
+    X_K_1=X_K;
+
+Serial.print(3);
+Serial.print("\t");
+Serial.print(-3);
+Serial.print("\t");
+Serial.print(Salida);
+ Serial.print("\t");
+Serial.print(SenoRuido);
+ Serial.print("\t");
+Serial.println(SenoOri);
+delay(10);
 
 }
