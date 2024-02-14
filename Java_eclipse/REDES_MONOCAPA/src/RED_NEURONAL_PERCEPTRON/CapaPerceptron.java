@@ -34,27 +34,27 @@ public class CapaPerceptron {
 		
 		// 1 paso todas las entradas y calculo para cada neurona su neta y su activacion
 		// 2 comparo la salida con la esperada
-		int[] salidasReales = new int[salidas[0].length] ;
 		
+		int[] salidasReales = new int[salidas[0].length] ;
+
 		for (int i = 0; i < entradas.length; i++) {
-			
+
 			for (int j = 0; j < perceptrones.length; j++) {
-				
+
 				salidasReales[j] = perceptrones[j].activate(perceptrones[j].calcularNeta(entradas[i]));
-				
-				if(salidasReales[j]==salidas[i][j]) {
+
+				if (salidasReales[j] == salidas[i][j]) {
 					System.out.println("BIEN");
-				}else {
+					System.out.println("Número " + (i));
+
+				} else {
 					System.err.println("Mal");
 				}
-				
-			}
-			
-		}
-		
-		
-	}
 
-	
+			}
+
+		}
+
+	}
 
 }
