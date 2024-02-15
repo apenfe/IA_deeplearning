@@ -17,7 +17,7 @@ public class CapaPerceptron {
 		for (int i = 0; i < salidas[0].length; i++) {
 			
 			perceptrones[i] = new Perceptron(entradas,salidas,i);
-			
+			System.out.println(perceptrones[i].getId()); //check
 		}
 		
 	}
