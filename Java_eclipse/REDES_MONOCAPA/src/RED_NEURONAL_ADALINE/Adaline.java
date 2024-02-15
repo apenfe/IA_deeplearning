@@ -4,30 +4,37 @@ package RED_NEURONAL_ADALINE;
  * PASO 1:
  * 
  * Asignar valores aleatorios de pesos y umbral/bias (se sugiere entre 1 y -1)
+ * Asignamos valor al parametro de aprendizaje
+ * Asignamos un valor de error minimo aceptado
  * 
  * PASO 2:
  * 
- * Presentar el vector de entradas y especificar vector salida deseada
+ * Mientras la condicion de parada sea false, se ejecutan pasos del 2 al 7
  * 
  * PASO 3:
  * 
- * Calcular la neta (peso*entrada)+bias
+ * Para cada patron de entrenamiento se ejecutan pasos del 4 al 5
  * 
  * PASO 4:
  * 
- * Aplicar funcion, para el caso, activacion binaria o de escalon
+ * Calcular salida red adaline: salida = neta = sumatorio de w*x + bias
  * 
  * PASO 5:
  * 
- * Actualizar pesos de la capa de salida new_peso = peso + (incremento) * entrada
+ * Se calcula la funcion de perdida, en este caso, error cuadratico promedio:
+ * esperada menos la salida
  * 
  * PASO 6: 
  * 
- * Calculo de la funcion perdida
+ * actualizar pesos:
+ * 
+ * w+1 = w + alfa*error*entrada
+ * bias+1 = bias * error * alfa
  * 
  * PASO 7: 
  * 
- * SI la funcion perdida es diferente de 0 volvemos a PASO 2
+ * Calcular el error o perdidad global de la red, si es menos que un valro minimo, 
+ * detenemos algoritmo. En caso contrario se vuelve a paso 2.
  * 
  */
 
@@ -40,9 +47,12 @@ public class Adaline {
 	private double[][] salidaEsperada = new double[0][0];
 	private double[] pesosSinapticos = new double[0];
 	private double umbral_Bias;
+	private final double alfa = 0.1;
+	private double error_minimo;
 	
-	public Adaline(double[][] entradasD, double[][] salidaEsperadaD) {
+	public Adaline(double[][] entradasD, double[][] salidaEsperadaD, double error_minimo) {
 		
+		this.error_minimo=error_minimo;
 		this.entradas=entradasD;
 		this.salidaEsperada=salidaEsperadaD;
 		this.pesosSinapticos = new double[entradas[0].length];
@@ -54,8 +64,9 @@ public class Adaline {
 		
 	}
 	
-	public Adaline(double[][] entradasD, double[][] salidaEsperadaD, int id) {
+	public Adaline(double[][] entradasD, double[][] salidaEsperadaD, int id, double error_minimo) {
 		
+		this.error_minimo=error_minimo;
 		this.id=id;
 		this.entradas=entradasD;
 		this.salidaEsperada=salidaEsperadaD;
@@ -69,23 +80,17 @@ public class Adaline {
 	}
 
 	
-	public float calcularNeta(double[] entradas) {
+	public double calcularNeta(double[] entradas) {
 		
-		float neta = 0;
+		double neta = 0;
 		
 		for (int i = 0; i < entradas.length; i++) {
 			
 			neta += entradas[i] * pesosSinapticos[i];
 			
 		}
-		
-		return neta + (float)umbral_Bias;
-	}
-
-	public int activate(float neta) {
-		
-		return (neta >= 0) ? 1 : 0;
-		
+		System.out.println(neta);
+		return neta + umbral_Bias;
 	}
 
 	public void train() {
@@ -96,12 +101,11 @@ public class Adaline {
 			
 			do {
 				
-				float neta = calcularNeta(entradaActual);
-				int salida = activate(neta);
+				double neta = calcularNeta(entradaActual);
 				
-				double error = salidaEsperada[i][id] - salida; // CAMBIO 0 POR ID
-				
-				if(error==0) {//costo
+				double error = salidaEsperada[i][id] - neta; // CAMBIO 0 POR ID
+				System.out.println(error);
+				if(error<=error_minimo) {//costo
 					
 					break;
 					
@@ -109,11 +113,11 @@ public class Adaline {
 					
 					for(int j = 0; j < pesosSinapticos.length; j++) {
 						
-						pesosSinapticos[j] = pesosSinapticos[j] +(1*error*entradaActual[j]); // Aplicando la regla de actualización
+						pesosSinapticos[j] = pesosSinapticos[j] +(alfa*error*entradaActual[j]); // Aplicando la regla de actualización
 						
 					}
 
-					umbral_Bias = umbral_Bias + (1*error); // Actualización del umbral
+					umbral_Bias = umbral_Bias + (alfa*error); // Actualización del umbral
 					
 				}	
 				
@@ -140,8 +144,7 @@ public class Adaline {
 		for (int i = 0; i < salidaEsperada.length; i++) { // 4
 			
 			double[] entradaActual = entradas[i];
-			float neta = calcularNeta(entradaActual);
-			int salida = activate(neta);
+			double salida = calcularNeta(entradaActual);
 			
 			System.out.println("\nTanda "+(i+1)+"º.");
 			
@@ -182,8 +185,7 @@ public class Adaline {
 		for (int i = 0; i < salidaEsperada.length; i++) { // 4
 			
 			double[] entradaActual = entradas[i];
-			float neta = calcularNeta(entradaActual);
-			int salida = activate(neta);
+			double salida = calcularNeta(entradaActual);
 			
 			if(salida==salidaEsperada[i][id]) { // 0 por id
 				
@@ -201,16 +203,16 @@ public class Adaline {
 		
 	}
 
-	
-
-	@Override
-	public String toString() {
-		return "Perceptron [id=" + id  + ", pesosSinapticos=" + Arrays.toString(pesosSinapticos)
-				+ ", umbral_Bias=" + umbral_Bias + "]";
-	}
-
 	public int getId() {
 		return id;
 	}
+
+	@Override
+	public String toString() {
+		return "Adaline [id=" + id + ", pesosSinapticos=" + Arrays.toString(pesosSinapticos) + ", umbral_Bias="
+				+ umbral_Bias + ", alfa=" + alfa + ", error_minimo=" + error_minimo + "]";
+	}
+	
+	
 
 }
