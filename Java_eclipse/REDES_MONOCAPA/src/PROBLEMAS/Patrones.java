@@ -1,4 +1,6 @@
-package RED_NEURONAL_PERCEPTRON;
+package PROBLEMAS;
+
+import RED_NEURONAL_PERCEPTRON.Perceptron;
 
 public class Patrones{
 	
