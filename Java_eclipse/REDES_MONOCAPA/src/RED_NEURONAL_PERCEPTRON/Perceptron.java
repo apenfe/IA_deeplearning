@@ -69,9 +69,9 @@ public class Perceptron {
 	}
 
 	
-	public double calcularNeta(double[] entradas) {
+	public float calcularNeta(double[] entradas) {
 		
-		double neta = 0;
+		float neta = 0;
 		
 		for (int i = 0; i < entradas.length; i++) {
 			
@@ -79,10 +79,10 @@ public class Perceptron {
 			
 		}
 		
-		return neta + umbral_Bias;
+		return neta + (float)umbral_Bias;
 	}
 
-	public int activate(double neta) {
+	public int activate(float neta) {
 		
 		return (neta >= 0) ? 1 : 0;
 		
@@ -96,7 +96,7 @@ public class Perceptron {
 			
 			do {
 				
-				double neta = calcularNeta(entradaActual);
+				float neta = calcularNeta(entradaActual);
 				int salida = activate(neta);
 				
 				double error = salidaEsperada[i][id] - salida; // CAMBIO 0 POR ID
@@ -123,7 +123,8 @@ public class Perceptron {
 		
 		if(check()) {
 			
-			System.err.println("Entrenada correctamente...");
+			System.err.println("\n\tEntrenada correctamente: ");
+			System.out.println("\t\t"+toString());
 			
 		}else {
 			train();
@@ -134,12 +135,12 @@ public class Perceptron {
 	public boolean probar() {
 		
 		int cont=0;
-		printWeights();
+		System.out.println(toString());
 		
 		for (int i = 0; i < salidaEsperada.length; i++) { // 4
 			
 			double[] entradaActual = entradas[i];
-			double neta = calcularNeta(entradaActual);
+			float neta = calcularNeta(entradaActual);
 			int salida = activate(neta);
 			
 			System.out.println("\nTanda "+(i+1)+"º.");
@@ -181,7 +182,7 @@ public class Perceptron {
 		for (int i = 0; i < salidaEsperada.length; i++) { // 4
 			
 			double[] entradaActual = entradas[i];
-			double neta = calcularNeta(entradaActual);
+			float neta = calcularNeta(entradaActual);
 			int salida = activate(neta);
 			
 			if(salida==salidaEsperada[i][id]) { // 0 por id
@@ -200,11 +201,12 @@ public class Perceptron {
 		
 	}
 
-	public void printWeights() {
-		
-		System.out.println("Pesos sinapticos: "+Arrays.toString(pesosSinapticos));
-		System.out.println("Umbral: "+umbral_Bias);
-		
+	
+
+	@Override
+	public String toString() {
+		return "Perceptron [id=" + id  + ", pesosSinapticos=" + Arrays.toString(pesosSinapticos)
+				+ ", umbral_Bias=" + umbral_Bias + "]";
 	}
 
 	public int getId() {
