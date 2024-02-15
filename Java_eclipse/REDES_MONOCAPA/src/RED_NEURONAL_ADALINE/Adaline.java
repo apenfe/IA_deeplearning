@@ -47,7 +47,7 @@ public class Adaline {
 	private double[][] salidaEsperada = new double[0][0];
 	private double[] pesosSinapticos = new double[0];
 	private double umbral_Bias;
-	private final double alfa = 0.1;
+	private final double alfa = 0.01;
 	private double error_minimo;
 	
 	public Adaline(double[][] entradasD, double[][] salidaEsperadaD, double error_minimo) {
@@ -89,7 +89,7 @@ public class Adaline {
 			neta += entradas[i] * pesosSinapticos[i];
 			
 		}
-		System.out.println(neta);
+		//System.out.println(neta);
 		return neta + umbral_Bias;
 	}
 
@@ -104,7 +104,7 @@ public class Adaline {
 				double neta = calcularNeta(entradaActual);
 				
 				double error = salidaEsperada[i][id] - neta; // CAMBIO 0 POR ID
-				System.out.println(error);
+				//System.out.println(error);
 				if(error<=error_minimo) {//costo
 					
 					break;
@@ -131,7 +131,7 @@ public class Adaline {
 			System.out.println("\t\t"+toString());
 			
 		}else {
-			train();
+			//train();
 		}
 		
 	}

@@ -5,10 +5,10 @@ import RED_NEURONAL_PERCEPTRON.Perceptron;
 public class Temperaturas{
 	
 	public static void main(String[] args) {
+
 		
-		// Patron 1
-		double[][] entradas_1 = {{-40},{-20},{-10},{0},{10},{20}};
-		double[][] salidas_1 = {{-40},{-4},{14},{32},{50},{68}};
+		double[][] entradas_1 = {{0.5,0.8},{0.2,0.4},{0.7,0.3},{0.9,0.6},{0.3,0.1}};
+		double[][] salidas_1 = {{1},{0},{1},{1},{0}};
 		
 		conversor(entradas_1,salidas_1);
 				
