@@ -113,11 +113,7 @@ public class Entorno{
 	
 	public boolean esSalida(double x, double y) {
 		
-		double diferenciaX = x - salida_x;
-        double diferenciaY = y - salida_y;
-        double distancia = Math.sqrt(diferenciaX * diferenciaX + diferenciaY * diferenciaY);
-		
-		if(distancia<=area_aprox) {
+		if(distanciaSalida(x,y)<=area_aprox) {
 			
 			return true;
 			
@@ -126,6 +122,16 @@ public class Entorno{
 			return false;
 			
 		}
+		
+	}
+	
+	public double distanciaSalida(double x, double y) {
+		
+		double diferenciaX = x - salida_x;
+        double diferenciaY = y - salida_y;
+        double distancia = Math.sqrt(diferenciaX * diferenciaX + diferenciaY * diferenciaY);
+			
+        return distancia;
 		
 	}
 	
