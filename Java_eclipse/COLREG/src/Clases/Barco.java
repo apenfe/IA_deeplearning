@@ -5,6 +5,7 @@ import java.util.ArrayList;
 public class Barco{
 	
 	private int id;
+	private int puntos;
 	private double pasos;
 	private final double horizonte = 10;
 	private double x;
@@ -34,15 +35,21 @@ public class Barco{
 			
 			if(!movimientos[1]&&!movimientos[2]) { // recto
 				
+				puntos+=2;
+				
 			}else if(!movimientos[1]&&movimientos[2]) { // derecha
 				
 				girarDerecha();
+				puntos+=2;
 				
 			}else if(movimientos[1]&&!movimientos[2]) { // izquiera
 				
 				girarIzquierda();
+				puntos+=2;
 				
 			}else if(movimientos[1]&&movimientos[2]) { // recto
+				
+				puntos-=2;
 				
 			}
 			
@@ -55,15 +62,23 @@ public class Barco{
 			}else if(!movimientos[1]&&movimientos[2]) { // gira derecha
 				
 				girarDerecha();
+				puntos++;
 				
 			}else if(movimientos[1]&&!movimientos[2]) { // gira izquiera
 				
 				girarIzquierda();
+				puntos++;
 				
 			}else if(movimientos[1]&&movimientos[2]) { // nada
 				
+				puntos-=2;
+				
 			}
 			
+		}
+		
+		if(fin()) {
+			System.out.println("El barco ha terminado su intento.");
 		}
 		
 		
@@ -242,6 +257,20 @@ public class Barco{
 		this.pasos = pasos;
 	}
 	
-	
+	public boolean fin() {
+		
+		if(entorno.esSalida(x, y)) {
+			puntos+=10000;
+			return true;
+		}
+		
+		if(entorno.fueraLimites(x, y)) {
+			puntos-=10000;
+			return true;
+		}
+		
+		return false;
+		
+	}
 
 }
