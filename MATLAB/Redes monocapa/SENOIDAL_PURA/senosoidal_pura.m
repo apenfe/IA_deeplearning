@@ -13,6 +13,7 @@ P = con2seq(X);
 
 Taux=sin(2*pi*2*time);
 T=con2seq(Taux);
+
 figure
 plot(time, cat(2,P{:}), time,cat(2,T{:}),'--')
 title('Señales de entrada y salida deseada')
