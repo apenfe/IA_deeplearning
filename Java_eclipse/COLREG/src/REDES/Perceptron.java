@@ -31,19 +31,11 @@ package REDES;
  * 
  */
 
-import java.util.Arrays;
-
 public class Perceptron {
 	
-	private int id;
-	private double[] entradas = new double[0];
 	private double[] pesosSinapticos = new double[0];
 	
-	public Perceptron(double[] entradasD, double[] pesosSinapticos, int id) {
-		
-		this.id=id;
-		this.entradas=entradasD;
-		this.pesosSinapticos = pesosSinapticos;
+	public Perceptron() {
 		
 	}
 	
@@ -66,7 +58,7 @@ public class Perceptron {
 		
 	}
 	
-	public int probar() {
+	public int probar(double[] entradas) {
 	
 		float neta = calcularNeta(entradas);
 		int salida = activate(neta);
@@ -75,10 +67,14 @@ public class Perceptron {
 		
 	}
 
-	@Override
-	public String toString() {
-		return "Perceptron [id=" + id  + ", pesosSinapticos=" + Arrays.toString(pesosSinapticos)
-				 + "]";
+	public double[] getPesosSinapticos() {
+		return pesosSinapticos;
 	}
+
+	public void setPesosSinapticos(double[] pesosSinapticos) {
+		this.pesosSinapticos = pesosSinapticos;
+	}
+	
+	
 
 }

@@ -1,6 +1,6 @@
 package Clases;
 
-import REDES.CapaPerceptron;
+import REDES.Capas;
 
 public class Simulacion{
 	
@@ -8,7 +8,7 @@ public class Simulacion{
 	private Entorno entorno;
 	private Barco[] barcos = new Barco[0];
 	private double[][] pesos = new double[0][0];
-	private CapaPerceptron red;
+	private Capas red;
 	
 	public Simulacion() {
 		
