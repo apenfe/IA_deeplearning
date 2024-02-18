@@ -2,7 +2,6 @@ package REDES;
 
 import java.io.FileWriter;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class RedNeuronal{
 	
@@ -100,11 +99,9 @@ public class RedNeuronal{
 
 	public boolean guardarRed(String ruta) {
 		
-		String nombre = ""+this.id+"-"+(System.currentTimeMillis()/10000);
-		
 		try {
 
-			FileWriter escritor = new FileWriter(ruta+nombre+".txt",true);
+			FileWriter escritor = new FileWriter(ruta,true);
 			
 			String red = ""+capas.length+"#";
 			

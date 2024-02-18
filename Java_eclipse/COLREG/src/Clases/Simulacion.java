@@ -12,6 +12,8 @@ public class Simulacion{
 	private RedNeuronal red;
 	// MEJOR ADN HASTA EL MOMENTO
 	
+	// hacer metodos para cargar cosas en segundo constructor
+	
 	public Simulacion() {
 		
 		this.nombre=Entradas.texto("Que nombre desea dar a esta simulacion? ");
@@ -24,6 +26,21 @@ public class Simulacion{
 		int capas = Entradas.entero("Cuantas capas desea en la Red Neuronal? ");
 		int iden = Entradas.entero("Inserte un identificador para la red: ");
 		this.red = new RedNeuronal(capas,iden); 
+		
+		for (int i = 0; i < cantidad; i++) {
+			barcos[i]= new Barco(i,entorno);
+			barcos[i].setAdn(asignarPesos_0());
+		}
+		
+	}
+	
+	public Simulacion(String nombre) {
+		
+		this.nombre=nombre;
+		//this.entorno= cragar entorno
+		int cantidad = Entradas.entero("Cuantos barcos desea crear? ");
+		barcos = new Barco[cantidad];
+		//	this.red = new RedNeuronal(capas,iden); cargar red
 		
 		for (int i = 0; i < cantidad; i++) {
 			barcos[i]= new Barco(i,entorno);
@@ -210,11 +227,9 @@ public class Simulacion{
 	
 	public boolean guardarSimulacion(String ruta) {
 		
-		String nombre = ""+(System.currentTimeMillis()/10000)+"-"+this.nombre;
-		
 		try {
 
-			FileWriter escritor = new FileWriter(ruta+nombre+".txt",true);
+			FileWriter escritor = new FileWriter(ruta,true);
 			
 			String simulator = ""+this.nombre;
 				
@@ -263,5 +278,6 @@ public class Simulacion{
 	public void setRed(RedNeuronal red) {
 		this.red = red;
 	}
+	
 	
 }

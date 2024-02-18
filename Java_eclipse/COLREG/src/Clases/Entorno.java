@@ -166,11 +166,9 @@ public class Entorno{
 	
 	public boolean guardarEntorno(String ruta) {
 		
-		String nombre = ""+this.nombre;
-		
 		try {
 
-			FileWriter escritor = new FileWriter(ruta + nombre + ".txt",true);
+			FileWriter escritor = new FileWriter(ruta,true);
 			
 			String entorno = toString();
 				
