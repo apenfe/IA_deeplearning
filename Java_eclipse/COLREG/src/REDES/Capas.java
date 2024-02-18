@@ -34,8 +34,14 @@ public class Capas {
 
 	}
 
-	public int getPerceptrones() {
-		return perceptrones.length;
+	public Perceptron[] getPerceptrones() {
+		return perceptrones;
 	}
+
+	public void setPerceptrones(Perceptron[] perceptrones) {
+		this.perceptrones = perceptrones;
+	}
+	
+	
 
 }

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 public class Barco{
 	
 	private int id;
+	private double[] adn;
 	private int puntos;
 	private double pasos;
 	private final double horizonte = 10;
@@ -14,7 +15,7 @@ public class Barco{
 	private Entorno entorno;
 	private double direccion;
 	
-	public Barco(int id, double x, double y, Entorno entorno) {
+	public Barco(int id, Entorno entorno) {
 		
 		this.id = id;
 		this.entorno = entorno;
@@ -280,6 +281,15 @@ public class Barco{
 	public void setPuntos(int puntos) {
 		this.puntos = puntos;
 	}
+
+	public double[] getAdn() {
+		return adn;
+	}
+
+	public void setAdn(double[] adn) {
+		this.adn = adn;
+	}
+	
 	
 	
 

@@ -13,16 +13,15 @@ public class Entorno{
 	private double paso;
 	private double area_aprox;
 	
-	public Entorno(String nombre, double alto, double ancho, double entrada_x, double entrada_y, double salida_x,
-			double salida_y, double paso, double area_aprox) {
+	public Entorno(double paso, double area_aprox) {
 		
-		this.nombre = nombre;
-		this.alto = alto;
-		this.ancho = ancho;
-		this.entrada_x = entrada_x;
-		this.entrada_y = entrada_y;
-		this.salida_x = salida_x;
-		this.salida_y = salida_y;
+		this.nombre = Entradas.texto("Seleccione un nombre para el entorno: ");
+		this.alto = Entradas.entero("Seleccione un alto para el entorno (eje y): ");
+		this.ancho = Entradas.entero("Seleccione un ancho para el entorno (eje x): ");
+		this.entrada_x = Entradas.entero("Seleccione coordenada x de entrada (x): ");
+		this.entrada_y = Entradas.entero("Seleccione coordenada y de entrada (y): ");
+		this.salida_x = Entradas.entero("Seleccione coordenada x de salida (x): ");
+		this.salida_y = Entradas.entero("Seleccione coordenada y de salida (y): ");
 		this.paso = paso;
 		this.area_aprox = area_aprox;
 		

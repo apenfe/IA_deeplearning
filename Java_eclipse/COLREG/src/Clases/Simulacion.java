@@ -1,6 +1,6 @@
 package Clases;
 
-import REDES.Capas;
+import REDES.RedNeuronal;
 
 public class Simulacion{
 	
@@ -8,15 +8,38 @@ public class Simulacion{
 	private Entorno entorno;
 	private Barco[] barcos = new Barco[0];
 	private double[][] pesos = new double[0][0];
-	private Capas red;
+	private RedNeuronal red;
 	
 	public Simulacion() {
 		
+		this.nombre=Entradas.texto("Que nombre desea dar a esta simulacion? ");
+		this.entorno= new Entorno(0.2,0.4);
+		int cantidad = Entradas.entero("Cuantos barcos desea crear para el entrenamiento? ");
+		
+		barcos = new Barco[cantidad];
+		
+		for (int i = 0; i < cantidad; i++) {
+			barcos[i]= new Barco(i,entorno);
+			barcos[i].setAdn(asignarPesos_0());
+		}
+		
+		int capas = Entradas.entero("Cuantas capas desea en la Red Neuronal? ");	
+		this.red = new RedNeuronal(capas); 
+		
 	}
 	
-	public void seleccionGenetica() {
+	public double[] asignarPesos_0() {
 		
+		int cromosomas = red.getPesosTotales(barcos[0].sensores().length);
+		double[] salida = new double[cromosomas];
 		
+		for (int i = 0; i < salida.length; i++) {
+			
+			salida[i]= Math.random() * 2 - 1; // Genera un número entre -1 y 1
+			
+		}
+		
+		return salida;	
 		
 	}
 	
