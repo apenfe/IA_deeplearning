@@ -9,6 +9,10 @@ public class Capas {
 
 	public Capas() {
 		
+		System.out.println("Se recomeniendan:");
+		System.out.println("1º capa igual que nº de entradas.");
+		System.out.println("última capa igual que nº de salidas.");
+
 		int neuronas = Entradas.entero("¿Cuantas neuronas dese añadir?");
 
 		this.perceptrones = new Perceptron[neuronas];

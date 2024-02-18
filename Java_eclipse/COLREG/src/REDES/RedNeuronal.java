@@ -1,5 +1,7 @@
 package REDES;
 
+import java.util.ArrayList;
+
 public class RedNeuronal{
 	
 	private Capas[] capas = new Capas[0];
@@ -55,6 +57,25 @@ public class RedNeuronal{
 		}
 		
 		return pesos;
+		
+	}
+	
+	public Perceptron[] obtnerPerceptrones() {
+		
+		ArrayList<Perceptron> perceptrones = new ArrayList<Perceptron>();
+		
+		for (int i = 0; i < capas.length; i++) {
+			
+			Perceptron[] neuronasCapa = capas[i].getPerceptrones();
+			
+			for (int j = 0; j < neuronasCapa.length; j++) {
+				
+				perceptrones.add(neuronasCapa[i]);
+				
+			}
+		}
+		
+		return perceptrones.toArray(new Perceptron[0]);
 		
 	}
 	

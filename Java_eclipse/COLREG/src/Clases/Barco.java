@@ -30,25 +30,25 @@ public class Barco{
 		
 	}
 	
-	public void acciones(boolean[] movimientos) {
+	public void acciones(int[] movimientos) {
 		
-		if(movimientos[0]) { // avanzar
+		if(movimientos[0]==1) { // avanzar
 			
-			if(!movimientos[1]&&!movimientos[2]) { // recto
+			if(movimientos[1]==0&&movimientos[2]==0) { // recto
 				
 				puntos+=2;
 				
-			}else if(!movimientos[1]&&movimientos[2]) { // derecha
+			}else if(movimientos[1]==0&&movimientos[2]==1) { // derecha
 				
 				girarDerecha();
 				puntos+=2;
 				
-			}else if(movimientos[1]&&!movimientos[2]) { // izquiera
+			}else if(movimientos[1]==1&&movimientos[2]==0) { // izquiera
 				
 				girarIzquierda();
 				puntos+=2;
 				
-			}else if(movimientos[1]&&movimientos[2]) { // recto
+			}else if(movimientos[1]==1&&movimientos[2]==1) { // recto
 				
 				puntos-=2;
 				
@@ -58,19 +58,19 @@ public class Barco{
 			
 		}else { // NO vanza
 			
-			if(!movimientos[1]&&!movimientos[2]) { // nada
+			if(movimientos[1]==0&&movimientos[2]==0) { // nada
 				
-			}else if(!movimientos[1]&&movimientos[2]) { // gira derecha
+			}else if(movimientos[1]==0&&movimientos[2]==1) { // gira derecha
 				
 				girarDerecha();
 				puntos++;
 				
-			}else if(movimientos[1]&&!movimientos[2]) { // gira izquiera
+			}else if(movimientos[1]==1&&movimientos[2]==0) { // gira izquiera
 				
 				girarIzquierda();
 				puntos++;
 				
-			}else if(movimientos[1]&&movimientos[2]) { // nada
+			}else if(movimientos[1]==1&&movimientos[2]==1) { // nada
 				
 				puntos-=2;
 				
@@ -115,9 +115,9 @@ public class Barco{
 
 	}
 
-	public int[] sensores() {
+	public double[] sensores() {
 		
-		int[] sensor = new int[6];
+		double[] sensor = new double[6];
 		
 		sensor[0] = delante();
 		sensor[1] = costado_izquierdo();
