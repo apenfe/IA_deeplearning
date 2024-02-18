@@ -40,8 +40,10 @@ public class Capas {
 	}
 
 	public double[] probarCapa(double[] entradas) {
+		
+		salidas = new double[perceptrones.length];
 
-		for (int j = 0; j < perceptrones.length; j++) { // 4
+		for (int j = 0; j < perceptrones.length; j++) {
 
 			salidas[j] = perceptrones[j].probar(entradas);
 
@@ -59,6 +61,4 @@ public class Capas {
 		this.perceptrones = perceptrones;
 	}
 	
-	
-
 }

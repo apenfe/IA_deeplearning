@@ -64,37 +64,6 @@ public class Simulacion{
 		
 	}
 	
-	// ver esta seccion, posiblemente lo tengo que mover a redneuronal.java
-	// la idea es asignar los pesos a cada neurona dado el adn de la entidad
-	
-	// Para simplificar voy a poner las ismas neuronas por capa, en este caso, tres por cada una
-	
-	// tres pesos por cada neurona
-	
-	// SE ESTAN ASIGNANDO MAL, LA PRIMERA CAPA TIENE POR CADA NEURONA 6 PESOS, EL RESTO 3
-	
-	public void asignarPesosSinapticos(double[] pesos) {
-		
-	    Perceptron[] neuronas = red.obtenerPerceptrones();
-	    int genesPorNeurona = pesos.length / neuronas.length;
-
-	    // Este bucle itera sobre cada neurona
-	    for (int i = 0; i < neuronas.length; i++) {
-	    	
-	    	double[] pesosActuales = new double[genesPorNeurona];
-	    	int cont = 0;
-	        // Este bucle itera sobre los pesos correspondientes a la neurona actual
-	        for (int j = i * genesPorNeurona; j < (i + 1) * genesPorNeurona; j++) {
-	        	
-	            pesosActuales[cont]=pesos[j];
-	            cont++;
-	            
-	        }
-	        
-	        neuronas[i].setPesosSinapticos(pesosActuales);
-	    }
-	}
-	
 	public void entrenamiento() {
 		
 		int generaciones = Entradas.entero("Cuantas generaciones desea crear? ");
@@ -198,7 +167,7 @@ public class Simulacion{
 		/* linea de testeo */
 		barco.setAdn(asignarPesos_0());
 		/* linea de testeo */
-		asignarPesosSinapticos(barco.getAdn());
+		red.asignarPesosSinapticos(barco.getAdn(),barco.sensores().length);
 
 		System.out.println("Comienzo de la prueba...");
 

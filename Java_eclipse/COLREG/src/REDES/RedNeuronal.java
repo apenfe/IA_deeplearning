@@ -38,11 +38,17 @@ public class RedNeuronal{
 		
 	}
 	
+	// aqui pasa algo raro, revisarlo bien
+	
 	public int[] probarRed(double[] entradas) {
+		
+		// debo vigilar el cambio de tamaño de las entradas
+		double[] nuevasentradas = new double[0];
+		double[] anterioresentradas = new double[0];
 
-		for (int j = 0; j < capas.length; j++) {
+		for (int i = 0; i < capas.length; i++) {
 
-			entradas = capas[j].probarCapa(entradas);
+			entradas = capas[i].probarCapa(entradas);
 
 		}
 		
@@ -62,15 +68,15 @@ public class RedNeuronal{
 
 	public int getPesosTotales(int entradas) {
 		
-		int pesos=capas[0].getPerceptrones().length*entradas;
+		int pesos=(capas[0].getPerceptrones().length)*entradas;
 		int neuronas_anteriores=capas[0].getPerceptrones().length;
 		int neuronas;
 		
 		for (int i = 1; i < capas.length; i++) {
 			
-			neuronas=capas[i].getPerceptrones().length;
-			pesos+=neuronas_anteriores*neuronas;
-			neuronas_anteriores=neuronas;
+			neuronas = capas[i].getPerceptrones().length;
+			pesos += neuronas_anteriores*neuronas;
+			neuronas_anteriores = neuronas;
 			
 		}
 		
@@ -92,13 +98,51 @@ public class RedNeuronal{
 				
 			}
 		}
-		
+
 		return perceptrones.toArray(new Perceptron[0]);
+
+	}
+
+	// la idea es asignar los pesos a cada neurona dado el adn de la entidad
+
+	// Para simplificar voy a poner las ismas neuronas por capa, en este caso, tres
+	// por cada una
+
+	// tres pesos por cada neurona
+
+	// SE ESTAN ASIGNANDO MAL, LA PRIMERA CAPA TIENE POR CADA NEURONA 6 PESOS, EL
+	// RESTO 3
+
+	public void asignarPesosSinapticos(double[] pesos,int entradas) {
+		
+		int item = -1;
+		double[] pesosSinapticos = new double[0];
+		
+		for (int i = 0; i < capas.length; i++) {
+			
+			if(i==0) {
+				pesosSinapticos = new double[entradas];
+			}else {
+				pesosSinapticos = new double[capas[i].getPerceptrones().length];
+			}
+			
+			int cont=0;
+			
+			for (int j = 0; j < capas[i].getPerceptrones().length; j++) {
+				
+				item++;
+				pesosSinapticos[cont]=pesos[item];
+				cont++;
+				
+			}
+			
+		}
+
 		
 	}
 
 	public boolean guardarRed(String ruta) {
-		
+
 		try {
 
 			FileWriter escritor = new FileWriter(ruta,true);

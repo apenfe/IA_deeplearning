@@ -39,9 +39,9 @@ public class Perceptron {
 		
 	}
 	
-	public float calcularNeta(double[] entradas) {
+	public double calcularNeta(double[] entradas) {
 		
-		float neta = 0;
+		double neta = 0;
 		
 		for (int i = 0; i < entradas.length; i++) {
 			
@@ -52,7 +52,7 @@ public class Perceptron {
 		return neta;
 	}
 
-	public int activate(float neta) {
+	public int activate(double neta) {
 		
 		return (neta >= 0) ? 1 : 0;
 		
@@ -60,7 +60,7 @@ public class Perceptron {
 	
 	public int probar(double[] entradas) {
 	
-		float neta = calcularNeta(entradas);
+		double neta = calcularNeta(entradas);
 		int salida = activate(neta);
 		
 		return salida;
