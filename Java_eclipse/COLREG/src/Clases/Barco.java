@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class Barco{
 	
 	private int id;
-	private double[] adn;
+	private double[] adn = new double[0];
 	private int puntos;
 	private double pasos;
 	private final double horizonte = 10;

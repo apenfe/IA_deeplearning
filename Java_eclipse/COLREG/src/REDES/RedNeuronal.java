@@ -1,13 +1,17 @@
 package REDES;
 
+import java.io.FileWriter;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class RedNeuronal{
 	
+	private int id;
 	private Capas[] capas = new Capas[0];
 	
-	public RedNeuronal(int numeroCapas) {
+	public RedNeuronal(int numeroCapas, int id) {
 		
+		this.id=id;
 		this.capas = new Capas[numeroCapas];
 		
 		for (int i = 0; i < capas.length; i++) {
@@ -15,6 +19,21 @@ public class RedNeuronal{
 			System.err.println("Capa nº "+(i+1)+":");
 			
 			capas[i]= new Capas(); 
+			
+		}
+		
+	}
+	
+	public RedNeuronal(String[] data) {
+		
+		//1 numero capas data[0]
+		//2 numeros de neuronas por capas data[1] en adelante
+		this.id=Integer.parseInt(data[data.length-1]);
+		this.capas = new Capas[Integer.parseInt(data[0])];
+		
+		for (int i = 1; i < data.length-1; i++) {
+			
+			capas[i]= new Capas(Integer.parseInt(data[i])); 
 			
 		}
 		
@@ -60,7 +79,7 @@ public class RedNeuronal{
 		
 	}
 	
-	public Perceptron[] obtnerPerceptrones() {
+	public Perceptron[] obtenerPerceptrones() {
 		
 		ArrayList<Perceptron> perceptrones = new ArrayList<Perceptron>();
 		
@@ -76,6 +95,41 @@ public class RedNeuronal{
 		}
 		
 		return perceptrones.toArray(new Perceptron[0]);
+		
+	}
+
+	public boolean guardarRed(String ruta) {
+		
+		String nombre = ""+this.id+"-"+(System.currentTimeMillis()/10000);
+		
+		try {
+
+			FileWriter escritor = new FileWriter(ruta+nombre+".txt",true);
+			
+			String red = ""+capas.length+"#";
+			
+			//1 numero capas data[0]
+			//2 numeros de neuronas por capas data[1] en adelante
+			
+			for (int i = 0; i < capas.length; i++) {
+				
+				red+=capas[i].getPerceptrones().length+"#";
+				
+			}
+			
+			red+=this.id;
+				
+			escritor.write("\n"+red);
+			escritor.close();
+			
+			return true;
+			
+		} catch (Exception e) {
+
+			System.err.println("ERROR AL GUARDAR ARCHIVO " + ruta);
+			return false;
+
+		}
 		
 	}
 	

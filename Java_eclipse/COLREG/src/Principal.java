@@ -4,6 +4,9 @@ import Clases.Simulacion;
 public class Principal{
 	
 	public static Simulacion simulacionActual;
+	public static final String RUTA_ENTORNO = ".\\files\\entornos.txt";
+	public static final String RUTA_REDES = ".\\files\\redes.txt";
+	public static final String RUTA_SIMULACIONES = ".\\files\\simulaciones.txt";
 	
 	public static void main(String[] args) {
 		
@@ -90,6 +93,29 @@ public class Principal{
 		
 		simulacionActual= new Simulacion();
 		//AHORA DEBE VER COMO GUARDAR TODA LA CONFIGURACION
+		String respuesta = Entradas.texto("¿Desea guardar el entorno? S - SI ");
+		
+		if(respuesta.equalsIgnoreCase("S")) {
+			
+			simulacionActual.getEntorno().guardarEntorno(RUTA_ENTORNO);
+			
+		}
+		
+		respuesta = Entradas.texto("¿Desea guardar la red neuronal? S - SI ");
+		
+		if(respuesta.equalsIgnoreCase("S")) {
+			
+			simulacionActual.getRed().guardarRed(RUTA_REDES);
+			
+		}
+		
+		respuesta = Entradas.texto("¿Desea guardar la simulacion? S - SI ");
+		
+		if(respuesta.equalsIgnoreCase("S")) {
+			
+			simulacionActual.guardarSimulacion(RUTA_SIMULACIONES);
+			
+		}
 		
 	}
 	

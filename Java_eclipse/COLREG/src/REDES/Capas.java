@@ -25,6 +25,19 @@ public class Capas {
 		}
 
 	}
+	
+	public Capas(int numero) {
+
+		this.perceptrones = new Perceptron[numero];
+		this.salidas = new double[numero];
+
+		for (int i = 0; i < numero; i++) {
+
+			perceptrones[i] = new Perceptron(); // ver como le paso los pesos necesito hacer
+																		// sensore* numero de neuronas
+		}
+
+	}
 
 	public double[] probarCapa(double[] entradas) {
 

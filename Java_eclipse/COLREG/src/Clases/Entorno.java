@@ -1,5 +1,7 @@
 package Clases;
 
+import java.io.FileWriter;
+
 public class Entorno{
 	
 	private String nombre;
@@ -24,6 +26,20 @@ public class Entorno{
 		this.salida_y = Entradas.entero("Seleccione coordenada y de salida (y): ");
 		this.paso = paso;
 		this.area_aprox = area_aprox;
+		
+	}
+	
+	public Entorno(String[] datos) {
+		
+		this.nombre = datos[0];
+		this.alto = Double.parseDouble(datos[1]);
+		this.ancho = Double.parseDouble(datos[2]);
+		this.entrada_x = Double.parseDouble(datos[3]);
+		this.entrada_y = Double.parseDouble(datos[4]);
+		this.salida_x = Double.parseDouble(datos[5]);
+		this.salida_y = Double.parseDouble(datos[6]);
+		this.paso = Double.parseDouble(datos[7]);
+		this.area_aprox = Double.parseDouble(datos[8]);
 		
 	}
 
@@ -144,6 +160,30 @@ public class Entorno{
 			
 			return false;
 			
+		}
+		
+	}
+	
+	public boolean guardarEntorno(String ruta) {
+		
+		String nombre = ""+this.nombre;
+		
+		try {
+
+			FileWriter escritor = new FileWriter(ruta + nombre + ".txt",true);
+			
+			String entorno = toString();
+				
+			escritor.write("\n" + entorno);
+			escritor.close();
+			
+			return true;
+			
+		} catch (Exception e) {
+
+			System.err.println("ERROR AL GUARDAR ARCHIVO " + ruta);
+			return false;
+
 		}
 		
 	}
