@@ -8,7 +8,7 @@ public class Barco{
 	private double[] adn = new double[0];
 	private int puntos;
 	private double pasos;
-	private final double horizonte = 10;
+	private final double horizonte = 15;
 	private double x;
 	private double y;
 	private ArrayList<Double[]> camino = new ArrayList<Double[]>();
@@ -21,7 +21,7 @@ public class Barco{
 		this.entorno = entorno;
 		this.x = entorno.getEntrada_x();
 		this.y = entorno.getEntrada_y();
-		this.direccion = 0; //expresado en grados
+		this.direccion = 5; //expresado en grados
 		Double[] posicion= new Double[2];
 		posicion[0]=x;
 		posicion[1]=y;
@@ -60,6 +60,8 @@ public class Barco{
 			
 			if(movimientos[1]==0&&movimientos[2]==0) { // nada
 				
+				puntos-=2;
+				
 			}else if(movimientos[1]==0&&movimientos[2]==1) { // gira derecha
 				
 				girarDerecha();
@@ -88,7 +90,7 @@ public class Barco{
 	private void avanzar() {
 
 		// Convertir el ángulo a radianes
-		double anguloRadianes = Math.toRadians(obtenerAngulo(0));
+		double anguloRadianes = Math.toRadians(direccion);
 
 		// Calcular las coordenadas del punto extremo
 		x = x + entorno.getPaso() * Math.cos(anguloRadianes);
@@ -105,14 +107,14 @@ public class Barco{
 	
 	private void girarDerecha() {
 		
-		direccion=obtenerAngulo((int)entorno.getPaso());
-		pasos++;
+		this.direccion=obtenerAngulo(entorno.getPaso()*5);
+		this.pasos++;
 	}
 	
 	private void girarIzquierda() {
 		
-		direccion=obtenerAngulo((int)-entorno.getPaso());
-		pasos++;
+		this.direccion=obtenerAngulo(-5*(entorno.getPaso()));
+		this.pasos++;
 	}
 
 	public double[] sensores() {
@@ -222,22 +224,13 @@ public class Barco{
 
 	}
 	
-	private double obtenerAngulo(int grados) {
-		
+	private double obtenerAngulo(double grados) {
+
 		double angulo = direccion + grados;
-
-	    // Ajustar el ángulo para que esté dentro del rango de 0 a 359 grados
-		
-	    if (angulo >= 360) {
-	    	
-	        angulo -= 360;
-	        
-	    } else if (angulo < 0) {
-	    	
-	        angulo += 360;
-	        
-	    }
-
+	    
+	    // Normalizar el ángulo para que esté dentro del rango de 0 a 359 grados
+	    angulo = (angulo % 360 + 360) % 360;
+	    
 	    return angulo;
 		
 	}
@@ -290,6 +283,14 @@ public class Barco{
 		this.adn = adn;
 	}
 	
+	public void camino() {
+		
+		for (int i = 0; i < camino.size(); i++) {
+			
+			System.out.println("X: "+camino.get(i)[0]+", Y: "+camino.get(i)[1]);
+			
+		}
+	}
 	
 	
 

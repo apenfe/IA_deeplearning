@@ -55,10 +55,12 @@ public class RedNeuronal{
 		}
 		
 		int[] salidas = new int[anterioresentradas.length];
-		
+		System.out.println("//////");
 		for (int i = 0; i < salidas.length; i++) {
 			salidas[i]=(int)anterioresentradas[i];
+			System.out.println(salidas[i]);
 		}
+		System.out.println("//////");
 
 		return salidas;
 
