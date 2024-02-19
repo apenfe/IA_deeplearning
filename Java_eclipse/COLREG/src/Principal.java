@@ -1,6 +1,6 @@
-import Clases.Entradas;
-import Clases.Ficheros;
-import Clases.Simulacion;
+import clases.Entradas;
+import clases.Ficheros;
+import clases.Simulacion;
 
 public class Principal{
 	

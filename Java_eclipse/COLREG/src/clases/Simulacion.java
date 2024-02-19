@@ -1,10 +1,9 @@
-package Clases;
+package clases;
 
 import java.io.FileWriter;
 import java.util.Arrays;
 
-import REDES.Perceptron;
-import REDES.RedNeuronal;
+import redes.RedNeuronal;
 
 public class Simulacion{
 	
@@ -174,7 +173,12 @@ public class Simulacion{
 		/* linea de testeo */
 		barco.setAdn(asignarPesos_0());
 		/* linea de testeo */
-		red.asignarPesosSinapticos(barco.getAdn(),barco.sensores().length);
+		
+		// voy a crear un metodo para signar primero pesos por capas y luego cada capa lo hace con su neurona
+		//for (int i = 0; i < barco.getAdn().length; i++) {           // HASTA AQUI VA BIEN
+			//System.out.println("ADN DEL BARCO; "+barco.getAdn()[i]);
+		//}
+		red.asignarPesosSinapticosCapas(barco.getAdn(),barco.sensores().length);
 
 		System.out.println("Comienzo de la prueba...");
 
@@ -183,8 +187,9 @@ public class Simulacion{
 			double[] entradas = barco.sensores();
 			int[] salidas = red.probarRed(entradas);
 			barco.acciones(salidas);
+			System.out.println(barco.getPasos());
 
-			if (barco.fin() || barco.getPasos() > 30000) {
+			if (barco.fin() || barco.getPasos() > 800) {
 				System.out.println("\t\t\tFin simulación del Barco nº, Resumen:");
 
 				if (barco.getPasos() > 30000) {
@@ -193,7 +198,7 @@ public class Simulacion{
 					System.out.println("\t\t\tEliminado por llegada a meta o salida.");
 				}
 				System.out.println("\t\t\tPuntos: " + barco.getPuntos());
-				System.out.println("\t\t\tPuntos: " + barco.getPasos());
+				System.out.println("\t\t\tPasos: " + barco.getPasos());
 				break;
 			}
 

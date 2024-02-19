@@ -1,11 +1,12 @@
-package REDES;
+package redes;
 
-import Clases.Entradas;
+import java.util.Arrays;
+
+import clases.Entradas;
 
 public class Capas {
 
 	private Perceptron[] perceptrones = new Perceptron[0];
-	private double[] salidas = new double[0];
 
 	public Capas() {
 		
@@ -16,12 +17,11 @@ public class Capas {
 		int neuronas = Entradas.entero("¿Cuantas neuronas dese añadir?");
 
 		this.perceptrones = new Perceptron[neuronas];
-		this.salidas = new double[neuronas];
 
 		for (int i = 0; i < neuronas; i++) {
 
-			perceptrones[i] = new Perceptron(); // ver como le paso los pesos necesito hacer
-																		// sensore* numero de neuronas
+			perceptrones[i] = new Perceptron(); 
+																		
 		}
 
 	}
@@ -29,12 +29,11 @@ public class Capas {
 	public Capas(int numero) {
 
 		this.perceptrones = new Perceptron[numero];
-		this.salidas = new double[numero];
 
 		for (int i = 0; i < numero; i++) {
 
-			perceptrones[i] = new Perceptron(); // ver como le paso los pesos necesito hacer
-																		// sensore* numero de neuronas
+			perceptrones[i] = new Perceptron(); 
+																		
 		}
 
 	}
@@ -51,6 +50,24 @@ public class Capas {
 
 		return exit;
 
+	}
+	
+	// comprobar si este metodo va a funcionar
+	
+	public void establecerPesosNeuronas(double[] pesosDeLaCapa) {
+		
+		int pesosPorNeurona = pesosDeLaCapa.length/perceptrones.length; //3
+		
+		//System.out.println("pesos por neurona: "+pesosPorNeurona);
+		
+		for (int i = 0; i < perceptrones.length; i++) {
+			
+			int inicio = i * pesosPorNeurona;
+	        int fin = (i + 1) * pesosPorNeurona;
+			perceptrones[i].setPesosSinapticos(Arrays.copyOfRange(pesosDeLaCapa,inicio,fin));
+			
+		}
+		
 	}
 
 	public Perceptron[] getPerceptrones() {

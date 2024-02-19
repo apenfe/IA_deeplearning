@@ -1,4 +1,4 @@
-package REDES;
+package redes;
 
 import java.io.FileWriter;
 import java.util.ArrayList;
@@ -25,8 +25,6 @@ public class RedNeuronal{
 	
 	public RedNeuronal(String[] data) {
 		
-		//1 numero capas data[0]
-		//2 numeros de neuronas por capas data[1] en adelante
 		this.nombre_simulacion=data[data.length-1];
 		this.capas = new Capas[Integer.parseInt(data[0])];
 		
@@ -70,7 +68,7 @@ public class RedNeuronal{
 		return capas;
 	}
 
-	public int getPesosTotales(int entradas) {
+	public int getPesosTotales(int entradas) { // este metodo funciona correctamente
 		
 		int pesos=(capas[0].getPerceptrones().length)*entradas;
 		int neuronas_anteriores=capas[0].getPerceptrones().length;
@@ -83,14 +81,14 @@ public class RedNeuronal{
 			neuronas_anteriores = neuronas;
 			
 		}
-		
+		System.out.println("Cantidad de pesos calculados: "+pesos);
 		return pesos;
 		
 	}
 	
 	public Perceptron[] obtenerPerceptrones() {
 		
-		ArrayList<Perceptron> perceptrones = new ArrayList<Perceptron>();
+		ArrayList<Perceptron> perceptrones = new ArrayList<>();
 		
 		for (int i = 0; i < capas.length; i++) {
 			
@@ -116,32 +114,36 @@ public class RedNeuronal{
 
 	// SE ESTAN ASIGNANDO MAL, LA PRIMERA CAPA TIENE POR CADA NEURONA 6 PESOS, EL
 	// RESTO 3
-
-	public void asignarPesosSinapticos(double[] pesos,int entradas) {
+	
+	// este es el metodo propuesto en redNeuronal, debo revisarlo
+	
+	public void asignarPesosSinapticosCapas(double[] pesos,int entradas) {
 		
 		int item = -1;
-		double[] pesosSinapticos = new double[0];
+		double[] pesosSinapticos;
 		
 		for (int i = 0; i < capas.length; i++) {
 			
 			if(i==0) {
-				pesosSinapticos = new double[entradas];
+				pesosSinapticos = new double[entradas*capas[i].getPerceptrones().length];
 			}else {
-				pesosSinapticos = new double[capas[i].getPerceptrones().length];
+				pesosSinapticos = new double[capas[i-1].getPerceptrones().length*(capas[i].getPerceptrones().length)];
 			}
 			
-			int cont=0;
+			for (int j = 0; j < pesosSinapticos.length; j++) {
+				
+				item++;
+				pesosSinapticos[j]=pesos[item];
+				System.err.println(pesos[item]);
+			}
 			
 			for (int j = 0; j < capas[i].getPerceptrones().length; j++) {
 				
-				item++;
-				pesosSinapticos[cont]=pesos[item];
-				cont++;
+				capas[i].establecerPesosNeuronas(pesosSinapticos);
 				
 			}
 			
 		}
-
 		
 	}
 
@@ -152,9 +154,6 @@ public class RedNeuronal{
 			FileWriter escritor = new FileWriter(ruta,true);
 			
 			String red = ""+capas.length+"#";
-			
-			//1 numero capas data[0]
-			//2 numeros de neuronas por capas data[1] en adelante
 			
 			for (int i = 0; i < capas.length; i++) {
 				
@@ -177,9 +176,5 @@ public class RedNeuronal{
 		}
 		
 	}
-	
-	
-	
-	
-	
+		
 }

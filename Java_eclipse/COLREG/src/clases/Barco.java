@@ -1,4 +1,4 @@
-package Clases;
+package clases;
 
 import java.util.ArrayList;
 
@@ -106,13 +106,13 @@ public class Barco{
 	private void girarDerecha() {
 		
 		direccion=obtenerAngulo((int)entorno.getPaso());
-
+		pasos++;
 	}
 	
 	private void girarIzquierda() {
 		
 		direccion=obtenerAngulo((int)-entorno.getPaso());
-
+		pasos++;
 	}
 
 	public double[] sensores() {

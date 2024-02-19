@@ -1,4 +1,4 @@
-package Clases;
+package clases;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -9,7 +9,7 @@ public class Ficheros{
 
 	public static String[] leerTxt(String ruta) {
 		
-		ArrayList<String> lineas = new ArrayList<String>();
+		ArrayList<String> lineas = new ArrayList<>();
 
 		try {
 

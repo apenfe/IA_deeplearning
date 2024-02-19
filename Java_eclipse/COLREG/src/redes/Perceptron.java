@@ -1,4 +1,6 @@
-package REDES;
+package redes;
+
+import java.util.Arrays;
 
 /*
  * PASO 1:
@@ -35,11 +37,21 @@ public class Perceptron {
 	
 	private double[] pesosSinapticos = new double[0];
 	
-	public Perceptron() {
+	public Perceptron() { // se genera vacio
 		
 	}
 	
 	public double calcularNeta(double[] entradas) {
+		
+	/*	for (int i = 0; i < entradas.length; i++) {
+			System.out.println(entradas[i]);
+
+		}
+		
+		for (int i = 0; i < pesosSinapticos.length; i++) {
+			System.out.println(pesosSinapticos[i]);
+
+		}*/
 		
 		double neta = 0;
 		
@@ -61,9 +73,7 @@ public class Perceptron {
 	public int probar(double[] entradas) {
 	
 		double neta = calcularNeta(entradas);
-		int salida = activate(neta);
-		
-		return salida;
+		return activate(neta);
 		
 	}
 
@@ -74,7 +84,12 @@ public class Perceptron {
 	public void setPesosSinapticos(double[] pesosSinapticos) {
 		this.pesosSinapticos = pesosSinapticos;
 	}
-	
-	
 
+	@Override
+	public String toString() {
+		return "Perceptron [pesosSinapticos=" + Arrays.toString(pesosSinapticos) + "]";
+	}
+	
+	
+	
 }
