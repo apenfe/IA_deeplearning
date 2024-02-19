@@ -43,19 +43,23 @@ public class RedNeuronal{
 	public int[] probarRed(double[] entradas) {
 		
 		// debo vigilar el cambio de tamaño de las entradas
-		double[] nuevasentradas = new double[0];
-		double[] anterioresentradas = new double[0];
+		
+		double[] anterioresentradas = entradas;
+		
+		double[] nuevasentradas = capas[0].probarCapa(entradas);
+		anterioresentradas=nuevasentradas;
 
-		for (int i = 0; i < capas.length; i++) {
-
-			entradas = capas[i].probarCapa(entradas);
-
+		for (int i = 1; i < capas.length; i++) {
+			System.err.println("DB CAPA: "+(i+1));
+			
+			nuevasentradas = capas[i].probarCapa(anterioresentradas);
+			anterioresentradas=nuevasentradas;
 		}
 		
-		int[] salidas = new int[entradas.length];
+		int[] salidas = new int[anterioresentradas.length];
 		
 		for (int i = 0; i < salidas.length; i++) {
-			salidas[i]=(int)entradas[i];
+			salidas[i]=(int)anterioresentradas[i];
 		}
 
 		return salidas;
