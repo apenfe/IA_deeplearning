@@ -34,6 +34,37 @@ public class Ficheros{
 		
 	}
 	
+	public static String[] leerTxt(String ruta, String clave) {
+		
+		String[] linea = new String[0];
+		
+		try {
+
+			File archivo = new File(ruta);
+			Scanner lector = new Scanner(archivo);
+			
+			while(lector.hasNextLine()) {
+				
+				linea = lector.nextLine().split("#");
+				
+				if(linea[linea.length-1].equals(clave)) {
+					break;
+				}
+				
+			}
+
+			lector.close();
+			
+		} catch (Exception e) {
+
+			System.err.println("ERROR AL LEER ARCHIVO " + ruta);
+
+		}
+		
+		return linea;
+		
+	}
+	
 	public static boolean guardarTxt(String ruta, String nombre, String[] lineas) { 
 
 		try {

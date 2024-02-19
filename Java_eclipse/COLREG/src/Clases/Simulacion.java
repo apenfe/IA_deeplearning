@@ -1,6 +1,8 @@
 package Clases;
 
 import java.io.FileWriter;
+import java.util.Arrays;
+
 import REDES.Perceptron;
 import REDES.RedNeuronal;
 
@@ -16,16 +18,21 @@ public class Simulacion{
 	
 	public Simulacion() {
 		
-		this.nombre=Entradas.texto("Que nombre desea dar a esta simulacion? ");
-		this.entorno= new Entorno(0.2,0.4);
-		int cantidad = Entradas.entero("Cuantos barcos desea crear para el entrenamiento? ");
+		System.err.println("\nBienvenido al asistente de generacion de simulaciones...");
+		this.nombre=Entradas.texto("¿Que nombre desea dar a esta simulacion? ");
+		
+		System.err.println("\tCreación de entorno...");
+		this.entorno= new Entorno(0.2,0.4,nombre);
+		
+		System.err.println("\tCreación de entidades...");
+		int cantidad = Entradas.entero("\n¿Cuantos barcos desea crear para el entrenamiento? ");
 		
 		barcos = new Barco[cantidad];
 		
+		System.err.println("\tCreación de red neuronal...");
 		System.out.println("Recomendable entre 3 y 4 capas...");
 		int capas = Entradas.entero("Cuantas capas desea en la Red Neuronal? ");
-		int iden = Entradas.entero("Inserte un identificador para la red: ");
-		this.red = new RedNeuronal(capas,iden); 
+		this.red = new RedNeuronal(capas,nombre); 
 		
 		for (int i = 0; i < cantidad; i++) {
 			barcos[i]= new Barco(i,entorno);
@@ -34,13 +41,13 @@ public class Simulacion{
 		
 	}
 	
-	public Simulacion(String nombre) {
+	public Simulacion(String nombre, String[] datos_entorno, String[] datos_red) {
 		
 		this.nombre=nombre;
-		//this.entorno= cragar entorno
+		this.entorno= new Entorno(datos_entorno);
 		int cantidad = Entradas.entero("Cuantos barcos desea crear? ");
 		barcos = new Barco[cantidad];
-		//	this.red = new RedNeuronal(capas,iden); cargar red
+		this.red = new RedNeuronal(datos_red); 
 		
 		for (int i = 0; i < cantidad; i++) {
 			barcos[i]= new Barco(i,entorno);
@@ -246,6 +253,18 @@ public class Simulacion{
 
 	public void setRed(RedNeuronal red) {
 		this.red = red;
+	}
+
+	@Override
+	public String toString() {
+		String salida="Simulacion [nombre=" + nombre + ", entorno=" + entorno + ", barcos=" + Arrays.toString(barcos)
+				+ ", red=" + red + "]";
+		
+		salida+=entorno.toString();
+		salida+=red.toString();
+		
+		return salida;
+		
 	}
 	
 	

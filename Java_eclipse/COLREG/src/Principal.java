@@ -1,4 +1,5 @@
 import Clases.Entradas;
+import Clases.Ficheros;
 import Clases.Simulacion;
 
 public class Principal{
@@ -18,11 +19,12 @@ public class Principal{
 		
 		do {
 			
-			System.out.println("--- SIMULACION COLREG IA ---");
+			System.out.println("\n--- SIMULACION COLREG IA ---");
 			System.out.println("1 ---> CARGAR SIMULACION");
 			System.out.println("2 ---> CREAR NUEVA SIMULACION");
 			System.out.println("3 ---> SEGUIR ENTRENANDO SIMULACION");
 			System.out.println("4 ---> PROBAR SIMULACION YA ENTRENADA");
+			System.out.println("5 ---> VER DATOS SIMULACION ACTUAL");
 			System.out.println("0 ---> SALIR");
 			int opcion = Entradas.entero("SELECCIONE UNA OPCION [0-4]: ");
 			
@@ -36,20 +38,37 @@ public class Principal{
 				
 			}else if(opcion == 3) {
 				
-				simulacionActual.entrenamiento();
+				if(simulacionActual==null) {
+					System.err.println("\nDebe cargar o crear una simulacion");
+				}else {
+					simulacionActual.entrenamiento();
+				}
 				
 			}else if(opcion == 4) {
 				
-				simulacionActual.probar();
+				if(simulacionActual==null) {
+					System.err.println("\nDebe cargar o crear una simulacion");
+				}else {
+					simulacionActual.probar();
+				}
+				
+			}else if(opcion == 5) {
+				
+				if(simulacionActual==null) {
+					System.err.println("\nDebe cargar o crear una simulacion");
+				}else {
+					
+					verSimulacion();
+				}
 				
 			}else if(opcion == 0) {
 				
-				System.err.println("Saliendo del programa...");
+				System.err.println("\nSaliendo del programa...");
 				return;
 				
 			}else {
 				
-				System.err.println("Seleccione una opción entre [0-2]");
+				System.err.println("\nSeleccione una opción entre [0-4]");
 				
 			}
 			
@@ -57,31 +76,46 @@ public class Principal{
 		
 	}
 	
+	public static void verSimulacion() {
+		
+		System.out.println(simulacionActual.toString());
+		
+		
+	}
+	
 	public static void cargarSimulacion() {
 		
-		// AQUI DEBE LISTAR LAS SIMULACIONES PREVIAS REALIZAS PARA SELECCIONAR UNA
-		// UNA VEZ SELECCIONADA SE CARGA Y SE VUELVE AL MENU PRINCIPAL
+		String[] simulaciones = Ficheros.leerTxt(RUTA_SIMULACIONES);
 		
 		do {
 			
-			System.out.println("--- CARGAR SIMULACION ---");
-			System.out.println("1 ---> CARGAR SIMULACION");
-			System.out.println("2 ---> CREAR NUEVA SIMULACION");
-			System.out.println("0 ---> SALIR");
-			int opcion = Entradas.entero("SELECCIONE UNA OPCION [0-2]: ");
 			
-			if(opcion == 1) {
+			System.out.println("\n--- CARGAR SIMULACION ---");
+			System.out.println("0 --> SALIR");
+			
+			for (int i = 0; i < simulaciones.length; i++) {
+				System.out.println((i+1)+" --> "+simulaciones[i]);
+			}
+			
+			int opcion = Entradas.entero("SELECCIONE UNA OPCION [0-"+(simulaciones.length)+"]: ");
+			
+			if(opcion == 0) {
 				
-			}else if(opcion == 2) {
-				
-			}else if(opcion == 0) {
-				
-				System.err.println("Saliendo del programa...");
+				System.err.println("\nSaliendo del menu de carga...");
 				return;
 				
+			}else if(opcion >=1 && opcion <=simulaciones.length) {
+				
+				String nombre_simulacion = simulaciones[opcion-1];
+				
+				String[] datos_entorno = Ficheros.leerTxt(RUTA_ENTORNO,nombre_simulacion);
+				String[] datos_red = Ficheros.leerTxt(RUTA_REDES,nombre_simulacion);
+				
+				simulacionActual= new Simulacion(nombre_simulacion,datos_entorno,datos_red);
+				break;
 			}else {
 				
-				System.err.println("Seleccione una opción entre [0-2]");
+				System.err.println("SELECCIONE UNA OPCION [0-"+(simulaciones.length)+"]: ");
 				
 			}
 			
@@ -92,7 +126,6 @@ public class Principal{
 	public static void crearSimulacion() {
 		
 		simulacionActual= new Simulacion();
-		//AHORA DEBE VER COMO GUARDAR TODA LA CONFIGURACION
 		String respuesta = Entradas.texto("¿Desea guardar el entorno? S - SI ");
 		
 		if(respuesta.equalsIgnoreCase("S")) {

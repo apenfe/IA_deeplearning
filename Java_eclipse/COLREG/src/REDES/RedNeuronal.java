@@ -5,12 +5,12 @@ import java.util.ArrayList;
 
 public class RedNeuronal{
 	
-	private int id;
+	private String nombre_simulacion;
 	private Capas[] capas = new Capas[0];
 	
-	public RedNeuronal(int numeroCapas, int id) {
+	public RedNeuronal(int numeroCapas, String nombre_simulacion) {
 		
-		this.id=id;
+		this.nombre_simulacion=nombre_simulacion;
 		this.capas = new Capas[numeroCapas];
 		
 		for (int i = 0; i < capas.length; i++) {
@@ -27,12 +27,12 @@ public class RedNeuronal{
 		
 		//1 numero capas data[0]
 		//2 numeros de neuronas por capas data[1] en adelante
-		this.id=Integer.parseInt(data[data.length-1]);
+		this.nombre_simulacion=data[data.length-1];
 		this.capas = new Capas[Integer.parseInt(data[0])];
 		
-		for (int i = 1; i < data.length-1; i++) {
+		for (int i = 0; i < Integer.parseInt(data[0]); i++) {
 			
-			capas[i]= new Capas(Integer.parseInt(data[i])); 
+			capas[i]= new Capas(Integer.parseInt(data[i+1])); 
 			
 		}
 		
@@ -158,7 +158,7 @@ public class RedNeuronal{
 				
 			}
 			
-			red+=this.id;
+			red+=this.nombre_simulacion;
 				
 			escritor.write("\n"+red);
 			escritor.close();

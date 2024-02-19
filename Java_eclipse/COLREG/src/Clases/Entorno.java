@@ -4,6 +4,7 @@ import java.io.FileWriter;
 
 public class Entorno{
 	
+	private String nombre_simulacion;
 	private String nombre;
 	private final int[] origen = {0,0};
 	private double alto;
@@ -15,17 +16,18 @@ public class Entorno{
 	private double paso;
 	private double area_aprox;
 	
-	public Entorno(double paso, double area_aprox) {
+	public Entorno(double paso, double area_aprox, String nombre_simulacion) {
 		
 		this.nombre = Entradas.texto("Seleccione un nombre para el entorno: ");
-		this.alto = Entradas.entero("Seleccione un alto para el entorno (eje y): ");
+		this.alto = Entradas.entero("\nSeleccione un alto para el entorno (eje y): ");
 		this.ancho = Entradas.entero("Seleccione un ancho para el entorno (eje x): ");
-		this.entrada_x = Entradas.entero("Seleccione coordenada x de entrada (x): ");
+		this.entrada_x = Entradas.entero("\nSeleccione coordenada x de entrada (x): ");
 		this.entrada_y = Entradas.entero("Seleccione coordenada y de entrada (y): ");
-		this.salida_x = Entradas.entero("Seleccione coordenada x de salida (x): ");
+		this.salida_x = Entradas.entero("\nSeleccione coordenada x de salida (x): ");
 		this.salida_y = Entradas.entero("Seleccione coordenada y de salida (y): ");
 		this.paso = paso;
 		this.area_aprox = area_aprox;
+		this.nombre_simulacion=nombre_simulacion;
 		
 	}
 	
@@ -40,6 +42,7 @@ public class Entorno{
 		this.salida_y = Double.parseDouble(datos[6]);
 		this.paso = Double.parseDouble(datos[7]);
 		this.area_aprox = Double.parseDouble(datos[8]);
+		this.nombre_simulacion=datos[9];
 		
 	}
 
@@ -122,7 +125,7 @@ public class Entorno{
 	@Override
 	public String toString() {
 		
-		return nombre+"#"+alto+"#"+ancho+"#"+entrada_x+"#"+entrada_y+"#"+salida_x+"#"+salida_y+"#"+paso+"#"+area_aprox;
+		return nombre+"#"+alto+"#"+ancho+"#"+entrada_x+"#"+entrada_y+"#"+salida_x+"#"+salida_y+"#"+paso+"#"+area_aprox+"#"+nombre_simulacion;
 		
 	}
 	
