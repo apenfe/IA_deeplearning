@@ -19,8 +19,8 @@ public class Barco{
 		
 		this.id = id;
 		this.entorno = entorno;
-		this.x = entorno.getEntrada_x();
-		this.y = entorno.getEntrada_y();
+		this.x = entorno.getEntradaX();
+		this.y = entorno.getEntradaX();
 		this.direccion = 5; //expresado en grados
 		Double[] posicion= new Double[2];
 		posicion[0]=x;
@@ -37,6 +37,7 @@ public class Barco{
 			if(movimientos[1]==0&&movimientos[2]==0) { // recto
 				
 				puntos+=2;
+				this.pasos++;
 				
 			}else if(movimientos[1]==0&&movimientos[2]==1) { // derecha
 				
@@ -51,6 +52,7 @@ public class Barco{
 			}else if(movimientos[1]==1&&movimientos[2]==1) { // recto
 				
 				puntos-=2;
+				this.pasos++;
 				
 			}
 			
@@ -61,6 +63,7 @@ public class Barco{
 			if(movimientos[1]==0&&movimientos[2]==0) { // nada
 				
 				puntos-=2;
+				this.pasos++;
 				
 			}else if(movimientos[1]==0&&movimientos[2]==1) { // gira derecha
 				
@@ -75,6 +78,7 @@ public class Barco{
 			}else if(movimientos[1]==1&&movimientos[2]==1) { // nada
 				
 				puntos-=2;
+				this.pasos++;
 				
 			}
 			
