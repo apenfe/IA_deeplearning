@@ -28,9 +28,16 @@ public class RedNeuronal{
 		this.nombre_simulacion=data[data.length-1];
 		this.capas = new Capas[Integer.parseInt(data[0])];
 		
-		for (int i = 0; i < Integer.parseInt(data[0]); i++) {
+		// 3#8&2#4&2#3&2#a
+		
+		for (int i = 1; i <= (Integer.parseInt(data[0])); i++) { // modificaciones para cragar tipo de funcion
 			
-			capas[i]= new Capas(Integer.parseInt(data[i+1])); 
+			String[] dataNeurona = data[i].split("&");
+			capas[i-1]= new Capas(Integer.parseInt(dataNeurona[0]));
+			
+			for (int j = 0; j < capas[i-1].getPerceptrones().length; j++) {
+				capas[i-1].getPerceptrones()[j].setFuncion(Integer.parseInt(dataNeurona[1]));
+			}
 			
 		}
 		
@@ -136,7 +143,7 @@ public class RedNeuronal{
 				
 				item++;
 				pesosSinapticos[j]=pesos[item];
-				System.err.println(pesos[item]);
+				//System.err.println(pesos[item]);
 			}
 			
 			for (int j = 0; j < capas[i].getPerceptrones().length; j++) {
@@ -159,7 +166,7 @@ public class RedNeuronal{
 			
 			for (int i = 0; i < capas.length; i++) {
 				
-				red+=capas[i].getPerceptrones().length+"#";
+				red+=capas[i].getPerceptrones().length+"&"+capas[i].getPerceptrones()[0].getFuncion()+"#";
 				
 			}
 			

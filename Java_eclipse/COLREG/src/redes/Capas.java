@@ -15,13 +15,15 @@ public class Capas {
 		System.out.println("última capa igual que nº de salidas.");
 
 		int neuronas = Entradas.entero("¿Cuantas neuronas dese añadir?");
+		int funcion = Entradas.entero("¿Que funcion desea establecer para esta capa? ");
+
 
 		this.perceptrones = new Perceptron[neuronas];
 
 		for (int i = 0; i < neuronas; i++) {
 
 			perceptrones[i] = new Perceptron(); 
-																		
+			perceptrones[i].setFuncion(funcion); // revisar esta parte														
 		}
 
 	}

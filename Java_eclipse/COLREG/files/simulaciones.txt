@@ -1,3 +1,6 @@
 debug
 prubas_iniciales
 nuevas entradas
+funciones
+funciones_guardadas
+a

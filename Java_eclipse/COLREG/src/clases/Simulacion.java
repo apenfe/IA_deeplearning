@@ -72,10 +72,12 @@ public class Simulacion{
 	
 	public void entrenamiento() {
 		
-		int generaciones = Entradas.entero("Cuantas generaciones desea crear? ");
+		int generaciones = Entradas.entero("Cuantas generaciones desea crear para el primer entrenamiento? ");
 		
 		int cont = -1;
 		
+		System.out.println("Asignando pesos Aleatorios iniciales...");
+
 		for (int i = 0; i < barcos.length; i++) {
 			
 			barcos[i].setAdn(asignarPesos_0());
@@ -83,6 +85,8 @@ public class Simulacion{
 		}
 		
 		System.out.println("Comienzo del entrenamiento...");
+		
+		
 		
 		do {
 			
@@ -92,6 +96,7 @@ public class Simulacion{
 			for (int j = 0; j < barcos.length; j++) {
 				
 				System.out.println("\t\tBarco nº "+(j+1)+".");
+				red.asignarPesosSinapticosCapas(barcos[j].getAdn(),barcos[j].sensores().length); // es esto lo que falta?
 				
 				do {
 					
@@ -99,10 +104,10 @@ public class Simulacion{
 					int[] salidas = red.probarRed(entradas);
 					barcos[j].acciones(salidas);
 					
-					if(barcos[j].fin()||barcos[j].getPasos()>30000) {
+					if(barcos[j].fin()||barcos[j].getPasos()>10000) {
 						System.out.println("\t\t\tFin simulación Barco nº "+(j+1)+", Resumen:");
 						
-						if(barcos[j].getPasos()>30000) {
+						if(barcos[j].getPasos()>10000) {
 							System.out.println("\t\t\tEliminado por cantidad excesiva de pasos.");
 						}else {
 							
@@ -118,6 +123,7 @@ public class Simulacion{
 				
 			}
 			
+			System.out.println("\n\tGeneracion nº "+cont+":");
 			SeleccionMejorCormosoma();
 			cruzarCormosoma();
 			mutacionCormosoma();
@@ -128,6 +134,33 @@ public class Simulacion{
 	}
 	
 	public void SeleccionMejorCormosoma() {
+		
+		int contPuntosMax=Integer.MIN_VALUE;
+	
+		Barco mejor=null;
+		
+		for (int i = 0; i < barcos.length; i++) {
+			
+			int puntos = barcos[i].getPuntos();
+			
+			if(puntos>contPuntosMax) {
+				mejor=barcos[i];
+				contPuntosMax=puntos;
+			}
+
+		}
+		
+		System.out.println("\tEl mejor ejemplar es el barco "+mejor.getId()+".");
+		System.out.println("\tADN ==> "+mejor.getAdn());
+		System.out.println("\tPuntos ==> "+mejor.getPuntos());
+		System.out.println("\tPasos ==> "+mejor.getPasos());
+		
+		try {
+			Thread.sleep(8000);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+
 		
 	}
 	
@@ -174,10 +207,6 @@ public class Simulacion{
 		barco.setAdn(asignarPesos_0());
 		/* linea de testeo */
 		
-		// voy a crear un metodo para signar primero pesos por capas y luego cada capa lo hace con su neurona
-		//for (int i = 0; i < barco.getAdn().length; i++) {           // HASTA AQUI VA BIEN
-			//System.out.println("ADN DEL BARCO; "+barco.getAdn()[i]);
-		//}
 		red.asignarPesosSinapticosCapas(barco.getAdn(),barco.sensores().length);
 
 		System.out.println("Comienzo de la prueba...");
@@ -189,10 +218,10 @@ public class Simulacion{
 			barco.acciones(salidas);
 			System.out.println(barco.getPasos());
 
-			if (barco.fin() || barco.getPasos() > 1000) {
+			if (barco.fin() || barco.getPasos() > 5000) {
 				System.out.println("\t\t\tFin simulación del Barco nº, Resumen:");
 
-				if (barco.getPasos() > 1000) {
+				if (barco.getPasos() > 5000) {
 					System.out.println("\t\t\tEliminado por cantidad excesiva de pasos.");
 				} else {
 					System.out.println("\t\t\tEliminado por llegada a meta o salida.");

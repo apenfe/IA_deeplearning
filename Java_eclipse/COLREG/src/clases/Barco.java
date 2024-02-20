@@ -23,7 +23,7 @@ public class Barco{
 		this.entorno = entorno;
 		this.x = entorno.getEntradaX();
 		this.y = entorno.getEntradaX();
-		this.direccion = 45; //expresado en grados
+		this.direccion = 30; //expresado en grados
 		Double[] posicion= new Double[2];
 		posicion[0]=x;
 		posicion[1]=y;
@@ -53,7 +53,7 @@ public class Barco{
 				
 			}else if(movimientos[1]==1&&movimientos[2]==1) { // recto
 				
-				puntos-=2;
+				puntos-=4;
 				this.pasos++;
 				
 			}
@@ -64,23 +64,23 @@ public class Barco{
 			
 			if(movimientos[1]==-1&&movimientos[2]==-1) { // nada
 				
-				puntos-=2;
+				puntos-=4;
 				this.pasos++;
 				
 			}else if(movimientos[1]==-1&&movimientos[2]==1) { // gira derecha
 				
 				girarDerecha();
-				puntos++;
+				puntos-=2;
 				
 			}else if(movimientos[1]==1&&movimientos[2]==-1) { // gira izquiera
 				
 				girarIzquierda();
-				puntos++;
+				puntos-=2;
 				
 			}else if(movimientos[1]==1&&movimientos[2]==1) { // nada
 				
-				puntos-=2;
-				this.pasos++;
+				puntos-=8;
+				pasos++;
 				
 			}
 			
@@ -113,7 +113,7 @@ public class Barco{
 	
 	private void girarDerecha() {
 		
-		this.direccion=obtenerAngulo(entorno.getPaso()*5);
+		this.direccion=obtenerAngulo(entorno.getPaso()*10);
 		Double[] posicion= new Double[2];
 		posicion[0]=x;
 		posicion[1]=y;
@@ -124,7 +124,7 @@ public class Barco{
 	
 	private void girarIzquierda() {
 		
-		this.direccion=obtenerAngulo(-5*(entorno.getPaso()));
+		this.direccion=obtenerAngulo(-10*(entorno.getPaso()));
 		Double[] posicion= new Double[2];
 		posicion[0]=x;
 		posicion[1]=y;
@@ -289,7 +289,7 @@ public class Barco{
 	public boolean fin() {
 		
 		if(entorno.esSalida(x, y)) {
-			puntos+=10000;
+			puntos+=20000;
 			return true;
 		}
 		
@@ -334,7 +334,13 @@ public class Barco{
 	public void setPasos(double pasos) {
 		this.pasos = pasos;
 	}
-	
-	
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
 
 }

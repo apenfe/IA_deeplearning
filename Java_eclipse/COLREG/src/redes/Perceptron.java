@@ -35,23 +35,16 @@ import java.util.Arrays;
 
 public class Perceptron {
 	
+	private int funcion;
 	private double[] pesosSinapticos = new double[0];
 	
-	public Perceptron() { // se genera vacio
+	public Perceptron() {
+		
+		this.funcion=0;
 		
 	}
 	
 	public double calcularNeta(double[] entradas) {
-		
-	/*	for (int i = 0; i < entradas.length; i++) {
-			System.out.println(entradas[i]);
-
-		}
-		
-		for (int i = 0; i < pesosSinapticos.length; i++) {
-			System.out.println(pesosSinapticos[i]);
-
-		}*/
 		
 		double neta = 0;
 		
@@ -64,13 +57,37 @@ public class Perceptron {
 		return neta;
 	}
 
-	public int activate(double neta) {
+	public double activate(double neta) {
 		
-		return (neta >= 0) ? 1 : -1;
+		if(funcion==0) {
+			
+			return (neta >= 0) ? 1.0 : -1.0; // Funcion signo {-1,1}
+
+		}else if(funcion==1){
+			
+			return neta; // Funcion Adaline
+			
+		}else if(funcion==2){
+			
+			return (neta >= 0) ? 0 : 1; // Funcion escalon {0,1}
+			
+		}else if(funcion==3){
+			
+			return (1/(1+Math.pow(Math.E, -neta))); // Funcion Sigmoide
+			
+		}else if(funcion==4){
+			
+			return ((Math.pow(Math.E, neta)-Math.pow(Math.E, -neta))/(Math.pow(Math.E, neta)+Math.pow(Math.E, -neta))); // Funcion Tangente Hiperbolica
+			
+		}else {
+			
+			return 0.0;
+			
+		}
 		
 	}
 	
-	public int probar(double[] entradas) {
+	public double probar(double[] entradas) {
 	
 		double neta = calcularNeta(entradas);
 		return activate(neta);
@@ -89,7 +106,13 @@ public class Perceptron {
 	public String toString() {
 		return "Perceptron [pesosSinapticos=" + Arrays.toString(pesosSinapticos) + "]";
 	}
-	
-	
+
+	public int getFuncion() {
+		return funcion;
+	}
+
+	public void setFuncion(int funcion) {
+		this.funcion = funcion;
+	}
 	
 }
