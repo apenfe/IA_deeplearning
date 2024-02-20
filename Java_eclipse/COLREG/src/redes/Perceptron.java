@@ -66,7 +66,7 @@ public class Perceptron {
 
 	public int activate(double neta) {
 		
-		return (neta >= 0) ? 1 : 0;
+		return (neta >= 0) ? 1 : -1;
 		
 	}
 	

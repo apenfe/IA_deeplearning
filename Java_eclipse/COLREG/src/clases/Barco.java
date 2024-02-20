@@ -4,6 +4,8 @@ import java.util.ArrayList;
 
 public class Barco{
 	
+	// se cambian los valores de entradas de 0 a 1 a -1 1
+	
 	private int id;
 	private double[] adn = new double[0];
 	private int puntos;
@@ -21,7 +23,7 @@ public class Barco{
 		this.entorno = entorno;
 		this.x = entorno.getEntradaX();
 		this.y = entorno.getEntradaX();
-		this.direccion = 5; //expresado en grados
+		this.direccion = 45; //expresado en grados
 		Double[] posicion= new Double[2];
 		posicion[0]=x;
 		posicion[1]=y;
@@ -34,17 +36,17 @@ public class Barco{
 		
 		if(movimientos[0]==1) { // avanzar
 			
-			if(movimientos[1]==0&&movimientos[2]==0) { // recto
+			if(movimientos[1]==-1&&movimientos[2]==-1) { // recto
 				
 				puntos+=2;
 				this.pasos++;
 				
-			}else if(movimientos[1]==0&&movimientos[2]==1) { // derecha
+			}else if(movimientos[1]==-1&&movimientos[2]==1) { // derecha
 				
 				girarDerecha();
 				puntos+=2;
 				
-			}else if(movimientos[1]==1&&movimientos[2]==0) { // izquiera
+			}else if(movimientos[1]==1&&movimientos[2]==-1) { // izquiera
 				
 				girarIzquierda();
 				puntos+=2;
@@ -60,17 +62,17 @@ public class Barco{
 			
 		}else { // NO vanza
 			
-			if(movimientos[1]==0&&movimientos[2]==0) { // nada
+			if(movimientos[1]==-1&&movimientos[2]==-1) { // nada
 				
 				puntos-=2;
 				this.pasos++;
 				
-			}else if(movimientos[1]==0&&movimientos[2]==1) { // gira derecha
+			}else if(movimientos[1]==-1&&movimientos[2]==1) { // gira derecha
 				
 				girarDerecha();
 				puntos++;
 				
-			}else if(movimientos[1]==1&&movimientos[2]==0) { // gira izquiera
+			}else if(movimientos[1]==1&&movimientos[2]==-1) { // gira izquiera
 				
 				girarIzquierda();
 				puntos++;
@@ -112,18 +114,28 @@ public class Barco{
 	private void girarDerecha() {
 		
 		this.direccion=obtenerAngulo(entorno.getPaso()*5);
+		Double[] posicion= new Double[2];
+		posicion[0]=x;
+		posicion[1]=y;
+		
+		camino.add(posicion);
 		this.pasos++;
 	}
 	
 	private void girarIzquierda() {
 		
 		this.direccion=obtenerAngulo(-5*(entorno.getPaso()));
+		Double[] posicion= new Double[2];
+		posicion[0]=x;
+		posicion[1]=y;
+		
+		camino.add(posicion);
 		this.pasos++;
 	}
 
 	public double[] sensores() {
 		
-		double[] sensor = new double[6];
+		double[] sensor = new double[8];
 		
 		sensor[0] = delante();
 		sensor[1] = costado_izquierdo();
@@ -131,6 +143,12 @@ public class Barco{
 		sensor[3] = amura_izquierda();
 		sensor[4] = amura_derecha();
 		sensor[5] = distanciaAsalida();
+		sensor[6] = distanciaAentrada();
+		sensor[7] = direccionActual();
+		
+		for (int i = 0; i < sensor.length; i++) {
+			System.out.print("Salida "+(i+1)+": "+sensor[i]+" - ");
+		}
 
 		return sensor;
 
@@ -149,7 +167,7 @@ public class Barco{
 		if(entorno.fueraLimites(xExtremo, yExtremo)) {
 			return 1;
 		}else {
-			return 0;
+			return -1;
 		}
 
 	}
@@ -166,7 +184,7 @@ public class Barco{
 		if(entorno.fueraLimites(xExtremo, yExtremo)) {
 			return 1;
 		}else {
-			return 0;
+			return -1;
 		}
 
 	}
@@ -183,7 +201,7 @@ public class Barco{
 		if(entorno.fueraLimites(xExtremo, yExtremo)) {
 			return 1;
 		}else {
-			return 0;
+			return -1;
 		}
 
 	}
@@ -200,7 +218,7 @@ public class Barco{
 		if(entorno.fueraLimites(xExtremo, yExtremo)) {
 			return 1;
 		}else {
-			return 0;
+			return -1;
 		}
 
 	}
@@ -217,18 +235,47 @@ public class Barco{
 		if(entorno.fueraLimites(xExtremo, yExtremo)) {
 			return 1;
 		}else {
-			return 0;
+			return -1;
 		}
 
 	}
 
-	private int distanciaAsalida() {
+	private double distanciaAsalida() {
 
-		return (int) entorno.distanciaSalida(x, y);
+		double distancia = entorno.distanciaSalida(x, y);
+		
+		return normalizar(distancia);
 
 	}
 	
-	private double obtenerAngulo(double grados) {
+	private double direccionActual() {
+		
+		return normalizar(direccion);
+
+	}
+	
+	private double distanciaAentrada() {
+
+		double distancia = entorno.distanciaEntrada(x, y);
+		
+		return normalizar(distancia);
+
+	}
+	
+	private double normalizar(double xs) {
+		
+		double xMax = Math.sqrt(Math.pow(entorno.getAlto(), 2)+Math.pow(entorno.getAncho(), 2));
+		
+		if(xs==direccion) {
+			xMax=360;
+		}
+		
+		return 2*((xs-0)/(xMax))-1;
+		
+		
+	}
+	
+ 	private double obtenerAngulo(double grados) {
 
 		double angulo = direccion + grados;
 	    
@@ -237,22 +284,6 @@ public class Barco{
 	    
 	    return angulo;
 		
-	}
-
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
-
-	public double getPasos() {
-		return pasos;
-	}
-
-	public void setPasos(double pasos) {
-		this.pasos = pasos;
 	}
 	
 	public boolean fin() {
@@ -294,6 +325,14 @@ public class Barco{
 			System.out.println("X: "+camino.get(i)[0]+", Y: "+camino.get(i)[1]);
 			
 		}
+	}
+
+	public double getPasos() {
+		return pasos;
+	}
+
+	public void setPasos(double pasos) {
+		this.pasos = pasos;
 	}
 	
 	

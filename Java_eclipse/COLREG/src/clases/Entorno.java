@@ -132,7 +132,7 @@ public class Entorno{
 	public boolean esSalida(double x, double y) {
 		
 		if(distanciaSalida(x,y)<=areaAprox) {
-			
+			System.err.println("Salida Alcanzada!!");
 			return true;
 			
 		}else {
@@ -151,10 +151,21 @@ public class Entorno{
 		
 	}
 	
+	public double distanciaEntrada(double x, double y) {
+		
+		double diferenciaX = x - entradaX;
+        double diferenciaY = y - entradaY;
+        return Math.sqrt(diferenciaX * diferenciaX + diferenciaY * diferenciaY);
+		
+	}
+	
+	
+	
 	public boolean fueraLimites(double x, double y) {
 		
 		if(x>alto||x<0||y>ancho||y<0) {
 			
+			System.err.println("Fuera de los limites.");
 			return true;
 			
 		}else {

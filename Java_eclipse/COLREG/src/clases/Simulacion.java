@@ -110,7 +110,7 @@ public class Simulacion{
 	
 						}
 						System.out.println("\t\t\tPuntos: "+barcos[j].getPuntos());
-						System.out.println("\t\t\tPuntos: "+barcos[j].getPasos());
+						System.out.println("\t\t\tPasos: "+barcos[j].getPasos());
 						break;
 					}
 					
@@ -189,10 +189,10 @@ public class Simulacion{
 			barco.acciones(salidas);
 			System.out.println(barco.getPasos());
 
-			if (barco.fin() || barco.getPasos() > 10000) {
+			if (barco.fin() || barco.getPasos() > 1000) {
 				System.out.println("\t\t\tFin simulación del Barco nº, Resumen:");
 
-				if (barco.getPasos() > 10000) {
+				if (barco.getPasos() > 1000) {
 					System.out.println("\t\t\tEliminado por cantidad excesiva de pasos.");
 				} else {
 					System.out.println("\t\t\tEliminado por llegada a meta o salida.");
