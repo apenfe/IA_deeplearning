@@ -2,6 +2,9 @@ package clases;
 
 import java.util.ArrayList;
 
+import processing.core.PApplet;
+import visual.Plot;
+
 public class Barco{
 	
 	// se cambian los valores de entradas de 0 a 1 a -1 1
@@ -318,13 +321,28 @@ public class Barco{
 		this.adn = adn;
 	}
 	
+	
 	public void camino() {
 		
-		for (int i = 0; i < camino.size(); i++) {
-			
-			System.out.println("X: "+camino.get(i)[0]+", Y: "+camino.get(i)[1]);
-			
-		}
+		int numRows = camino.size();
+        float[][] resultado = new float[numRows][];
+
+        for (int i = 0; i < numRows; i++) {
+            Double[] fila = camino.get(i);
+            int numCols = fila.length;
+            resultado[i] = new float[numCols];
+
+            for (int j = 0; j < numCols; j++) {
+                resultado[i][j] = fila[j].floatValue();
+            }
+        }
+
+		
+		
+		Plot applet = new Plot();
+		applet.setPuntos(resultado);
+	    PApplet.runSketch(new String[]{"visual/Plot"}, applet);
+	    
 	}
 
 	public double getPasos() {

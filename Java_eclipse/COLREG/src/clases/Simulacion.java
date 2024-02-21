@@ -3,6 +3,7 @@ package clases;
 import java.io.FileWriter;
 import java.util.Arrays;
 
+import processing.core.PApplet;
 import redes.RedNeuronal;
 
 public class Simulacion{
@@ -228,6 +229,7 @@ public class Simulacion{
 				}
 				System.out.println("\t\t\tPuntos: " + barco.getPuntos());
 				System.out.println("\t\t\tPasos: " + barco.getPasos());
+				//PApplet.main("visual.Plot");
 				barco.camino();
 				break;
 			}
