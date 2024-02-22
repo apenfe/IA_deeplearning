@@ -87,6 +87,8 @@ public class Barco{
 				
 			}
 			
+			avanzar(); // cuidado, luego quitar
+			
 		}
 		
 		if(fin()) {
@@ -157,7 +159,6 @@ public class Barco{
 
 	}
 	
-
 	private int delante() {
 
 		// Convertir el ángulo a radianes
@@ -257,6 +258,12 @@ public class Barco{
 
 	}
 	
+//	private double direccionDeseada() {
+		
+		// ver como implementarlo
+
+//	}
+	
 	private double distanciaAentrada() {
 
 		double distancia = entorno.distanciaEntrada(x, y);
@@ -266,6 +273,8 @@ public class Barco{
 	}
 	
 	private double normalizar(double xs) {
+		
+		// debo generalizar el metodo
 		
 		double xMax = Math.sqrt(Math.pow(entorno.getAlto(), 2)+Math.pow(entorno.getAncho(), 2));
 		
@@ -320,8 +329,7 @@ public class Barco{
 	public void setAdn(double[] adn) {
 		this.adn = adn;
 	}
-	
-	
+		
 	public void camino() {
 		
 		int numRows = camino.size();
@@ -337,10 +345,10 @@ public class Barco{
             }
         }
 
-		
-		
 		Plot applet = new Plot();
+		applet.setXY((int)entorno.getAncho(),(int)entorno.getAlto());
 		applet.setPuntos(resultado);
+		applet.setInOut(entorno.getEntradaX(),entorno.getEntradaY(),entorno.getSalidaX(),entorno.getSalidaY());
 	    PApplet.runSketch(new String[]{"visual/Plot"}, applet);
 	    
 	}

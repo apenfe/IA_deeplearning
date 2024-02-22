@@ -63,7 +63,7 @@ public class Simulacion{
 		
 		for (int i = 0; i < salida.length; i++) {
 			
-			salida[i]= Math.random() * 2 - 1; // Genera un número entre -1 y 1
+			salida[i]= Math.random() * 6 - 3; // Genera un número entre -1 y 1
 			
 		}
 		
@@ -219,10 +219,10 @@ public class Simulacion{
 			barco.acciones(salidas);
 			System.out.println(barco.getPasos());
 
-			if (barco.fin() || barco.getPasos() > 5000) {
+			if (barco.fin() || barco.getPasos() > 100000) {
 				System.out.println("\t\t\tFin simulación del Barco nº, Resumen:");
 
-				if (barco.getPasos() > 5000) {
+				if (barco.getPasos() > 100000) {
 					System.out.println("\t\t\tEliminado por cantidad excesiva de pasos.");
 				} else {
 					System.out.println("\t\t\tEliminado por llegada a meta o salida.");
@@ -231,6 +231,7 @@ public class Simulacion{
 				System.out.println("\t\t\tPasos: " + barco.getPasos());
 				//PApplet.main("visual.Plot");
 				barco.camino();
+			
 				break;
 			}
 
