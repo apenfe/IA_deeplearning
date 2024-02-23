@@ -13,7 +13,7 @@ public class Barco{
 	private double[] adn = new double[0];
 	private int puntos;
 	private double pasos;
-	private final double horizonte = 15;
+	private final double horizonte = 20;
 	private double x;
 	private double y;
 	private ArrayList<Double[]> camino = new ArrayList<Double[]>();
@@ -26,7 +26,7 @@ public class Barco{
 		this.entorno = entorno;
 		this.x = entorno.getEntradaX();
 		this.y = entorno.getEntradaX();
-		this.direccion = 30; //expresado en grados
+		this.direccion = Math.random()*360; //expresado en grados
 		Double[] posicion= new Double[2];
 		posicion[0]=x;
 		posicion[1]=y;
@@ -93,6 +93,7 @@ public class Barco{
 		
 		if(fin()) {
 			System.out.println("El barco ha terminado su intento.");
+			return; // 
 		}
 		
 		
@@ -118,7 +119,7 @@ public class Barco{
 	
 	private void girarDerecha() {
 		
-		this.direccion=obtenerAngulo(entorno.getPaso()*10);
+		this.direccion=obtenerAngulo(entorno.getPaso()*9);
 		Double[] posicion= new Double[2];
 		posicion[0]=x;
 		posicion[1]=y;
@@ -129,7 +130,7 @@ public class Barco{
 	
 	private void girarIzquierda() {
 		
-		this.direccion=obtenerAngulo(-10*(entorno.getPaso()));
+		this.direccion=obtenerAngulo(-9*(entorno.getPaso()));
 		Double[] posicion= new Double[2];
 		posicion[0]=x;
 		posicion[1]=y;
@@ -140,7 +141,7 @@ public class Barco{
 
 	public double[] sensores() {
 		
-		double[] sensor = new double[8];
+		double[] sensor = new double[13];
 		
 		sensor[0] = delante();
 		sensor[1] = costado_izquierdo();
@@ -150,6 +151,12 @@ public class Barco{
 		sensor[5] = distanciaAsalida();
 		sensor[6] = distanciaAentrada();
 		sensor[7] = direccionActual();
+		sensor[8] = seccion_derecha();
+		sensor[9] = seccion_izquierda();
+		sensor[10] = seccion_frontal();
+		sensor[11] = posY();
+		sensor[12] = posX();
+		
 		
 		for (int i = 0; i < sensor.length; i++) {
 			System.out.print("Salida "+(i+1)+": "+sensor[i]+" - ");
@@ -243,6 +250,36 @@ public class Barco{
 		}
 
 	}
+	
+	private int seccion_derecha() {
+
+		if(amura_derecha()==1&&costado_derecho()==1) {
+			return 1;
+		}else {
+			return -1;
+		}
+
+	}
+	
+	private int seccion_izquierda() {
+
+		if(amura_izquierda()==1&&costado_izquierdo()==1) {
+			return 1;
+		}else {
+			return -1;
+		}
+
+	}
+	
+	private int seccion_frontal() {
+
+		if(amura_izquierda()==1&&amura_derecha()==1&&delante()==1) {
+			return 1;
+		}else {
+			return -1;
+		}
+
+	}
 
 	private double distanciaAsalida() {
 
@@ -272,6 +309,20 @@ public class Barco{
 
 	}
 	
+	private double posX() {
+		
+		return normalizar(x);
+
+	}
+	
+	private double posY() {
+		
+		return normalizar(y);
+
+	}
+	
+	
+	
 	private double normalizar(double xs) {
 		
 		// debo generalizar el metodo
@@ -280,6 +331,8 @@ public class Barco{
 		
 		if(xs==direccion) {
 			xMax=360;
+		}else if(xs==x||xs==y) {
+			xMax=entorno.getAlto();
 		}
 		
 		return 2*((xs-0)/(xMax))-1;
