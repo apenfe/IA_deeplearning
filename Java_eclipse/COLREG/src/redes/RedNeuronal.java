@@ -28,9 +28,7 @@ public class RedNeuronal{
 		this.nombre_simulacion=data[data.length-1];
 		this.capas = new Capas[Integer.parseInt(data[0])];
 		
-		// 3#8&2#4&2#3&2#a
-		
-		for (int i = 1; i <= (Integer.parseInt(data[0])); i++) { // modificaciones para cragar tipo de funcion
+		for (int i = 1; i <= (Integer.parseInt(data[0])); i++) {
 			
 			String[] dataNeurona = data[i].split("&");
 			capas[i-1]= new Capas(Integer.parseInt(dataNeurona[0]));
@@ -43,11 +41,7 @@ public class RedNeuronal{
 		
 	}
 	
-	// aqui pasa algo raro, revisarlo bien
-	
 	public int[] probarRed(double[] entradas) {
-		
-		// debo vigilar el cambio de tamaño de las entradas
 		
 		double[] anterioresentradas = entradas;
 		
@@ -55,19 +49,17 @@ public class RedNeuronal{
 		anterioresentradas=nuevasentradas;
 
 		for (int i = 1; i < capas.length; i++) {
-			System.err.println("DB CAPA: "+(i+1));
-			
+		
 			nuevasentradas = capas[i].probarCapa(anterioresentradas);
 			anterioresentradas=nuevasentradas;
+			
 		}
 		
 		int[] salidas = new int[anterioresentradas.length];
-		System.out.println("//////");
+		
 		for (int i = 0; i < salidas.length; i++) {
 			salidas[i]=(int)anterioresentradas[i];
-			System.out.println(salidas[i]);
 		}
-		System.out.println("//////");
 
 		return salidas;
 
@@ -77,7 +69,7 @@ public class RedNeuronal{
 		return capas;
 	}
 
-	public int getPesosTotales(int entradas) { // este metodo funciona correctamente
+	public int getPesosTotales(int entradas) { 
 		
 		int pesos=(capas[0].getPerceptrones().length)*entradas;
 		int neuronas_anteriores=capas[0].getPerceptrones().length;
@@ -90,7 +82,7 @@ public class RedNeuronal{
 			neuronas_anteriores = neuronas;
 			
 		}
-		System.out.println("Cantidad de pesos calculados: "+pesos);
+		
 		return pesos;
 		
 	}
@@ -113,18 +105,6 @@ public class RedNeuronal{
 		return perceptrones.toArray(new Perceptron[0]);
 
 	}
-
-	// la idea es asignar los pesos a cada neurona dado el adn de la entidad
-
-	// Para simplificar voy a poner las ismas neuronas por capa, en este caso, tres
-	// por cada una
-
-	// tres pesos por cada neurona
-
-	// SE ESTAN ASIGNANDO MAL, LA PRIMERA CAPA TIENE POR CADA NEURONA 6 PESOS, EL
-	// RESTO 3
-	
-	// este es el metodo propuesto en redNeuronal, debo revisarlo
 	
 	public void asignarPesosSinapticosCapas(double[] pesos,int entradas) {
 		
@@ -143,7 +123,7 @@ public class RedNeuronal{
 				
 				item++;
 				pesosSinapticos[j]=pesos[item];
-				//System.err.println(pesos[item]);
+				
 			}
 			
 			for (int j = 0; j < capas[i].getPerceptrones().length; j++) {

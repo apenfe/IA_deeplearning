@@ -54,13 +54,9 @@ public class Capas {
 
 	}
 	
-	// comprobar si este metodo va a funcionar
-	
 	public void establecerPesosNeuronas(double[] pesosDeLaCapa) {
 		
-		int pesosPorNeurona = pesosDeLaCapa.length/perceptrones.length; //3
-		
-		//System.out.println("pesos por neurona: "+pesosPorNeurona);
+		int pesosPorNeurona = pesosDeLaCapa.length/perceptrones.length;
 		
 		for (int i = 0; i < perceptrones.length; i++) {
 			

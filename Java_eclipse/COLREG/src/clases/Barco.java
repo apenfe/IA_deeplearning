@@ -319,9 +319,7 @@ public class Barco{
 		
 		return normalizar(y);
 
-	}
-	
-	
+	}	
 	
 	private double normalizar(double xs) {
 		

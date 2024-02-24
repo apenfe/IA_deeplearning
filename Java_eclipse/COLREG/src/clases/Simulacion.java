@@ -14,8 +14,6 @@ public class Simulacion{
 	private RedNeuronal red;
 	// MEJOR ADN HASTA EL MOMENTO
 	
-	// hacer metodos para cargar cosas en segundo constructor
-	
 	public Simulacion() {
 		
 		System.err.println("\nBienvenido al asistente de generacion de simulaciones...");
@@ -229,7 +227,6 @@ public class Simulacion{
 				}
 				System.out.println("\t\t\tPuntos: " + barco.getPuntos());
 				System.out.println("\t\t\tPasos: " + barco.getPasos());
-				//PApplet.main("visual.Plot");
 				barco.camino();
 			
 				break;
