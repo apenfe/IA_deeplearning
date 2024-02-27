@@ -3,7 +3,7 @@ package clases;
 import java.io.FileWriter;
 import java.util.Arrays;
 
-import processing.core.PApplet;
+import redes.Capas;
 import redes.RedNeuronal;
 
 public class Simulacion{
@@ -20,7 +20,7 @@ public class Simulacion{
 		this.nombre=Entradas.texto("¿Que nombre desea dar a esta simulacion? ");
 		
 		System.err.println("\tCreación de entorno...");
-		this.entorno= new Entorno(0.2,0.4,nombre);
+		this.entorno= new Entorno(0.2,20,nombre);
 		
 		System.err.println("\tCreación de entidades...");
 		int cantidad = Entradas.entero("\n¿Cuantos barcos desea crear para el entrenamiento? ");
@@ -68,6 +68,20 @@ public class Simulacion{
 		return salida;	
 		
 	}
+	/*
+	public double[] asignarBias_0() {
+		
+		Capas[] numCapas = red.getCapas();
+
+		for (int i = 0; i < numCapas.length; i++) {
+			
+			salida[i]= Math.random() * 6 - 3; // Genera un número entre -1 y 1
+			
+		}
+		
+		return salida;	
+		
+	}*/
 	
 	public void entrenamiento() {
 		
@@ -84,8 +98,6 @@ public class Simulacion{
 		}
 		
 		System.out.println("Comienzo del entrenamiento...");
-		
-		
 		
 		do {
 			
@@ -123,16 +135,22 @@ public class Simulacion{
 			}
 			
 			System.out.println("\n\tGeneracion nº "+cont+":");
-			SeleccionMejorCormosoma();
-			cruzarCormosoma();
-			mutacionCormosoma();
-			evaluacionCormosoma();
+			algoritmoGenetico();
 			
 		}while(cont<generaciones);
 		
 	}
 	
-	public void SeleccionMejorCormosoma() {
+	private void algoritmoGenetico() {
+		
+		SeleccionMejorCormosoma();
+		cruzarCormosoma();
+		mutacionCormosoma();
+		evaluacionCormosoma();
+
+	}
+	
+	private void SeleccionMejorCormosoma() {
 		
 		int contPuntosMax=Integer.MIN_VALUE;
 	
@@ -163,15 +181,15 @@ public class Simulacion{
 		
 	}
 	
-	public void cruzarCormosoma() {
+	private void cruzarCormosoma() {
 
 	}
 
-	public void mutacionCormosoma() {
+	private void mutacionCormosoma() {
 
 	}
 
-	public void evaluacionCormosoma() {
+	private void evaluacionCormosoma() {
 
 	}
 
@@ -227,7 +245,7 @@ public class Simulacion{
 				}
 				System.out.println("\t\t\tPuntos: " + barco.getPuntos());
 				System.out.println("\t\t\tPasos: " + barco.getPasos());
-				barco.camino();
+				barco.printCamino();
 			
 				break;
 			}

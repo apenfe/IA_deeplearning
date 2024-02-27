@@ -7,16 +7,14 @@ import visual.Plot;
 
 public class Barco{
 	
-	// se cambian los valores de entradas de 0 a 1 a -1 1
-	
 	private int id;
 	private double[] adn = new double[0];
 	private int puntos;
 	private double pasos;
-	private final double horizonte = 20;
+	private final double horizonte = 16;
 	private double x;
 	private double y;
-	private ArrayList<Double[]> camino = new ArrayList<Double[]>();
+	private ArrayList<Double[]> camino = new ArrayList<>();
 	private Entorno entorno;
 	private double direccion;
 	
@@ -26,12 +24,33 @@ public class Barco{
 		this.entorno = entorno;
 		this.x = entorno.getEntradaX();
 		this.y = entorno.getEntradaX();
-		this.direccion = Math.random()*360; //expresado en grados
+		this.direccion = Math.random()*360;
 		Double[] posicion= new Double[2];
 		posicion[0]=x;
 		posicion[1]=y;
 		camino.add(posicion);
 		pasos++;
+		
+	}
+	
+	public void acciones(double[] movimientos) { // aqui necesito especificar que debo seleccionar el mas grande de los tres
+		
+		if(movimientos[0]==1) {
+			
+			girarDerecha();
+			
+		}else if(movimientos[2]==1){
+			
+			girarIzquierda();
+			
+		}
+		
+		avanzar();
+		
+		if(fin()) {
+			System.out.println("El barco ha terminado su intento.");
+			
+		}	
 		
 	}
 	
@@ -94,8 +113,7 @@ public class Barco{
 		if(fin()) {
 			System.out.println("El barco ha terminado su intento.");
 			return; // 
-		}
-		
+		}	
 		
 	}
 	
@@ -295,12 +313,6 @@ public class Barco{
 
 	}
 	
-//	private double direccionDeseada() {
-		
-		// ver como implementarlo
-
-//	}
-	
 	private double distanciaAentrada() {
 
 		double distancia = entorno.distanciaEntrada(x, y);
@@ -321,7 +333,7 @@ public class Barco{
 
 	}	
 	
-	private double normalizar(double xs) {
+	private double normalizar(double xs) { // debo generalizarlo para cualquier caso
 		
 		// debo generalizar el metodo
 		
@@ -342,7 +354,6 @@ public class Barco{
 
 		double angulo = direccion + grados;
 	    
-	    // Normalizar el ángulo para que esté dentro del rango de 0 a 359 grados
 	    angulo = (angulo % 360 + 360) % 360;
 	    
 	    return angulo;
@@ -355,6 +366,28 @@ public class Barco{
 			puntos+=20000;
 			return true;
 		}
+		
+		if(entorno.fueraLimites(x, y)) {
+			puntos-=10000;
+			return true;
+		}
+		
+		return false;
+		
+	}
+	
+	public boolean win() {
+		
+		if(entorno.esSalida(x, y)) {
+			puntos+=20000;
+			return true;
+		}
+		
+		return false;
+		
+	}
+	
+	public boolean lose() {
 		
 		if(entorno.fueraLimites(x, y)) {
 			puntos-=10000;
@@ -381,7 +414,7 @@ public class Barco{
 		this.adn = adn;
 	}
 		
-	public void camino() {
+	public void printCamino() {
 		
 		int numRows = camino.size();
         float[][] resultado = new float[numRows][];

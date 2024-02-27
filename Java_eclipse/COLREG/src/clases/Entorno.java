@@ -159,8 +159,6 @@ public class Entorno{
 		
 	}
 	
-	
-	
 	public boolean fueraLimites(double x, double y) {
 		
 		if(x>alto||x<0||y>ancho||y<0) {

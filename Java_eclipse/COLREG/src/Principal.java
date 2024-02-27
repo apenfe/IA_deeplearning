@@ -26,7 +26,7 @@ public class Principal{
 			System.out.println("4 ---> PROBAR SIMULACION YA ENTRENADA");
 			System.out.println("5 ---> VER DATOS SIMULACION ACTUAL");
 			System.out.println("0 ---> SALIR");
-			int opcion = Entradas.entero("SELECCIONE UNA OPCION [0-4]: ");
+			int opcion = Entradas.entero("SELECCIONE UNA OPCION [0-5]: ");
 			
 			if(opcion == 1) {
 				
