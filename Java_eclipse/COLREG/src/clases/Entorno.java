@@ -163,7 +163,7 @@ public class Entorno{
 		
 		if(x>alto||x<0||y>ancho||y<0) {
 			
-			System.err.println("Fuera de los limites.");
+			//System.err.println("Fuera de los limites.");
 			return true;
 			
 		}else {

@@ -2,6 +2,8 @@ package clases;
 
 import java.io.FileWriter;
 import java.util.Arrays;
+import java.util.Iterator;
+import java.util.Random;
 
 import redes.Capas;
 import redes.RedNeuronal;
@@ -106,27 +108,27 @@ public class Simulacion{
 			
 			for (int j = 0; j < barcos.length; j++) {
 				
-				System.out.println("\t\tBarco nº "+(j+1)+".");
+				//System.out.println("\t\tBarco nº "+(j+1)+".");
 				red.asignarPesosSinapticosCapas(barcos[j].getAdn(),barcos[j].sensores().length); // es esto lo que falta?
 				
 				do {
 					
 					double[] entradas = barcos[j].sensores();
-					int[] salidas = red.probarRed(entradas);
+					double[] salidas = red.probarRed(entradas);
 					barcos[j].acciones(salidas);
 					
-					if(barcos[j].fin()||barcos[j].getPasos()>10000) {
-						System.out.println("\t\t\tFin simulación Barco nº "+(j+1)+", Resumen:");
+					if(barcos[j].fin()||barcos[j].getPasos()>100000) {
+						//System.out.println("\t\t\tFin simulación Barco nº "+(j+1)+", Resumen:");
 						
-						if(barcos[j].getPasos()>10000) {
-							System.out.println("\t\t\tEliminado por cantidad excesiva de pasos.");
+						if(barcos[j].getPasos()>100000) {
+						//	System.out.println("\t\t\tEliminado por cantidad excesiva de pasos.");
 						}else {
 							
-							System.out.println("\t\t\tEliminado por llegada a meta o salida.");
+							//System.out.println("\t\t\tEliminado por llegada a meta o salida.");
 	
 						}
-						System.out.println("\t\t\tPuntos: "+barcos[j].getPuntos());
-						System.out.println("\t\t\tPasos: "+barcos[j].getPasos());
+						//System.out.println("\t\t\tPuntos: "+barcos[j].getPuntos());
+						//System.out.println("\t\t\tPasos: "+barcos[j].getPasos());
 						break;
 					}
 					
@@ -143,53 +145,98 @@ public class Simulacion{
 	
 	private void algoritmoGenetico() {
 		
-		SeleccionMejorCormosoma();
-		cruzarCormosoma();
-		mutacionCormosoma();
-		evaluacionCormosoma();
+		evaluacionDeFitness(); // ordena de mejor a peor los barcos por fitness
+		showFitness();
+		//seleccion(barcos,salvo);
+		//reproduccion();
+		mutacion();
+		reemplazo();
 
 	}
 	
-	private void SeleccionMejorCormosoma() {
-		
-		int contPuntosMax=Integer.MIN_VALUE;
-	
-		Barco mejor=null;
+	private void showFitness() {
 		
 		for (int i = 0; i < barcos.length; i++) {
 			
-			int puntos = barcos[i].getPuntos();
-			
-			if(puntos>contPuntosMax) {
-				mejor=barcos[i];
-				contPuntosMax=puntos;
+			if(i==0) {
+				barcos[i].printCamino();
 			}
+			System.out.println("\t"+(i+1)+"º ---> Barco: "+barcos[i].getId());
+			System.out.println("\tFitness: "+barcos[i].getPuntos());
 
+			
 		}
-		
-		System.out.println("\tEl mejor ejemplar es el barco "+mejor.getId()+".");
-		System.out.println("\tADN ==> "+mejor.getAdn());
-		System.out.println("\tPuntos ==> "+mejor.getPuntos());
-		System.out.println("\tPasos ==> "+mejor.getPasos());
-		
-		try {
-			Thread.sleep(8000);
-		} catch (Exception e) {
-			// TODO: handle exception
-		}
-
 		
 	}
 	
-	private void cruzarCormosoma() {
+	private void evaluacionDeFitness() {
+		
+		for (int i = 0; i < barcos.length; i++) {
+			barcos[i].calculateFitness();
+		}
+		
+		for (int i = 1; i < barcos.length; i++) {
+			
+			for (int j = 0; j < barcos.length-i; j++) {
+				
+				if(barcos[j].getPuntos()<barcos[j+1].getPuntos()) {
+					
+					Barco aux = barcos[j+1];
+					barcos[j+1]=barcos[j];
+					barcos[j]=aux;
+					
+				}
+				
+			}
+			
+		}
+		
+	}
+	
+	private void seleccion(Barco[] barcos, int salvo) {
+		
+		int hasta = (salvo * barcos.length)/100;
+		
+		for (int i = 0; i < hasta; i++) {
+			
+			
+			
+		}
+
+	}
+	
+    public static double[] crossover(double[] parent1, double[] parent2) {
+    	
+    	double CROSSOVER_RATE = 0.7; // Tasa de cruce (ajustable)
+        Random random = new Random();
+        double[] child = new double[parent1.length];
+        
+        for (int i = 0; i < parent1.length; i++) {
+            if (random.nextDouble() < CROSSOVER_RATE) {
+                child[i] = parent1[i]; // Toma el valor del padre 1
+            } else {
+                child[i] = parent2[i]; // Toma el valor del padre 2
+            }
+        }
+        
+        return child;
+    }
+
+	private void reproduccion(Barco[] barcos) {	
 
 	}
 
-	private void mutacionCormosoma() {
+	private void reemplazo() {
 
 	}
-
-	private void evaluacionCormosoma() {
+	
+	private void mutacion() {
+		
+		for (int i = 0; i < barcos.length; i++) {
+			
+			barcos[i].setAdn(asignarPesos_0());
+			
+		}
 
 	}
 
@@ -231,9 +278,8 @@ public class Simulacion{
 		do {
 
 			double[] entradas = barco.sensores();
-			int[] salidas = red.probarRed(entradas);
+			double[] salidas = red.probarRed(entradas);
 			barco.acciones(salidas);
-			System.out.println(barco.getPasos());
 
 			if (barco.fin() || barco.getPasos() > 100000) {
 				System.out.println("\t\t\tFin simulación del Barco nº, Resumen:");

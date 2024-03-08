@@ -1,7 +1,6 @@
 package clases;
 
 import java.util.ArrayList;
-
 import processing.core.PApplet;
 import visual.Plot;
 
@@ -9,9 +8,10 @@ public class Barco{
 	
 	private int id;
 	private double[] adn = new double[0];
-	private int puntos;
+	private double puntos;
+	private int sensorChoque;
 	private double pasos;
-	private final double horizonte = 16;
+	private final double horizonte = 15;
 	private double x;
 	private double y;
 	private ArrayList<Double[]> camino = new ArrayList<>();
@@ -24,7 +24,9 @@ public class Barco{
 		this.entorno = entorno;
 		this.x = entorno.getEntradaX();
 		this.y = entorno.getEntradaX();
-		this.direccion = Math.random()*360;
+		//this.direccion = Math.random()*360;
+		this.direccion = 42;
+		
 		Double[] posicion= new Double[2];
 		posicion[0]=x;
 		posicion[1]=y;
@@ -33,96 +35,42 @@ public class Barco{
 		
 	}
 	
-	public void acciones(double[] movimientos) { // aqui necesito especificar que debo seleccionar el mas grande de los tres
+	public void acciones(double[] movimientos) { // que pasa si recibo 1 -1 o 0 1??
 		
-		if(movimientos[0]==1) {
+		double max = Double.MIN_VALUE;
+		
+		for (int i = 0; i < movimientos.length; i++) {
 			
-			girarDerecha();
-			
-		}else if(movimientos[2]==1){
-			
-			girarIzquierda();
+			if(movimientos[i]>max) {
+				max=movimientos[i];
+			}
 			
 		}
 		
-		avanzar();
-		
-		if(fin()) {
-			System.out.println("El barco ha terminado su intento.");
+		if(movimientos[0]==max) {
 			
-		}	
-		
-	}
-	
-	public void acciones(int[] movimientos) {
-		
-		if(movimientos[0]==1) { // avanzar
+			girarDerecha();
+			avanzar();
 			
-			if(movimientos[1]==-1&&movimientos[2]==-1) { // recto
-				
-				puntos+=2;
-				this.pasos++;
-				
-			}else if(movimientos[1]==-1&&movimientos[2]==1) { // derecha
-				
-				girarDerecha();
-				puntos+=2;
-				
-			}else if(movimientos[1]==1&&movimientos[2]==-1) { // izquiera
-				
-				girarIzquierda();
-				puntos+=2;
-				
-			}else if(movimientos[1]==1&&movimientos[2]==1) { // recto
-				
-				puntos-=4;
-				this.pasos++;
-				
-			}
+		}else if(movimientos[2]==max){
+			
+			girarIzquierda();
+			avanzar();
+			
+		}else {
 			
 			avanzar();
 			
-		}else { // NO vanza
-			
-			if(movimientos[1]==-1&&movimientos[2]==-1) { // nada
-				
-				puntos-=4;
-				this.pasos++;
-				
-			}else if(movimientos[1]==-1&&movimientos[2]==1) { // gira derecha
-				
-				girarDerecha();
-				puntos-=2;
-				
-			}else if(movimientos[1]==1&&movimientos[2]==-1) { // gira izquiera
-				
-				girarIzquierda();
-				puntos-=2;
-				
-			}else if(movimientos[1]==1&&movimientos[2]==1) { // nada
-				
-				puntos-=8;
-				pasos++;
-				
-			}
-			
-			avanzar(); // cuidado, luego quitar
-			
 		}
 		
-		if(fin()) {
-			System.out.println("El barco ha terminado su intento.");
-			return; // 
-		}	
+		fin();
 		
 	}
 	
 	private void avanzar() {
 
-		// Convertir el ángulo a radianes
 		double anguloRadianes = Math.toRadians(direccion);
 
-		// Calcular las coordenadas del punto extremo
 		x = x + entorno.getPaso() * Math.cos(anguloRadianes);
 		y = y + entorno.getPaso() * Math.sin(anguloRadianes);
 		pasos++;
@@ -174,11 +122,6 @@ public class Barco{
 		sensor[10] = seccion_frontal();
 		sensor[11] = posY();
 		sensor[12] = posX();
-		
-		
-		for (int i = 0; i < sensor.length; i++) {
-			System.out.print("Salida "+(i+1)+": "+sensor[i]+" - ");
-		}
 
 		return sensor;
 
@@ -194,6 +137,7 @@ public class Barco{
 		double yExtremo = y + horizonte * Math.sin(anguloRadianes);
 		
 		if(entorno.fueraLimites(xExtremo, yExtremo)) {
+			this.sensorChoque++;
 			return 1;
 		}else {
 			return -1;
@@ -211,7 +155,9 @@ public class Barco{
 		double yExtremo = y + horizonte * Math.sin(anguloRadianes);
 		
 		if(entorno.fueraLimites(xExtremo, yExtremo)) {
+			this.sensorChoque++;
 			return 1;
+			
 		}else {
 			return -1;
 		}
@@ -228,6 +174,7 @@ public class Barco{
 		double yExtremo = y + horizonte * Math.sin(anguloRadianes);
 		
 		if(entorno.fueraLimites(xExtremo, yExtremo)) {
+			this.sensorChoque++;
 			return 1;
 		}else {
 			return -1;
@@ -245,6 +192,7 @@ public class Barco{
 		double yExtremo = y + horizonte * Math.sin(anguloRadianes);
 		
 		if(entorno.fueraLimites(xExtremo, yExtremo)) {
+			this.sensorChoque++;
 			return 1;
 		}else {
 			return -1;
@@ -262,6 +210,7 @@ public class Barco{
 		double yExtremo = y + horizonte * Math.sin(anguloRadianes);
 		
 		if(entorno.fueraLimites(xExtremo, yExtremo)) {
+			this.sensorChoque++;
 			return 1;
 		}else {
 			return -1;
@@ -300,55 +249,92 @@ public class Barco{
 	}
 
 	private double distanciaAsalida() {
-
+		
+		double distMin=0;
+		double distMax = Math.sqrt(Math.pow(x,2)+Math.pow(y, 2));
 		double distancia = entorno.distanciaSalida(x, y);
 		
-		return normalizar(distancia);
+		return normalizar(distancia,distMin,distMax);
 
 	}
 	
 	private double direccionActual() {
 		
-		return normalizar(direccion);
+		return normalizar(direccion,0,360);
 
 	}
 	
 	private double distanciaAentrada() {
-
+		
+		double distMin=0;
+		double distMax = Math.sqrt(Math.pow(x,2)+Math.pow(y, 2));
 		double distancia = entorno.distanciaEntrada(x, y);
 		
-		return normalizar(distancia);
+		return normalizar(distancia,distMin,distMax);
 
 	}
 	
 	private double posX() {
 		
-		return normalizar(x);
+		return normalizar(x,0,entorno.getAncho());
 
 	}
 	
 	private double posY() {
 		
-		return normalizar(y);
+		return normalizar(y,0,entorno.getAlto());
 
 	}	
 	
-	private double normalizar(double xs) { // debo generalizarlo para cualquier caso
-		
-		// debo generalizar el metodo
-		
-		double xMax = Math.sqrt(Math.pow(entorno.getAlto(), 2)+Math.pow(entorno.getAncho(), 2));
-		
-		if(xs==direccion) {
-			xMax=360;
-		}else if(xs==x||xs==y) {
-			xMax=entorno.getAlto();
-		}
-		
-		return 2*((xs-0)/(xMax))-1;
-		
-		
+	private int proaOk() {
+		return -1;
 	}
+	
+	private int popaOk() {
+		return -1;
+	}
+	
+	private int baborOk() {
+		return -1;
+	}
+
+	private int estriborOk() {
+		return -1;
+	}
+	
+	private int amuraBaborOk() {
+		return -1;
+	}
+	
+	private int amuraEstriborOk() {
+		return -1;
+	}
+	
+	public double normalizar(double value, double min, double max) {
+        // Normalizar el valor dentro del rango [0, 1]
+        double normalizedValue = (value - min) / (max - min);
+        
+        // Normalizar el valor dentro del rango [-1, 1]
+        normalizedValue = normalizedValue * 2 - 1;
+        
+        return normalizedValue;
+    }
+	
+	public void calculateFitness() {
+        
+        double distanciaSalida = entorno.distanciaSalida(x, y)*12;
+        double penalizacionChoque = sensorChoque*2;
+        double stepPenalty = pasos;
+
+        double premioLlegada = 0;
+      
+        if (entorno.esSalida(x, y)) {
+            premioLlegada = 1000000;
+        }
+
+        puntos = distanciaSalida - penalizacionChoque - stepPenalty + premioLlegada;
+        
+    }
 	
  	private double obtenerAngulo(double grados) {
 
@@ -363,12 +349,12 @@ public class Barco{
 	public boolean fin() {
 		
 		if(entorno.esSalida(x, y)) {
-			puntos+=20000;
+			//puntos+=20000;
 			return true;
 		}
 		
 		if(entorno.fueraLimites(x, y)) {
-			puntos-=10000;
+			//puntos-=10000;
 			return true;
 		}
 		
@@ -379,7 +365,7 @@ public class Barco{
 	public boolean win() {
 		
 		if(entorno.esSalida(x, y)) {
-			puntos+=20000;
+			//puntos+=20000;
 			return true;
 		}
 		
@@ -390,7 +376,7 @@ public class Barco{
 	public boolean lose() {
 		
 		if(entorno.fueraLimites(x, y)) {
-			puntos-=10000;
+			//puntos-=10000;
 			return true;
 		}
 		
@@ -398,11 +384,11 @@ public class Barco{
 		
 	}
 
-	public int getPuntos() {
+	public double getPuntos() {
 		return puntos;
 	}
 
-	public void setPuntos(int puntos) {
+	public void setPuntos(double puntos) {
 		this.puntos = puntos;
 	}
 

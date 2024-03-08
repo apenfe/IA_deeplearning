@@ -41,7 +41,7 @@ public class RedNeuronal{
 		
 	}
 	
-	public int[] probarRed(double[] entradas) {
+	public double[] probarRed(double[] entradas) { // cambio salida a double
 		
 		double[] anterioresentradas = entradas;
 		
@@ -55,10 +55,10 @@ public class RedNeuronal{
 			
 		}
 		
-		int[] salidas = new int[anterioresentradas.length];
+		double[] salidas = new double[anterioresentradas.length];
 		
 		for (int i = 0; i < salidas.length; i++) {
-			salidas[i]=(int)anterioresentradas[i];
+			salidas[i]=anterioresentradas[i];
 		}
 
 		return salidas;
