@@ -2,44 +2,24 @@ package redv2;
 
 import java.util.Arrays;
 
-/*
- * PASO 1: Asignar valores aleatorios de pesos y umbral/bias (se sugiere entre 1 y -1)
- * 
- * PASO 2: Presentar el vector de entradas y especificar vector salida deseada
- * 
- * PASO 3: Calcular la neta (peso*entrada)+bias
- * 
- * PASO 4: Aplicar funcion, para el caso, activacion binaria o de escalon
- * 
- * PASO 5: Actualizar pesos de la capa de salida new_peso = peso + (incremento) * entrada
- * 
- * PASO 6: Calculo de la funcion perdida
- * 
- * PASO 7: SI la funcion perdida es diferente de 0 volvemos a PASO 2
- * 
- */
-
 public class Perceptron {
 	
-	private double alfa;
 	private double bias;
 	private int funcion;
 	private double[] pesosSinapticos = new double[0];
+	private int entradas;
 	
-	public Perceptron() {
+	public Perceptron(int funcion, int entradas ) {
 		
-		this.funcion = 0;
-		this.bias = 0;
-		this.alfa = 0;
-		
-	}
-	
-	public Perceptron(double alfa, double bias, int funcion, double[] pesosSinapticos) {
-		
+		this.entradas = entradas;
 		this.funcion = funcion;
-		this.bias = bias;
-		this.alfa = alfa;
-		this.pesosSinapticos=pesosSinapticos;
+		this.bias = 0;
+		
+		for (int i = 0; i < this.entradas; i++) {
+			
+			this.pesosSinapticos[i] = Math.random() * 11 - 5;
+			
+		}
 		
 	}
 	
@@ -97,14 +77,6 @@ public class Perceptron {
 				return neta;
 			}
 			
-		}else if(this.funcion==7){ // FUNCION ELU
-			
-			if(neta<0) {
-				return this.alfa*(Math.pow(Math.E, neta)-1);
-			}else {
-				return neta;
-			}
-			
 		}else {
 			
 			return 0.0;
@@ -144,19 +116,18 @@ public class Perceptron {
 		this.bias = bias;
 	}
 
-	public double getAlfa() {
-		return alfa;
+	public int getEntradas() {
+		return entradas;
 	}
 
-	public void setAlfa(double alfa) {
-		this.alfa = alfa;
+	public void setEntradas(int entradas) {
+		this.entradas = entradas;
 	}
 
 	@Override
 	public String toString() {
 		
-		return "Perceptron [alfa=" + alfa + ", bias=" + bias + ", funcion=" + funcion + ", pesosSinapticos="
-				+ Arrays.toString(pesosSinapticos) + "]";
+		return "Perceptron [bias=" + bias + ", funcion=" + funcion + ", pesosSinapticos=" + Arrays.toString(pesosSinapticos) + "]";
 	}
 	
 }

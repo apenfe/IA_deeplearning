@@ -70,20 +70,7 @@ public class Simulacion{
 		return salida;	
 		
 	}
-	/*
-	public double[] asignarBias_0() {
-		
-		Capas[] numCapas = red.getCapas();
-
-		for (int i = 0; i < numCapas.length; i++) {
-			
-			salida[i]= Math.random() * 6 - 3; // Genera un número entre -1 y 1
-			
-		}
-		
-		return salida;	
-		
-	}*/
+	
 	
 	public void entrenamiento() {
 		

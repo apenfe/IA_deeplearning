@@ -5,19 +5,51 @@ import java.util.ArrayList;
 
 public class RedNeuronal{
 	
-	private String nombre_simulacion;
-	private Capas[] capas = new Capas[0];
+	// debo poder crear la red rapidamente (en modo iniical random)
+	// poder hacer actualizaciones de bias y pesos
+	// obtener la informacion completa de cada capa
+	// crear desde datos anteriores
+	// funciones para discriminar que hacer con la ultima capa
 	
-	public RedNeuronal(int numeroCapas, String nombre_simulacion) {
+	private String nombre;
+	private int entradas;
+	private int salidas;
+	private int numCapas;
+	private int numNeuronas;
+	private Capas[] capas = new Capas[0];
+	private Perceptron[][] neuronas = new Perceptron[0][0];
+	
+	public RedNeuronal(String nombre_simulacion, int numeroCapas, int[] numeroNeuronas, int[] funcion) { // minimo modo
 		
-		this.nombre_simulacion=nombre_simulacion;
+		this.entradas=numeroNeuronas[0];
+		this.salidas=numeroNeuronas[numeroNeuronas.length-1];
+		this.numCapas=numeroCapas;
+		this.nombre=nombre_simulacion;
 		this.capas = new Capas[numeroCapas];
 		
 		for (int i = 0; i < capas.length; i++) {
 			
-			System.err.println("Capa nº "+(i+1)+":");
+			if(i==0) {
+				capas[i]= new Capas(numeroNeuronas[i], funcion[i], this.entradas); 
+			}else {
+				capas[i]= new Capas(numeroNeuronas[i], funcion[i], capas[i-1].getNumNeuronas()); 
+			}
 			
-			capas[i]= new Capas(); 
+		}
+		
+	}
+	
+	public RedNeuronal(String nombre_simulacion, int numeroCapas, int[] numeroNeuronas, double[][] bias, int[] funcion, double[][] pesosDeLaCapa) {
+		
+		this.entradas=numeroNeuronas[0];
+		this.salidas=numeroNeuronas[numeroNeuronas.length-1];
+		this.numCapas=numeroCapas;
+		this.nombre=nombre_simulacion;
+		this.capas = new Capas[numeroCapas];
+		
+		for (int i = 0; i < capas.length; i++) {
+			
+			capas[i]= new Capas(numeroNeuronas[i], bias[i], funcion[i], pesosDeLaCapa[i]); 
 			
 		}
 		
@@ -25,7 +57,7 @@ public class RedNeuronal{
 	
 	public RedNeuronal(String[] data) {
 		
-		this.nombre_simulacion=data[data.length-1];
+		this.nombre=data[data.length-1];
 		this.capas = new Capas[Integer.parseInt(data[0])];
 		
 		for (int i = 1; i <= (Integer.parseInt(data[0])); i++) {
@@ -41,7 +73,7 @@ public class RedNeuronal{
 		
 	}
 	
-	public double[] probarRed(double[] entradas) { // cambio salida a double
+	public double[] probarRed(double[] entradas) {
 		
 		double[] anterioresentradas = entradas;
 		
@@ -58,15 +90,13 @@ public class RedNeuronal{
 		double[] salidas = new double[anterioresentradas.length];
 		
 		for (int i = 0; i < salidas.length; i++) {
+			
 			salidas[i]=anterioresentradas[i];
+			
 		}
 
 		return salidas;
 
-	}
-
-	public Capas[] getCapas() {
-		return capas;
 	}
 
 	public int getPesosTotales(int entradas) { 
@@ -132,36 +162,6 @@ public class RedNeuronal{
 				
 			}
 			
-		}
-		
-	}
-
-	public boolean guardarRed(String ruta) {
-
-		try {
-
-			FileWriter escritor = new FileWriter(ruta,true);
-			
-			String red = ""+capas.length+"#";
-			
-			for (int i = 0; i < capas.length; i++) {
-				
-				red+=capas[i].getPerceptrones().length+"&"+capas[i].getPerceptrones()[0].getFuncion()+"#";
-				
-			}
-			
-			red+=this.nombre_simulacion;
-				
-			escritor.write("\n"+red);
-			escritor.close();
-			
-			return true;
-			
-		} catch (Exception e) {
-
-			System.err.println("ERROR AL GUARDAR ARCHIVO " + ruta);
-			return false;
-
 		}
 		
 	}
