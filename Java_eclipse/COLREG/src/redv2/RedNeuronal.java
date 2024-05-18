@@ -1,13 +1,9 @@
 package redv2;
 
-import java.io.FileWriter;
 import java.util.ArrayList;
 
 public class RedNeuronal{
 	
-	// debo poder crear la red rapidamente (en modo iniical random)
-	// poder hacer actualizaciones de bias y pesos
-	// obtener la informacion completa de cada capa
 	// crear desde datos anteriores
 	// funciones para discriminar que hacer con la ultima capa
 	
@@ -17,7 +13,6 @@ public class RedNeuronal{
 	private int numCapas;
 	private int numNeuronas;
 	private Capas[] capas = new Capas[0];
-	private Perceptron[][] neuronas = new Perceptron[0][0];
 	
 	public RedNeuronal(String nombre_simulacion, int numeroCapas, int[] numeroNeuronas, int[] funcion) { // minimo modo
 		
@@ -37,6 +32,8 @@ public class RedNeuronal{
 			
 		}
 		
+		this.numNeuronas = getNumNeuronas();
+		
 	}
 	
 	public RedNeuronal(String nombre_simulacion, int numeroCapas, int[] numeroNeuronas, double[][] bias, int[] funcion, double[][] pesosDeLaCapa) {
@@ -53,23 +50,7 @@ public class RedNeuronal{
 			
 		}
 		
-	}
-	
-	public RedNeuronal(String[] data) {
-		
-		this.nombre=data[data.length-1];
-		this.capas = new Capas[Integer.parseInt(data[0])];
-		
-		for (int i = 1; i <= (Integer.parseInt(data[0])); i++) {
-			
-			String[] dataNeurona = data[i].split("&");
-			capas[i-1]= new Capas(Integer.parseInt(dataNeurona[0]));
-			
-			for (int j = 0; j < capas[i-1].getPerceptrones().length; j++) {
-				capas[i-1].getPerceptrones()[j].setFuncion(Integer.parseInt(dataNeurona[1]));
-			}
-			
-		}
+		this.numNeuronas = getNumNeuronas();
 		
 	}
 	
@@ -98,69 +79,115 @@ public class RedNeuronal{
 		return salidas;
 
 	}
-
-	public int getPesosTotales(int entradas) { 
-		
-		int pesos=(capas[0].getPerceptrones().length)*entradas;
-		int neuronas_anteriores=capas[0].getPerceptrones().length;
-		int neuronas;
-		
-		for (int i = 1; i < capas.length; i++) {
-			
-			neuronas = capas[i].getPerceptrones().length;
-			pesos += neuronas_anteriores*neuronas;
-			neuronas_anteriores = neuronas;
-			
-		}
-		
-		return pesos;
-		
-	}
 	
-	public Perceptron[] obtenerPerceptrones() {
+	// -----------------------------------  DISCRIMINACION ULTIMA CAPA -------------------------------------------------------------------------
+	
+	private int getNumNeuronas() {
 		
-		ArrayList<Perceptron> perceptrones = new ArrayList<>();
+		int neuronas = 0;
 		
 		for (int i = 0; i < capas.length; i++) {
 			
-			Perceptron[] neuronasCapa = capas[i].getPerceptrones();
+			neuronas += capas[i].getNumNeuronas();
 			
-			for (int j = 0; j < neuronasCapa.length; j++) {
-				
-				perceptrones.add(neuronasCapa[i]);
-				
-			}
 		}
-
-		return perceptrones.toArray(new Perceptron[0]);
-
+		
+		return neuronas;
+		
 	}
 	
-	public void asignarPesosSinapticosCapas(double[] pesos,int entradas) {
+	// -----------------------------------  METODOS PARA METER Y SACR GENES --------------------------------------------------------------------
+	
+	public double[] getParametros() {
 		
-		int item = -1;
-		double[] pesosSinapticos;
+		ArrayList<Double> pesos = new ArrayList<Double>();
+		ArrayList<Double> bias = new ArrayList<Double>();
 		
 		for (int i = 0; i < capas.length; i++) {
 			
-			if(i==0) {
-				pesosSinapticos = new double[entradas*capas[i].getPerceptrones().length];
-			}else {
-				pesosSinapticos = new double[capas[i-1].getPerceptrones().length*(capas[i].getPerceptrones().length)];
-			}
+			double[] actualBias = capas[i].obtenerDatosCapa(false);
+			double[] actualPesos = capas[i].obtenerDatosCapa(true);
 			
-			for (int j = 0; j < pesosSinapticos.length; j++) {
+			for (int j = 0; j < actualPesos.length; j++) {
 				
-				item++;
-				pesosSinapticos[j]=pesos[item];
+				pesos.add(actualPesos[j]);
 				
 			}
 			
-			for (int j = 0; j < capas[i].getPerceptrones().length; j++) {
+			for (int j = 0; j < actualBias.length; j++) {
 				
-				capas[i].establecerPesosNeuronas(pesosSinapticos);
+				bias.add(actualBias[j]);
 				
 			}
+			
+		}
+		
+		ArrayList<Double> total = new ArrayList<Double>();
+		
+		for (int j = 0; j < pesos.size(); j++) {
+			
+			total.add(pesos.get(j));
+			
+		}
+		
+		for (int j = 0; j < bias.size(); j++) {
+			
+			total.add(bias.get(j));
+			
+		}
+		
+		double[] salida = new double[total.size()];
+		
+		for (int i = 0; i < salida.length; i++) {
+			
+			salida[i]=total.get(i).doubleValue();
+			
+		}
+		
+		return salida;
+
+	}
+	
+	public void setParametros(double[] parametros) {
+		
+		double[] pesosSinapticos = separarBiasPesos(true,parametros);
+		double[] bias = separarBiasPesos(false,parametros);
+		
+		for (int i = 0; i < capas.length; i++) {
+			
+			
+			
+			capas[i].actualizarCapa(parametros, parametros);
+			
+		}
+		
+	}
+	
+	private double[] separarBiasPesos(boolean pesos, double[] datos) { // revisar si esta bien   creo que si
+		
+		if(pesos) {
+			
+			double[] pesosSinapticos = new double[(datos.length)-this.numNeuronas];
+			
+			for (int i = 0; i < pesosSinapticos.length; i++) {
+				
+				pesosSinapticos[i]=datos[i];
+				
+			}
+			
+			return pesosSinapticos;
+			
+		}else {
+			
+			double[] bias = new double[this.numNeuronas];
+			
+			for (int i = 0; i < this.numNeuronas; i++) {
+				
+	            bias[i] = datos[datos.length - this.numNeuronas + i];
+	            
+	        }
+			
+			return bias;
 			
 		}
 		
