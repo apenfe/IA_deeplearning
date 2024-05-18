@@ -35,7 +35,7 @@ public class RedNeuronal{
 		this.numNeuronas = getNumNeuronas();
 		
 	}
-	
+	/*
 	public RedNeuronal(String nombre_simulacion, int numeroCapas, int[] numeroNeuronas, double[][] bias, int[] funcion, double[][] pesosDeLaCapa) {
 		
 		this.entradas=numeroNeuronas[0];
@@ -52,7 +52,7 @@ public class RedNeuronal{
 		
 		this.numNeuronas = getNumNeuronas();
 		
-	}
+	}*/
 	
 	public double[] probarRed(double[] entradas) {
 		
@@ -153,11 +153,44 @@ public class RedNeuronal{
 		double[] pesosSinapticos = separarBiasPesos(true,parametros);
 		double[] bias = separarBiasPesos(false,parametros);
 		
+		int item1 = -1;
+		int item2 = -1;
+		double[] pesosParaCapa;
+		double[] biasParaCapa;
+		
 		for (int i = 0; i < capas.length; i++) {
 			
+			if(i==0) {
+				
+				pesosParaCapa = new double[this.entradas*capas[i].getNumNeuronas()];
+				biasParaCapa = new double[capas[i].getNumNeuronas()];
+				
+			}else {
+				
+				pesosParaCapa = new double[capas[i-1].getNumNeuronas()*(capas[i].getNumNeuronas())];
+				biasParaCapa = new double[capas[i].getNumNeuronas()];
+				
+			}
 			
+			//*****************ver*********************
 			
-			capas[i].actualizarCapa(parametros, parametros);
+			for (int j = 0; j < pesosParaCapa.length; j++) {
+				
+				item1++;
+				pesosParaCapa[j]=pesosSinapticos[item1];
+				
+			}
+			
+			for (int j = 0; j < biasParaCapa.length; j++) {
+				
+				item2++;
+				biasParaCapa[j]=bias[item2];
+				
+			}
+			
+			//*****************ver*********************
+			
+			capas[i].actualizarCapa(pesosParaCapa,biasParaCapa);
 			
 		}
 		

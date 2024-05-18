@@ -40,36 +40,6 @@ public class Simulacion{
 		}
 		
 	}
-	
-	public Simulacion(String nombre, String[] datos_entorno, String[] datos_red) {
-		
-		this.nombre=nombre;
-		this.entorno= new Entorno(datos_entorno);
-		int cantidad = Entradas.entero("Cuantos barcos desea crear? ");
-		barcos = new Barco[cantidad];
-		this.red = new RedNeuronal(datos_red); 
-		
-		for (int i = 0; i < cantidad; i++) {
-			barcos[i]= new Barco(i,entorno);
-			barcos[i].setAdn(asignarPesos_0());
-		}
-		
-	}
-	
-	public double[] asignarPesos_0() {
-		
-		int cromosomas = red.getPesosTotales(barcos[0].sensores().length);
-		double[] salida = new double[cromosomas];
-		
-		for (int i = 0; i < salida.length; i++) {
-			
-			salida[i]= Math.random() * 6 - 3; // Genera un número entre -1 y 1
-			
-		}
-		
-		return salida;	
-		
-	}
 
 	public void probar() {
 
@@ -107,28 +77,6 @@ public class Simulacion{
 
 		} while (true);
 
-	}
-	
-	public boolean guardarSimulacion(String ruta) {
-		
-		try {
-
-			FileWriter escritor = new FileWriter(ruta,true);
-			
-			String simulator = ""+this.nombre;
-				
-			escritor.write("\n"+simulator);
-			escritor.close();
-			
-			return true;
-			
-		} catch (Exception e) {
-
-			System.err.println("ERROR AL GUARDAR ARCHIVO " + ruta);
-			return false;
-
-		}
-		
 	}
 
 	public String getNombre() {
