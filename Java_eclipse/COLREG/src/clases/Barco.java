@@ -3,6 +3,7 @@ package clases;
 import java.util.ArrayList;
 import processing.core.PApplet;
 import visual.Plot;
+import visual.Plot2;
 
 public class Barco{
 	
@@ -415,11 +416,11 @@ public class Barco{
             }
         }
 
-		Plot applet = new Plot();
+		Plot2 applet = new Plot2();
 		applet.setXY((int)entorno.getAncho(),(int)entorno.getAlto());
 		applet.setPuntos(resultado);
 		applet.setInOut(entorno.getEntradaX(),entorno.getEntradaY(),entorno.getSalidaX(),entorno.getSalidaY());
-	    PApplet.runSketch(new String[]{"visual/Plot"}, applet);
+	    PApplet.runSketch(new String[]{"visual/Plot2"}, applet);
 	    
 	}
 
