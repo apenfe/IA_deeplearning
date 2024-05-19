@@ -107,7 +107,11 @@ public class Principal{
 			
 			if(respuesta.equalsIgnoreCase("S")) {
 				
-			//	simulacionActual.getEntorno().guardarEntorno(RUTA_ENTORNO);
+				if(simulacionActual.getEntorno().guardarEntorno()) {
+					System.out.println("ENTORNO GUARDADO");
+				}else {
+					System.err.println("ERROR AL GUARDAR ENTORNO");
+				}	
 				
 			}
 			
@@ -120,7 +124,7 @@ public class Principal{
 			if(simulacionActual.getRed().guardarRed()) {
 				System.out.println("RED GUARDADA");
 			}else {
-				System.err.println("ERROR AL GUARDAR");
+				System.err.println("ERROR AL GUARDAR RED");
 			}	
 			
 		}

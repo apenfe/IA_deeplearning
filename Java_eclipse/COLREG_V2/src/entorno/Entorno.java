@@ -3,6 +3,7 @@ package entorno;
 import java.io.FileWriter;
 
 import clases.Entradas;
+import red.DAO;
 
 public class Entorno{
 	
@@ -28,6 +29,20 @@ public class Entorno{
 		this.salidaY = Entradas.entero("Seleccione coordenada y de salida (y): ");
 		this.paso = paso;
 		this.areaAprox = areaAprox;
+		
+	}
+	
+	public Entorno(String nombre, String alto, String ancho, String entradaX, String entradaY, String salidaX, String salidaY, String paso, String areaAprox) {
+		
+		this.nombre = nombre;
+		this.alto = Double.parseDouble(alto);
+		this.ancho =  Double.parseDouble(ancho);
+		this.entradaX =  Double.parseDouble(entradaX);
+		this.entradaY =  Double.parseDouble(entradaY);
+		this.salidaX =  Double.parseDouble(salidaX);
+		this.salidaY =  Double.parseDouble(salidaY);
+		this.paso =  Double.parseDouble(paso);
+		this.areaAprox =  Double.parseDouble(areaAprox);
 		
 	}
 
@@ -176,6 +191,20 @@ public class Entorno{
 			return false;
 
 		}
+		
+	}
+	
+	public boolean guardarEntorno() {
+		
+		DAO db = new DAO();
+		
+		if(db.guardarEntorno(this)) {
+			
+			return true;
+			
+		}
+	
+		return false;
 		
 	}
 	

@@ -1,5 +1,5 @@
 -- Creación de la base de datos
-CREATE DATABASE redes_neuronales;
+create DATABASE redes_neuronales;
 USE redes_neuronales;
 
 -- Tabla network (redes neuronales)
@@ -21,25 +21,31 @@ CREATE TABLE capa (
 );
 
 -- Crear la tabla data_set
-CREATE TABLE data_set (
+CREATE TABLE adn (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
     description TEXT
 );
 
 -- Crear la tabla numbers
-CREATE TABLE numbers (
+CREATE TABLE gen (
     id INT AUTO_INCREMENT PRIMARY KEY,
+    nombre_red varchar(255) NOT NULL,
     data_set_id INT,
     value DECIMAL(10, 5),
-    FOREIGN KEY (data_set_id) REFERENCES data_set(id)
+    FOREIGN KEY (adn_id) REFERENCES adn(id)
 );
 
--- Insertar un conjunto de datos
-INSERT INTO data_set (name, description) VALUES ('DataSet 1', 'Descripción del DataSet 1');
-
--- Insertar números asociados con este conjunto de datos
-INSERT INTO numbers (data_set_id, value) VALUES (1, 123.45);
-INSERT INTO numbers (data_set_id, value) VALUES (1, 678.90);
-INSERT INTO numbers (data_set_id, value) VALUES (1, 234.56);
--- Continúa insertando más números según sea necesario
+-- Crear la tabla entornos
+CREATE TABLE entorno (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(255),
+    alto DOUBLE,
+    ancho DOUBLE,
+    entradaX DOUBLE,
+    entradaY DOUBLE,
+    salidaX DOUBLE,
+    salidaY DOUBLE,
+    paso DOUBLE,
+    areaAprox DOUBLE
+);
