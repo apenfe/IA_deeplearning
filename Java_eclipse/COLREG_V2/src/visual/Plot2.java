@@ -1,9 +1,11 @@
 package visual;
 
+import clases.Barco;
 import processing.core.PApplet;
 
 public class Plot2 extends PApplet {
-
+	
+	Barco[] barcos = new Barco[0];
 	float[][] puntos = new float[0][0];
 	int x, y;
 	double xE, yE, xS, yS;
@@ -12,6 +14,10 @@ public class Plot2 extends PApplet {
 	
 	public Plot2() {
 		
+	}
+	
+	public void setBarcos(Barco[] barcos) {
+		this.barcos = barcos;
 	}
 
 	public void setPuntos(float[][] puntos) {
@@ -59,6 +65,8 @@ public class Plot2 extends PApplet {
 		// Draw the points progressively
 		stroke(0, 0, 200);
 		noFill();
+		
+	
 
 		if (currentPoint < puntos.length - 1) {
 			beginShape();

@@ -1,4 +1,4 @@
-package redv2;
+package red;
 
 import java.util.Arrays;
 
@@ -16,7 +16,7 @@ public class Capas {
 		this.numNeuronas = numeroNeuronas;
 		this.perceptrones = new Perceptron[numeroNeuronas];
 
-		for (int i = 0; i < numeroNeuronas; i++) {
+		for (int i = 0; i < numeroNeuronas; i++) { // -1?
 
 			this.perceptrones[i] = new Perceptron(funcion, this.numNeuronasCapaAnterior); 
 															
@@ -163,6 +163,12 @@ public class Capas {
 
 	public void setFuncion(int funcion) {
 		this.funcion = funcion;
+	}
+
+	@Override
+	public String toString() {
+		return "Capas [numNeuronas=" + numNeuronas + ", numNeuronasCapaAnterior=" + numNeuronasCapaAnterior
+				+ ", funcion=" + funcion + ", perceptrones=" + Arrays.toString(perceptrones) + "]";
 	}
 	
 }

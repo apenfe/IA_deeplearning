@@ -1,13 +1,9 @@
 import clases.Entradas;
-import clases.Ficheros;
 import clases.Simulacion;
 
 public class Principal{
 	
 	public static Simulacion simulacionActual;
-	public static final String RUTA_ENTORNO = ".\\files\\entornos.txt";
-	public static final String RUTA_REDES = ".\\files\\redes.txt";
-	public static final String RUTA_SIMULACIONES = ".\\files\\simulaciones.txt";
 	
 	public static void main(String[] args) {
 		
@@ -20,10 +16,10 @@ public class Principal{
 		do {
 			
 			System.out.println("\n--- SIMULACION COLREG IA ---");
-			System.out.println("1 ---> CARGAR SIMULACION");
-			System.out.println("2 ---> CREAR NUEVA SIMULACION");
-			System.out.println("3 ---> PROBAR SIMULACION YA ENTRENADA");
-			System.out.println("4 ---> VER DATOS SIMULACION ACTUAL");
+			System.out.println("1 ---> CARGAR RED");
+			System.out.println("2 ---> CREAR NUEVA RED");
+			System.out.println("3 ---> ENTRENAR_RED");
+			System.out.println("4 ---> VER DATOS RED ACTUAL");
 			System.out.println("0 ---> SALIR");
 			int opcion = Entradas.entero("SELECCIONE UNA OPCION [0-4]: ");
 			
@@ -40,7 +36,7 @@ public class Principal{
 				if(simulacionActual==null) {
 					System.err.println("\nDebe cargar o crear una simulacion");
 				}else {
-					simulacionActual.probar();
+					entrenamiento();
 				}
 				
 			}else if(opcion == 4) {
@@ -70,7 +66,6 @@ public class Principal{
 	public static void verSimulacion() {
 		
 		System.out.println(simulacionActual.toString());
-		
 		
 	}
 	
@@ -117,11 +112,12 @@ public class Principal{
 	public static void crearSimulacion() {
 		
 		simulacionActual= new Simulacion();
+		
 		String respuesta = Entradas.texto("¿Desea guardar el entorno? S - SI ");
 		
 		if(respuesta.equalsIgnoreCase("S")) {
 			
-			simulacionActual.getEntorno().guardarEntorno(RUTA_ENTORNO);
+		//	simulacionActual.getEntorno().guardarEntorno(RUTA_ENTORNO);
 			
 		}
 		
@@ -129,17 +125,26 @@ public class Principal{
 		
 		if(respuesta.equalsIgnoreCase("S")) {
 			
-			//simulacionActual.getRed().guardarRed(RUTA_REDES);
+			if(simulacionActual.getRed().guardarRed()) {
+				System.out.println("RED GUARDADA");
+			}else {
+				System.err.println("ERROR AL GUARDAR");
+			}	
 			
 		}
 		
-		respuesta = Entradas.texto("¿Desea guardar la simulacion? S - SI ");
+		/*respuesta = Entradas.texto("¿Desea guardar la simulacion? S - SI ");
 		
 		if(respuesta.equalsIgnoreCase("S")) {
 			
 			simulacionActual.guardarSimulacion(RUTA_SIMULACIONES);
 			
-		}
+		}*/
+		
+	}
+	
+	public static void entrenamiento() {
+		
 		
 	}
 	

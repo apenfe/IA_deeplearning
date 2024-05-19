@@ -1,43 +1,51 @@
 package clases;
 
-import java.io.FileWriter;
 import java.util.Arrays;
-import java.util.Iterator;
-import java.util.Random;
 
-import redv2.Capas;
-import redv2.RedNeuronal;
+import entorno.Entorno;
+import red.*;
+import ga.*;
 
 public class Simulacion{
 	
-	private String nombre;
 	private Entorno entorno;
 	private Barco[] barcos = new Barco[0];
 	private RedNeuronal red;
-	// MEJOR ADN HASTA EL MOMENTO
+	private GeneticAlgorithm ga;
 	
-	public Simulacion() {
+	public Simulacion() { // crear simulacion desde 0
 		
 		System.err.println("\nBienvenido al asistente de generacion de simulaciones...");
-		this.nombre=Entradas.texto("¿Que nombre desea dar a esta simulacion? ");
 		
 		System.err.println("\tCreación de entorno...");
-		this.entorno= new Entorno(0.2,20,nombre);
+		this.entorno= new Entorno(0.2,20);
 		
-		System.err.println("\tCreación de entidades...");
-		int cantidad = Entradas.entero("\n¿Cuantos barcos desea crear para el entrenamiento? ");
+	//	System.err.println("\tCreación de entidades...");
+	//	int cantidad = Entradas.entero("\n¿Cuantos barcos desea crear para el entrenamiento? ");
 		
-		barcos = new Barco[cantidad];
+	//	barcos = new Barco[cantidad];
 		
 		System.err.println("\tCreación de red neuronal...");
 		System.out.println("Recomendable entre 3 y 4 capas...");
 		int capas = Entradas.entero("Cuantas capas desea en la Red Neuronal? ");
-		this.red = new RedNeuronal(capas,nombre); 
+		String nombreRed = Entradas.texto("¿Que nombre desea dar a esta red? ");
 		
-		for (int i = 0; i < cantidad; i++) {
+		int[] numeroNeuronas = new int[capas];
+		int[] funciones = new int[capas];
+		
+		for (int i = 0; i < capas; i++) {
+			
+			numeroNeuronas[i] = Entradas.entero("Cuantas neuronas desea en la capa "+(i+1)+"? ");
+			funciones[i] = Entradas.entero("Que funcion de activacion desea en la capa "+(i+1)+"? ");
+
+		}
+
+		this.red = new RedNeuronal(nombreRed, capas,numeroNeuronas, funciones); 
+		
+		/*for (int i = 0; i < cantidad; i++) {
 			barcos[i]= new Barco(i,entorno);
 			barcos[i].setAdn(asignarPesos_0());
-		}
+		}*/
 		
 	}
 
@@ -47,10 +55,10 @@ public class Simulacion{
 		Barco barco = new Barco(0,entorno);
 		
 		/* linea de testeo */
-		barco.setAdn(asignarPesos_0());
+		//barco.setAdn(asignarPesos_0());
 		/* linea de testeo */
 		
-		red.asignarPesosSinapticosCapas(barco.getAdn(),barco.sensores().length);
+		//red.asignarPesosSinapticosCapas(barco.getAdn(),barco.sensores().length);
 
 		System.out.println("Comienzo de la prueba...");
 
@@ -79,14 +87,6 @@ public class Simulacion{
 
 	}
 
-	public String getNombre() {
-		return nombre;
-	}
-
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
-
 	public Entorno getEntorno() {
 		return entorno;
 	}
@@ -113,15 +113,25 @@ public class Simulacion{
 
 	@Override
 	public String toString() {
-		String salida="Simulacion [nombre=" + nombre + ", entorno=" + entorno + ", barcos=" + Arrays.toString(barcos)
-				+ ", red=" + red + "]";
 		
-		salida+=entorno.toString();
+		double[] parametros = red.getParametros();
+		
+		System.out.println("genes de la red: ");
+		for (int i = 0; i < parametros.length; i++) {
+			
+			System.out.print(parametros[i]+", ");
+			
+		}
+		
+		System.out.println();
+		
+		String salida="";
+		
+		//salida+=entorno.toString();
 		salida+=red.toString();
 		
 		return salida;
 		
 	}
-	
 	
 }

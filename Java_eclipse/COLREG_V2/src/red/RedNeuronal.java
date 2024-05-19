@@ -1,6 +1,7 @@
-package redv2;
+package red;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class RedNeuronal{
 	
@@ -225,5 +226,69 @@ public class RedNeuronal{
 		}
 		
 	}
+
+	@Override
+	public String toString() {
+		return "RedNeuronal [nombre=" + nombre + ", entradas=" + entradas + ", salidas=" + salidas + ", numCapas="
+				+ numCapas + ", numNeuronas=" + numNeuronas + ", capas=" + Arrays.toString(capas) + "]";
+	}
+	
+	public boolean guardarRed() {
+		
+		DAO db = new DAO();
+		
+		if(db.guardarRed(this)) {
+			return true;
+		}
+		
+		return false;
+		
+	}
+
+	public String getNombre() {
+		return nombre;
+	}
+
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+
+	public int getEntradas() {
+		return entradas;
+	}
+
+	public void setEntradas(int entradas) {
+		this.entradas = entradas;
+	}
+
+	public int getSalidas() {
+		return salidas;
+	}
+
+	public void setSalidas(int salidas) {
+		this.salidas = salidas;
+	}
+
+	public int getNumCapas() {
+		return numCapas;
+	}
+
+	public void setNumCapas(int numCapas) {
+		this.numCapas = numCapas;
+	}
+
+	public Capas[] getCapas() {
+		return capas;
+	}
+
+	public void setCapas(Capas[] capas) {
+		this.capas = capas;
+	}
+
+	public void setNumNeuronas(int numNeuronas) {
+		this.numNeuronas = numNeuronas;
+	}
+	
+	
 		
 }

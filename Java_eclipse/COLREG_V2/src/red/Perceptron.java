@@ -1,4 +1,4 @@
-package redv2;
+package red;
 
 import java.util.Arrays;
 
@@ -9,16 +9,17 @@ public class Perceptron {
 	private double[] pesosSinapticos = new double[0];
 	private int entradas;
 	
-	public Perceptron(int funcion, int entradas ) {
+	public Perceptron(int funcion, int entradas) {
 		
 		this.entradas = entradas;
 		this.funcion = funcion;
 		this.bias = 0;
+		this.pesosSinapticos = new double[this.entradas];
 		
-		for (int i = 0; i < this.entradas; i++) {
-			
-			this.pesosSinapticos[i] = Math.random() * 11 - 5;
-			
+		for (int i = 0; i < this.entradas; i++) {  // sera -1?
+		
+			this.pesosSinapticos[i] = Math.random() * 11 - 5;	
+				
 		}
 		
 	}

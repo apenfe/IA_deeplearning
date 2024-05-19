@@ -1,8 +1,9 @@
 package clases;
 
 import java.util.ArrayList;
+
+import entorno.Entorno;
 import processing.core.PApplet;
-import visual.Plot;
 import visual.Plot2;
 
 public class Barco{

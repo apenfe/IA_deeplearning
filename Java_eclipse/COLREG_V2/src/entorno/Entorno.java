@@ -1,12 +1,13 @@
-package clases;
+package entorno;
 
 import java.io.FileWriter;
 
+import clases.Entradas;
+
 public class Entorno{
 	
-	private String nombreSimulacion;
 	private String nombre;
-	private final int[] origen = {0,0};
+	private final int[] ORIGEN = {0,0};
 	private double alto;
 	private double ancho;
 	private double entradaX;
@@ -16,7 +17,7 @@ public class Entorno{
 	private double paso;
 	private double areaAprox;
 	
-	public Entorno(double paso, double areaAprox, String nombreSimulacion) {
+	public Entorno(double paso, double areaAprox) {
 		
 		this.nombre = Entradas.texto("Seleccione un nombre para el entorno: ");
 		this.alto = Entradas.entero("\nSeleccione un alto para el entorno (eje y): ");
@@ -27,22 +28,6 @@ public class Entorno{
 		this.salidaY = Entradas.entero("Seleccione coordenada y de salida (y): ");
 		this.paso = paso;
 		this.areaAprox = areaAprox;
-		this.nombreSimulacion=nombreSimulacion;
-		
-	}
-	
-	public Entorno(String[] datos) {
-		
-		this.nombre = datos[0];
-		this.alto = Double.parseDouble(datos[1]);
-		this.ancho = Double.parseDouble(datos[2]);
-		this.entradaX = Double.parseDouble(datos[3]);
-		this.entradaY = Double.parseDouble(datos[4]);
-		this.salidaX = Double.parseDouble(datos[5]);
-		this.salidaY = Double.parseDouble(datos[6]);
-		this.paso = Double.parseDouble(datos[7]);
-		this.areaAprox = Double.parseDouble(datos[8]);
-		this.nombreSimulacion=datos[9];
 		
 	}
 
@@ -119,20 +104,20 @@ public class Entorno{
 	}
 
 	public int[] getOrigen() {
-		return origen;
+		return ORIGEN;
 	}
 
 	@Override
 	public String toString() {
 		
-		return nombre+"#"+alto+"#"+ancho+"#"+entradaX+"#"+entradaY+"#"+salidaX+"#"+salidaY+"#"+paso+"#"+areaAprox+"#"+nombreSimulacion;
+		return nombre+"#"+alto+"#"+ancho+"#"+entradaX+"#"+entradaY+"#"+salidaX+"#"+salidaY+"#"+paso+"#"+areaAprox;
 		
 	}
 	
 	public boolean esSalida(double x, double y) {
 		
 		if(distanciaSalida(x,y)<=areaAprox) {
-			System.err.println("Salida Alcanzada!!");
+			
 			return true;
 			
 		}else {
@@ -163,7 +148,6 @@ public class Entorno{
 		
 		if(x>alto||x<0||y>ancho||y<0) {
 			
-			//System.err.println("Fuera de los limites.");
 			return true;
 			
 		}else {
