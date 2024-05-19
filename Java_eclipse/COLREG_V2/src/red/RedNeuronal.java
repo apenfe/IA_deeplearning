@@ -36,6 +36,11 @@ public class RedNeuronal{
 		this.numNeuronas = getNumNeuronas();
 		
 	}
+	
+	public RedNeuronal() {
+		
+	}
+	
 	/*
 	public RedNeuronal(String nombre_simulacion, int numeroCapas, int[] numeroNeuronas, double[][] bias, int[] funcion, double[][] pesosDeLaCapa) {
 		
@@ -288,7 +293,5 @@ public class RedNeuronal{
 	public void setNumNeuronas(int numNeuronas) {
 		this.numNeuronas = numNeuronas;
 	}
-	
-	
 		
 }

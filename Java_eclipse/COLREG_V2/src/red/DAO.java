@@ -27,8 +27,14 @@ public class DAO{
 			Statement stmt = conn.createStatement();
 
 			String nn = "INSERT INTO red(nombre,numCapas,descripcion) VALUES ('"+red.getNombre()+"','"+red.getNumCapas()+"','"+descripcion+"')";
-
 			stmt.executeUpdate(nn);
+			
+			for (int i = 0; i < red.getNumCapas(); i++) {
+				
+				String layer = "INSERT INTO capa(red_nombre,ordenCapa,numNeuronas,numNeuronasCapaAnterior,funcion) VALUES ('"+red.getNombre()+"','"+(i+1)+"','"+red.getCapas()[i].getNumNeuronas()+"','"+red.getCapas()[i].getNumNeuronasCapaAnterior()+"','"+red.getCapas()[i].getFuncion()+"')";
+				stmt.executeUpdate(layer);
+				
+			}
 			
 			stmt.close();
 			conn.close();
@@ -138,6 +144,70 @@ public class DAO{
 
 			return exit;
 				
+		}
+		
+	}
+	
+	public boolean guardarEntorno(RedNeuronal red) {
+
+		try {
+			
+			String descripcion = Entradas.texto("Inserte una descricion para la RED NEURONAL: ");
+
+			Connection conn = DriverManager.getConnection(URL, USER, PASS);
+			Statement stmt = conn.createStatement();
+
+			String nn = "INSERT INTO red(nombre,numCapas,descripcion) VALUES ('"+red.getNombre()+"','"+red.getNumCapas()+"','"+descripcion+"')";
+			stmt.executeUpdate(nn);
+			
+			for (int i = 0; i < red.getNumCapas(); i++) {
+				
+				String layer = "INSERT INTO capa(red_nombre,ordenCapa,numNeuronas,numNeuronasCapaAnterior,funcion) VALUES ('"+red.getNombre()+"','"+(i+1)+"','"+red.getCapas()[i].getNumNeuronas()+"','"+red.getCapas()[i].getNumNeuronasCapaAnterior()+"','"+red.getCapas()[i].getFuncion()+"')";
+				stmt.executeUpdate(layer);
+				
+			}
+			
+			stmt.close();
+			conn.close();
+			
+			return true;
+
+		} catch (Exception e) {
+			
+			return false;
+			
+		}
+		
+	}
+	
+	public boolean cargararEntorno(RedNeuronal red) {
+
+		try {
+			
+			String descripcion = Entradas.texto("Inserte una descricion para la RED NEURONAL: ");
+
+			Connection conn = DriverManager.getConnection(URL, USER, PASS);
+			Statement stmt = conn.createStatement();
+
+			String nn = "INSERT INTO red(nombre,numCapas,descripcion) VALUES ('"+red.getNombre()+"','"+red.getNumCapas()+"','"+descripcion+"')";
+			stmt.executeUpdate(nn);
+			
+			for (int i = 0; i < red.getNumCapas(); i++) {
+				
+				String layer = "INSERT INTO capa(red_nombre,ordenCapa,numNeuronas,numNeuronasCapaAnterior,funcion) VALUES ('"+red.getNombre()+"','"+(i+1)+"','"+red.getCapas()[i].getNumNeuronas()+"','"+red.getCapas()[i].getNumNeuronasCapaAnterior()+"','"+red.getCapas()[i].getFuncion()+"')";
+				stmt.executeUpdate(layer);
+				
+			}
+			
+			stmt.close();
+			conn.close();
+			
+			return true;
+
+		} catch (Exception e) {
+			
+			return false;
+			
 		}
 		
 	}

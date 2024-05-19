@@ -4,8 +4,7 @@ USE redes_neuronales;
 
 -- Tabla network (redes neuronales)
 CREATE TABLE red (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    nombre VARCHAR(255) NOT NULL,
+    nombre VARCHAR(255) PRIMARY KEY,
     numCapas INT NOT NULL,
     descripcion TEXT
 );
@@ -13,20 +12,12 @@ CREATE TABLE red (
 -- Tabla layer (capas)
 CREATE TABLE capa (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    red_id INT,
+    red_nombre VARCHAR(255),
     ordenCapa INT NOT NULL,
     numNeuronas INT,
     numNeuronasCapaAnterior INT,
     funcion INT,
-    FOREIGN KEY (red_id) REFERENCES red(id)
-);
-
--- Tabla neuron (neuronas)
-CREATE TABLE neurona (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    capa_id INT,
-    ordenNeurona INT NOT NULL,
-    FOREIGN KEY (capa_id) REFERENCES capa(id)
+    FOREIGN KEY (red_nombre) REFERENCES red(nombre)
 );
 
 -- Crear la tabla data_set

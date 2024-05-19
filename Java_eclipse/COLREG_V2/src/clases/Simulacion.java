@@ -1,7 +1,5 @@
 package clases;
 
-import java.util.Arrays;
-
 import entorno.Entorno;
 import red.*;
 import ga.*;
@@ -13,17 +11,16 @@ public class Simulacion{
 	private RedNeuronal red;
 	private GeneticAlgorithm ga;
 	
-	public Simulacion() { // crear simulacion desde 0
+	public Simulacion(boolean entorno) { // crear simulacion desde 0
 		
 		System.err.println("\nBienvenido al asistente de generacion de simulaciones...");
 		
-		System.err.println("\tCreación de entorno...");
-		this.entorno= new Entorno(0.2,20);
-		
-	//	System.err.println("\tCreación de entidades...");
-	//	int cantidad = Entradas.entero("\n¿Cuantos barcos desea crear para el entrenamiento? ");
-		
-	//	barcos = new Barco[cantidad];
+		if(entorno) {
+			
+			System.err.println("\tCreación de entorno...");
+			this.entorno= new Entorno(0.2,20);
+			
+		}
 		
 		System.err.println("\tCreación de red neuronal...");
 		System.out.println("Recomendable entre 3 y 4 capas...");
@@ -42,10 +39,9 @@ public class Simulacion{
 
 		this.red = new RedNeuronal(nombreRed, capas,numeroNeuronas, funciones); 
 		
-		/*for (int i = 0; i < cantidad; i++) {
-			barcos[i]= new Barco(i,entorno);
-			barcos[i].setAdn(asignarPesos_0());
-		}*/
+	}
+	
+	public Simulacion() { // crear simulacion desde 0
 		
 	}
 
@@ -132,6 +128,14 @@ public class Simulacion{
 		
 		return salida;
 		
+	}
+	
+	public boolean cargarEntorno() {
+		return true;
+	}
+	
+	public boolean cargarRed() {
+		return true;
 	}
 	
 }

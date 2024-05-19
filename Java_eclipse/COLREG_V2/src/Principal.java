@@ -71,53 +71,45 @@ public class Principal{
 	
 	public static void cargarSimulacion() {
 		
-		String[] simulaciones = Ficheros.leerTxt(RUTA_SIMULACIONES);
+		simulacionActual= new Simulacion();
 		
-		do {
-			
-			
-			System.out.println("\n--- CARGAR SIMULACION ---");
-			System.out.println("0 --> SALIR");
-			
-			for (int i = 0; i < simulaciones.length; i++) {
-				System.out.println((i+1)+" --> "+simulaciones[i]);
-			}
-			
-			int opcion = Entradas.entero("SELECCIONE UNA OPCION [0-"+(simulaciones.length)+"]: ");
-			
-			if(opcion == 0) {
-				
-				System.err.println("\nSaliendo del menu de carga...");
-				return;
-				
-			}else if(opcion >=1 && opcion <=simulaciones.length) {
-				
-				String nombre_simulacion = simulaciones[opcion-1];
-				
-				String[] datos_entorno = Ficheros.leerTxt(RUTA_ENTORNO,nombre_simulacion);
-				String[] datos_red = Ficheros.leerTxt(RUTA_REDES,nombre_simulacion);
-				
-				simulacionActual= new Simulacion(nombre_simulacion,datos_entorno,datos_red);
-				break;
-			}else {
-				
-				System.err.println("SELECCIONE UNA OPCION [0-"+(simulaciones.length)+"]: ");
-				
-			}
-			
-		}while(true);
+		if(simulacionActual.cargarRed()) {
+			System.out.println("Red cargada correctamente");
+		}else {
+			System.out.println("Error al cargar la red");
+		}
+		
+		if(simulacionActual.cargarEntorno()) {
+			System.out.println("Entorno cargado correctamente");
+		}else {
+			System.out.println("Error al cargar el entorno");
+		}
 		
 	}
 	
 	public static void crearSimulacion() {
 		
-		simulacionActual= new Simulacion();
+		boolean entorno=false;
 		
-		String respuesta = Entradas.texto("¿Desea guardar el entorno? S - SI ");
+		String respuesta = Entradas.texto("¿Desea crear un entorno? S - SI ");
 		
 		if(respuesta.equalsIgnoreCase("S")) {
 			
-		//	simulacionActual.getEntorno().guardarEntorno(RUTA_ENTORNO);
+			entorno=true;
+			
+		}
+		
+		simulacionActual= new Simulacion(entorno);
+		
+		if(entorno) {
+			
+			respuesta = Entradas.texto("¿Desea guardar el entorno? S - SI ");
+			
+			if(respuesta.equalsIgnoreCase("S")) {
+				
+			//	simulacionActual.getEntorno().guardarEntorno(RUTA_ENTORNO);
+				
+			}
 			
 		}
 		
@@ -132,14 +124,6 @@ public class Principal{
 			}	
 			
 		}
-		
-		/*respuesta = Entradas.texto("¿Desea guardar la simulacion? S - SI ");
-		
-		if(respuesta.equalsIgnoreCase("S")) {
-			
-			simulacionActual.guardarSimulacion(RUTA_SIMULACIONES);
-			
-		}*/
 		
 	}
 	
