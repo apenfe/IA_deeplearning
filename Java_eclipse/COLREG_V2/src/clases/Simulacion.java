@@ -2,7 +2,10 @@ package clases;
 
 import entorno.Entorno;
 import red.*;
+import visual.Plot2;
+import visual.Plot3;
 import ga.*;
+import processing.core.PApplet;
 
 public class Simulacion{
 	
@@ -89,7 +92,7 @@ public class Simulacion{
 					}
 					System.out.println("\t\t\tPuntos: " + barcos[i].getPuntos());
 					System.out.println("\t\t\tPasos: " + barcos[i].getPasos());
-					barcos[i].printCamino();
+					//barcos[i].printCamino();
 					System.out.println();
 					break;
 				}
@@ -98,7 +101,11 @@ public class Simulacion{
 			
 		}
 		
-		
+		Plot3 applet = new Plot3();
+		applet.setXY((int)entorno.getAncho(),(int)entorno.getAlto());
+		applet.setBarcos(barcos);
+		applet.setInOut(entorno.getEntradaX(),entorno.getEntradaY(),entorno.getSalidaX(),entorno.getSalidaY());
+	    PApplet.runSketch(new String[]{"visual/Plot3"}, applet);
 
 	}
 	

@@ -2,6 +2,7 @@ package clases;
 
 import java.util.ArrayList;
 
+
 import entorno.Entorno;
 import processing.core.PApplet;
 import visual.Plot2;
@@ -21,6 +22,15 @@ public class Barco{
 	private ArrayList<Double[]> camino = new ArrayList<>();
 	private double direccion;
 	
+	
+	public ArrayList<Double[]> getCamino() {
+		return camino;
+	}
+
+	public void setCamino(ArrayList<Double[]> camino) {
+		this.camino = camino;
+	}
+
 	public Barco(int id, Entorno entorno) {
 		
 		this.id = id;
@@ -379,7 +389,7 @@ public class Barco{
 		this.adn = adn;
 	}
 		
-	public void printCamino() {
+	public float[][] caminoFloat() {
 		
 		int numRows = camino.size();
         float[][] resultado = new float[numRows][];
@@ -393,12 +403,14 @@ public class Barco{
                 resultado[i][j] = fila[j].floatValue();
             }
         }
+        
+        return resultado;
 
-		Plot2 applet = new Plot2();
-		applet.setXY((int)entorno.getAncho(),(int)entorno.getAlto());
-		applet.setPuntos(resultado);
-		applet.setInOut(entorno.getEntradaX(),entorno.getEntradaY(),entorno.getSalidaX(),entorno.getSalidaY());
-	    PApplet.runSketch(new String[]{"visual/Plot2"}, applet);
+	//	Plot2 applet = new Plot2();
+	//	applet.setXY((int)entorno.getAncho(),(int)entorno.getAlto());
+	//	applet.setPuntos(resultado);
+	//	applet.setInOut(entorno.getEntradaX(),entorno.getEntradaY(),entorno.getSalidaX(),entorno.getSalidaY());
+	//    PApplet.runSketch(new String[]{"visual/Plot2"}, applet);
 	    
 	}
 
