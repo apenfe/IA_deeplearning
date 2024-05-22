@@ -172,6 +172,103 @@ public class Simulacion{
 
 	}
 	
+	public void entrenarDesdeCeroAlgoritmogenetico() {
+		
+		System.out.println("Preparación de agentes y entorno...");
+		
+		/*
+		 * aqui va la primera version con algoritmo de mejora
+		 */
+		
+		//int tamanoPoblacion, double ratioMutacion, double ratioDeCruce, int elite
+		int numAgentes = Entradas.entero("¿Cuantos agentes desea añadir a la simulación? ");
+		this.ga = new GeneticAlgorithm(numAgentes, 0.01, 0.95, 15);
+
+		Poblacion poblacion = ga.iniciarPoblacion(this.red.getParametros().length); // numero de cromosomas
+		agentes = new Agente[numAgentes];
+		agentes = poblacion.getIndividuals();
+
+		ga.calculoFitnessPoblacion(poblacion);
+		
+		int generacion = 1;
+		
+		while (ga.condicionTerminacion(poblacion) == false) {
+			
+			System.out.println("Fitness de la poblacion: "+poblacion.getPopulationFitness()+"%, Best solution: " + poblacion.getFittest(0).toString());
+
+			poblacion = ga.cruzarPoblacion(poblacion);
+			
+			poblacion = ga.mutarPoblacion(poblacion);
+			
+			ga.calculoFitnessPoblacion(poblacion);
+			
+			generacion++;
+			
+		}
+		
+		System.out.println("Solucion encontrada en " + generacion + "generaciones.");
+		System.out.println("Mejor solucion: " + poblacion.getFittest(0).toString());
+		
+		//****************************************************************************************
+		
+		//System.out.println("Preparación de agentes y entorno...");
+		//int numAgentes = Entradas.entero("¿Cuantos agentes desea añadir a la simulación? ");
+		//agentes = new Agente[numAgentes];
+		
+		for (int i = 0; i < agentes.length; i++) {
+			
+			agentes[i] = new Agente(i,this.entorno);
+			double[] param = new double[this.red.getParametros().length];
+			
+			for (int j = 0; j < param.length; j++) {
+				
+				param[j]= -1 + 2 * Math.random();
+				
+			}
+			
+			agentes[i].setAdn(param);
+			
+		}
+
+		System.out.println("Comienzo de la prueba...");
+		
+		for (int i = 0; i < agentes.length; i++) {
+			
+			red.setParametros(agentes[i].getAdn());
+			
+			do {
+
+				double[] entradas = agentes[i].sensores();
+				double[] salidas = red.probarRed(entradas);
+				agentes[i].acciones(salidas);
+
+				if (agentes[i].fin() || agentes[i].getPasos() > 10000) {
+					System.out.println("\t\t\tFin simulación del Barco nº "+(i+1)+", Resumen:");
+
+					if (agentes[i].getPasos() > 10000) {
+						System.out.println("\t\t\tEliminado por cantidad excesiva de pasos.");
+					} else {
+						System.out.println("\t\t\tEliminado por llegada a meta o salida.");
+					}
+					System.out.println("\t\t\tPuntos: " + agentes[i].getFitness());
+					System.out.println("\t\t\tPasos: " + agentes[i].getPasos());
+					//barcos[i].printCamino();
+					System.out.println();
+					break;
+				}
+
+			} while (true);
+			
+		}
+		
+		Plot4Agent applet = new Plot4Agent();
+		applet.setXY((int)entorno.getAncho(),(int)entorno.getAlto());
+		applet.setBarcos(agentes);
+		applet.setInOut(entorno.getEntradaX(),entorno.getEntradaY(),entorno.getSalidaX(),entorno.getSalidaY());
+	    PApplet.runSketch(new String[]{"visual/Plot4Agent"}, applet);
+
+	}
+	
 	public void continuarEntrenamiento() {
 		
 		

@@ -175,6 +175,7 @@ public class Principal{
 	public static void entrenamiento() {
 		
 		simulacionActual.entrenarDesdeCero();
+		simulacionActual.entrenarDesdeCeroAlgoritmogenetico();
 	
 	}
 	

@@ -10,7 +10,7 @@ public class Plot4Agent extends PApplet {
 	int x, y;
 	double xE, yE, xS, yS;
 	int[] currentPoint = new int[0]; // Track the current point to draw
-	int speed = 20; // Number of points to draw per frame
+	int speed = 15; // Number of points to draw per frame
 	int[] color; // Array to store colors for each barco
 	
 	public Plot4Agent() {
