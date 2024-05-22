@@ -3,27 +3,28 @@ package visual;
 import agente.Barco;
 import processing.core.PApplet;
 
-public class Plot3 extends PApplet {
+public class Plot4 extends PApplet {
 	
 	Barco[] barcos = new Barco[0];
 	float[][] puntos = new float[0][0];
 	int x, y;
 	double xE, yE, xS, yS;
-	int currentPoint = 0; // Track the current point to draw
-	int speed = 1; // Number of points to draw per frame
+	int[] currentPoint = new int[0]; // Track the current point to draw
+	int speed = 20; // Number of points to draw per frame
 	int[] color; // Array to store colors for each barco
 	
-	public Plot3() {
+	public Plot4() {
 		
 	}
 	
 	public void setBarcos(Barco[] barcos) {
 		this.barcos = barcos;
+		this.currentPoint=new int[barcos.length];
 		
 	}
 	
 	public void setup() {
-		frameRate(20); // Set the frame rate to 30 FPS to slow down the animation
+		//frameRate(20); // Set the frame rate to 30 FPS to slow down the animation
 	}
 
 	public void setPuntos(Barco b) {
@@ -113,16 +114,17 @@ public class Plot3 extends PApplet {
 			setColor(barcos[j]);
 			stroke(color[0],color[1],color[2]);
 			
-			if (currentPoint < puntos.length - 1) {
+			if (currentPoint[j] < puntos.length - 1) {
+				
 				beginShape();
-				for (int i = 0; i <= currentPoint; i++) {
+				for (int i = 0; i <= currentPoint[j]; i++) {
 					vertex(puntos[i][1] + 10, puntos[i][0] + 10);
 				}
 				endShape();
 				
-				currentPoint += speed; // Increase by speed
-				if (currentPoint >= puntos.length) {
-					currentPoint = puntos.length - 1; // Ensure we don't go out of bounds
+				currentPoint[j] += speed; // Increase by speed
+				if (currentPoint[j] >= puntos.length) {
+					currentPoint[j] = puntos.length - 1; // Ensure we don't go out of bounds
 				}
 				
 			}

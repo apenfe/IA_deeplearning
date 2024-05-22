@@ -1,9 +1,11 @@
 package clases;
 
+import agente.Agente;
+import agente.Barco;
 import entorno.Entorno;
 import red.*;
-import visual.Plot2;
-import visual.Plot3;
+import visual.Plot4;
+import visual.Plot4Agent;
 import ga.*;
 import processing.core.PApplet;
 
@@ -11,7 +13,8 @@ public class Simulacion{
 	
 	private double[] adn_red = new double[0];
 	private Entorno entorno;
-	private Barco[] barcos = new Barco[0];
+	//private Barco[] barcos = new Barco[0];
+	private Agente[] agentes = new Agente[0];
 	private RedNeuronal red;
 	private GeneticAlgorithm ga;
 	
@@ -48,7 +51,7 @@ public class Simulacion{
 	public Simulacion() { // crear simulacion desde 0
 		
 	}
-
+/*
 	public void entrenarDesdeCero() {
 		
 		System.out.println("Preparación de agentes y entorno...");
@@ -101,11 +104,71 @@ public class Simulacion{
 			
 		}
 		
-		Plot3 applet = new Plot3();
+		Plot4 applet = new Plot4();
 		applet.setXY((int)entorno.getAncho(),(int)entorno.getAlto());
 		applet.setBarcos(barcos);
 		applet.setInOut(entorno.getEntradaX(),entorno.getEntradaY(),entorno.getSalidaX(),entorno.getSalidaY());
-	    PApplet.runSketch(new String[]{"visual/Plot3"}, applet);
+	    PApplet.runSketch(new String[]{"visual/Plot4"}, applet);
+
+	}
+	*/
+	public void entrenarDesdeCero() {
+		
+		System.out.println("Preparación de agentes y entorno...");
+		int numAgentes = Entradas.entero("¿Cuantos agentes desea añadir a la simulación? ");
+		agentes = new Agente[numAgentes];
+		
+		for (int i = 0; i < agentes.length; i++) {
+			
+			agentes[i] = new Agente(i,this.entorno);
+			double[] param = new double[this.red.getParametros().length];
+			
+			for (int j = 0; j < param.length; j++) {
+				
+				param[j]= -1 + 2 * Math.random();
+				
+			}
+			
+			agentes[i].setAdn(param);
+			
+		}
+
+		System.out.println("Comienzo de la prueba...");
+		
+		for (int i = 0; i < agentes.length; i++) {
+			
+			red.setParametros(agentes[i].getAdn());
+			
+			do {
+
+				double[] entradas = agentes[i].sensores();
+				double[] salidas = red.probarRed(entradas);
+				agentes[i].acciones(salidas);
+
+				if (agentes[i].fin() || agentes[i].getPasos() > 10000) {
+					System.out.println("\t\t\tFin simulación del Barco nº "+(i+1)+", Resumen:");
+
+					if (agentes[i].getPasos() > 10000) {
+						System.out.println("\t\t\tEliminado por cantidad excesiva de pasos.");
+					} else {
+						System.out.println("\t\t\tEliminado por llegada a meta o salida.");
+					}
+					System.out.println("\t\t\tPuntos: " + agentes[i].getFitness());
+					System.out.println("\t\t\tPasos: " + agentes[i].getPasos());
+					//barcos[i].printCamino();
+					System.out.println();
+					break;
+				}
+
+			} while (true);
+			
+		}
+		
+		Plot4Agent applet = new Plot4Agent();
+		applet.setXY((int)entorno.getAncho(),(int)entorno.getAlto());
+		applet.setBarcos(agentes);
+		applet.setInOut(entorno.getEntradaX(),entorno.getEntradaY(),entorno.getSalidaX(),entorno.getSalidaY());
+	    PApplet.runSketch(new String[]{"visual/Plot4Agent"}, applet);
 
 	}
 	
@@ -122,7 +185,7 @@ public class Simulacion{
 	public void setEntorno(Entorno entorno) {
 		this.entorno = entorno;
 	}
-
+/*
 	public Barco[] getBarcos() {
 		return barcos;
 	}
@@ -130,7 +193,15 @@ public class Simulacion{
 	public void setBarcos(Barco[] barcos) {
 		this.barcos = barcos;
 	}
+	*/
+	public Agente[] getAgentes() {
+		return agentes;
+	}
 
+	public void setAgentes(Agente[] agentes) {
+		this.agentes = agentes;
+	}
+	
 	public RedNeuronal getRed() {
 		return red;
 	}

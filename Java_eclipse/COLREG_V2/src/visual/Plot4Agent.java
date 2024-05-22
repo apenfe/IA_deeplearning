@@ -1,37 +1,38 @@
 package visual;
 
-import agente.Barco;
+import agente.Agente;
 import processing.core.PApplet;
 
-public class Plot3 extends PApplet {
+public class Plot4Agent extends PApplet {
 	
-	Barco[] barcos = new Barco[0];
+	Agente[] agentes = new Agente[0];
 	float[][] puntos = new float[0][0];
 	int x, y;
 	double xE, yE, xS, yS;
-	int currentPoint = 0; // Track the current point to draw
-	int speed = 1; // Number of points to draw per frame
+	int[] currentPoint = new int[0]; // Track the current point to draw
+	int speed = 20; // Number of points to draw per frame
 	int[] color; // Array to store colors for each barco
 	
-	public Plot3() {
+	public Plot4Agent() {
 		
 	}
 	
-	public void setBarcos(Barco[] barcos) {
-		this.barcos = barcos;
+	public void setBarcos(Agente[] agentes) {
+		this.agentes = agentes;
+		this.currentPoint=new int[agentes.length];
 		
 	}
 	
 	public void setup() {
-		frameRate(20); // Set the frame rate to 30 FPS to slow down the animation
+		//frameRate(20); // Set the frame rate to 30 FPS to slow down the animation
 	}
 
-	public void setPuntos(Barco b) {
+	public void setPuntos(Agente b) {
         
 		this.puntos = b.caminoFloat();
 	}
 	
-	public void setColor(Barco b) {
+	public void setColor(Agente b) {
         
 		this.color=new int[3];
 		
@@ -105,24 +106,25 @@ public class Plot3 extends PApplet {
 		stroke(0, 0, 200);
 		noFill();
 		
-		for (int j = 0; j < barcos.length; j++) {
+		for (int j = 0; j < agentes.length; j++) {
 			
 		//	stroke(r, g, b);
 			
-			setPuntos(barcos[j]);
-			setColor(barcos[j]);
+			setPuntos(agentes[j]);
+			setColor(agentes[j]);
 			stroke(color[0],color[1],color[2]);
 			
-			if (currentPoint < puntos.length - 1) {
+			if (currentPoint[j] < puntos.length - 1) {
+				
 				beginShape();
-				for (int i = 0; i <= currentPoint; i++) {
+				for (int i = 0; i <= currentPoint[j]; i++) {
 					vertex(puntos[i][1] + 10, puntos[i][0] + 10);
 				}
 				endShape();
 				
-				currentPoint += speed; // Increase by speed
-				if (currentPoint >= puntos.length) {
-					currentPoint = puntos.length - 1; // Ensure we don't go out of bounds
+				currentPoint[j] += speed; // Increase by speed
+				if (currentPoint[j] >= puntos.length) {
+					currentPoint[j] = puntos.length - 1; // Ensure we don't go out of bounds
 				}
 				
 			}

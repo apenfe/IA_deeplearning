@@ -1,5 +1,7 @@
 package ga;
 
+import agente.Agente;
+
 public class GeneticAlgorithm {
 
 	private int tamanoPoblacion;

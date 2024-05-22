@@ -5,7 +5,7 @@ import processing.core.PApplet;
 public class VerRed extends PApplet {
 	
 	NeuralNetwork nn;
-
+/*
 	void setup() {
 	  size(800, 400);
 	  nn = new NeuralNetwork();
@@ -17,7 +17,7 @@ public class VerRed extends PApplet {
 	  nn.updateNeuralNetwork();
 	  nn.drawNeuralNetwork();
 	}
-
+*/
 	class NeuralNetwork {
 	  int[] layers = {3, 5, 4, 2}; // Número de neuronas en cada capa
 	  float nodeSize = 20; // Tamaño de los nodos

@@ -2,7 +2,8 @@ package ga;
 
 import java.util.Arrays;
 import java.util.Comparator;
-//import java.util.Random;
+
+import agente.Agente;
 
 public class Poblacion {
 	
@@ -86,20 +87,5 @@ public class Poblacion {
 		return poblacion[indice];
 		
 	}
-
-	/*public void shuffle() {
-		
-		Random rnd = new Random();
-		
-		for (int i = poblacion.length - 1; i > 0; i--) {
-			
-			int index = rnd.nextInt(i + 1);
-			Agente a = poblacion[index];
-			poblacion[index] = poblacion[i];
-			poblacion[i] = a;
-			
-		}
-		
-	}*/
 	
 }

@@ -1,19 +1,15 @@
-package clases;
+package agente;
 
 import java.util.ArrayList;
-
-
 import entorno.Entorno;
-import processing.core.PApplet;
-import visual.Plot2;
 
 public class Barco{
 	
 	private int id;
-	private double[] adn = new double[0];
+	private double[] cromosomas = new double[0];
 	private Entorno entorno;
 	
-	private double puntos;
+	private double fitness = -1;
 	private int sensorChoque;
 	private double pasos;
 	private final double HORIZONTE = 15;
@@ -37,8 +33,8 @@ public class Barco{
 		this.entorno = entorno;
 		this.x = entorno.getEntradaX();
 		this.y = entorno.getEntradaX();
-		//this.direccion = Math.random()*360;
-		this.direccion = 42;
+		this.direccion = Math.random()*360;
+		//this.direccion = 42;
 		
 		Double[] posicion= new Double[2];
 		posicion[0]=x;
@@ -321,7 +317,7 @@ public class Barco{
             premioLlegada = 1000000;
         }
 
-        puntos = distanciaSalida - penalizacionChoque - stepPenalty + premioLlegada;
+        fitness = distanciaSalida - penalizacionChoque - stepPenalty + premioLlegada;
         
     }
 	
@@ -374,19 +370,19 @@ public class Barco{
 	}
 
 	public double getPuntos() {
-		return puntos;
+		return fitness;
 	}
 
 	public void setPuntos(double puntos) {
-		this.puntos = puntos;
+		this.fitness = puntos;
 	}
 
 	public double[] getAdn() {
-		return adn;
+		return cromosomas;
 	}
 
-	public void setAdn(double[] adn) {
-		this.adn = adn;
+	public void setAdn(double[] cromosomas) {
+		this.cromosomas = cromosomas;
 	}
 		
 	public float[][] caminoFloat() {
@@ -405,12 +401,6 @@ public class Barco{
         }
         
         return resultado;
-
-	//	Plot2 applet = new Plot2();
-	//	applet.setXY((int)entorno.getAncho(),(int)entorno.getAlto());
-	//	applet.setPuntos(resultado);
-	//	applet.setInOut(entorno.getEntradaX(),entorno.getEntradaY(),entorno.getSalidaX(),entorno.getSalidaY());
-	//    PApplet.runSketch(new String[]{"visual/Plot2"}, applet);
 	    
 	}
 

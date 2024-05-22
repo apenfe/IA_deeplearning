@@ -1,6 +1,6 @@
 package visual;
 
-import clases.Barco;
+import agente.Barco;
 import processing.core.PApplet;
 
 public class Plot2 extends PApplet {
