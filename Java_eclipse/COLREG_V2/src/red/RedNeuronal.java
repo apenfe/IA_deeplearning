@@ -3,6 +3,8 @@ package red;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import clases.DAO;
+
 public class RedNeuronal{
 	
 	// crear desde datos anteriores

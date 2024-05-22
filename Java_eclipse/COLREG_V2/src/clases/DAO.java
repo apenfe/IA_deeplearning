@@ -1,4 +1,4 @@
-package red;
+package clases;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -6,8 +6,8 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-import clases.Entradas;
 import entorno.Entorno;
+import red.RedNeuronal;
 
 public class DAO{
 

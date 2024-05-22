@@ -2,8 +2,8 @@ package entorno;
 
 import java.io.FileWriter;
 
+import clases.DAO;
 import clases.Entradas;
-import red.DAO;
 
 public class Entorno{
 	
