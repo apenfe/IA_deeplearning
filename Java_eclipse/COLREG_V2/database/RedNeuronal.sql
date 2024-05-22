@@ -20,22 +20,6 @@ CREATE TABLE capa (
     FOREIGN KEY (red_nombre) REFERENCES red(nombre)
 );
 
--- Crear la tabla data_set
-CREATE TABLE adn (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(255) NOT NULL,
-    description TEXT
-);
-
--- Crear la tabla numbers
-CREATE TABLE gen (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    nombre_red varchar(255) NOT NULL,
-    data_set_id INT,
-    value DECIMAL(10, 5),
-    FOREIGN KEY (adn_id) REFERENCES adn(id)
-);
-
 -- Crear la tabla entornos
 CREATE TABLE entorno (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -48,4 +32,23 @@ CREATE TABLE entorno (
     salidaY DOUBLE,
     paso DOUBLE,
     areaAprox DOUBLE
+);
+
+
+
+
+-- Crear la tabla data_set
+CREATE TABLE adn (
+    nombre VARCHAR(255) PRIMARY KEY,
+    nombre_red VARCHAR(255) NOT NULL,
+    description TEXT,
+    CONSTRAINT FK_adn FOREIGN KEY (nombre_red) REFERENCES red (nombre)
+);
+
+-- Crear la tabla numbers
+CREATE TABLE gen (
+    posicion INT,
+    nombre_adn varchar(255) NOT NULL,
+    valor DOUBLE,
+    FOREIGN KEY (nombre_adn) REFERENCES adn(nombre)
 );

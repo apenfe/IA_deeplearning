@@ -6,6 +6,7 @@ import ga.*;
 
 public class Simulacion{
 	
+	private double[] adn_red = new double[0];
 	private Entorno entorno;
 	private Barco[] barcos = new Barco[0];
 	private RedNeuronal red;
@@ -38,7 +39,7 @@ public class Simulacion{
 		}
 
 		this.red = new RedNeuronal(nombreRed, capas,numeroNeuronas, funciones); 
-		
+	
 	}
 	
 	public Simulacion() { // crear simulacion desde 0

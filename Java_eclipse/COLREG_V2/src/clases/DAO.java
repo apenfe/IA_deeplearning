@@ -75,7 +75,7 @@ public class DAO{
 			Connection conn = DriverManager.getConnection(URL, USER, PASS);
 			Statement stmt = conn.createStatement();
 
-			String consulta = "SELECT * FROM red WHHERE nombre = '"+nombre+"';";
+			String consulta = "SELECT * FROM red WHERE nombre = '"+nombre+"';";
 			
 			ResultSet rs = stmt.executeQuery(consulta);
 			
@@ -123,8 +123,8 @@ public class DAO{
 			Connection conn = DriverManager.getConnection(URL, USER, PASS);
 			Statement stmt = conn.createStatement();
 				
-			String entorno = "INSERT INTO capa(nombre,alto,ancho,entradaX,entradaY,salidaX,salidaY,paso,areaAprox) "
-			+ "VALUES ('"+en.getNombre()+"','"+en.getAlto()+"','"+en.getAncho()+"','"+en.getEntradaX()+"','"+en.getEntradaY()+"','"+en.getSalidaX()+"','"+en.getSalidaY()+"','"+en.getPaso()+"','"+en.getAreaAprox()+"')";
+			String entorno = "INSERT INTO entorno(nombre,alto,ancho,entradaX,entradaY,salidaX,salidaY,paso,areaAprox) "
+			+ "VALUES ('"+en.getNombre()+"',"+en.getAlto()+","+en.getAncho()+","+en.getEntradaX()+","+en.getEntradaY()+","+en.getSalidaX()+","+en.getSalidaY()+","+en.getPaso()+","+en.getAreaAprox()+");";
 			stmt.executeUpdate(entorno);
 			
 			stmt.close();
@@ -149,12 +149,23 @@ public class DAO{
 			Connection conn = DriverManager.getConnection(URL, USER, PASS);
 			Statement stmt = conn.createStatement();
 
-			String entorno = "SELECT * FROM entorno WHHERE nombre = '"+nombre+"';";
+			String entorno = "SELECT * FROM entorno WHERE nombre = '"+nombre+"';";
 			
 			ResultSet rs = stmt.executeQuery(entorno);
 			
 			while(rs.next()) {
-				cargado = new Entorno(rs.getString("nombre"),rs.getString("alto"),rs.getString("ancho"),rs.getString("entradaX"),rs.getString("entradaY"),rs.getString("salidaX"),rs.getString("salidaY"),rs.getString("paso"),rs.getString("areaAprox"));
+				
+				String name= rs.getString("nombre");
+				double alto =Double.parseDouble(rs.getString("alto"));
+				double ancho = Double.parseDouble(rs.getString("ancho"));
+				double entradaX = Double.parseDouble(rs.getString("entradaX"));
+				double entradaY = Double.parseDouble(rs.getString("entradaY"));
+				double salidaX = Double.parseDouble(rs.getString("salidaX"));
+				double salidaY = Double.parseDouble(rs.getString("salidaY"));
+				double paso = Double.parseDouble(rs.getString("paso"));
+				double areaAprox = Double.parseDouble(rs.getString("areaAprox"));
+				
+				cargado = new Entorno(name,alto,ancho,entradaX,entradaY,salidaX,salidaY,paso,areaAprox);
 			}
 			
 			rs.close();

@@ -1,7 +1,5 @@
 package entorno;
 
-import java.io.FileWriter;
-
 import clases.DAO;
 import clases.Entradas;
 
@@ -32,17 +30,17 @@ public class Entorno{
 		
 	}
 	
-	public Entorno(String nombre, String alto, String ancho, String entradaX, String entradaY, String salidaX, String salidaY, String paso, String areaAprox) {
+	public Entorno(String nombre, double alto, double ancho, double entradaX, double entradaY, double salidaX, double salidaY, double paso, double areaAprox) {
 		
 		this.nombre = nombre;
-		this.alto = Double.parseDouble(alto);
-		this.ancho =  Double.parseDouble(ancho);
-		this.entradaX =  Double.parseDouble(entradaX);
-		this.entradaY =  Double.parseDouble(entradaY);
-		this.salidaX =  Double.parseDouble(salidaX);
-		this.salidaY =  Double.parseDouble(salidaY);
-		this.paso =  Double.parseDouble(paso);
-		this.areaAprox =  Double.parseDouble(areaAprox);
+		this.alto = alto;
+		this.ancho =  ancho;
+		this.entradaX =  entradaX;
+		this.entradaY =  entradaY;
+		this.salidaX =  salidaX;
+		this.salidaY =  salidaY;
+		this.paso =  paso;
+		this.areaAprox =  areaAprox;
 		
 	}
 
@@ -169,27 +167,6 @@ public class Entorno{
 			
 			return false;
 			
-		}
-		
-	}
-	
-	public boolean guardarEntorno(String ruta) {
-				
-		try {
-
-			FileWriter escritor = new FileWriter(ruta,true);
-			
-			String entorno = toString();
-				
-			escritor.write("\n" + entorno);
-			escritor.close();
-			return true;
-			
-		} catch (Exception e) {
-
-			System.err.println("ERROR AL GUARDAR ARCHIVO " + ruta);
-			return false;
-
 		}
 		
 	}

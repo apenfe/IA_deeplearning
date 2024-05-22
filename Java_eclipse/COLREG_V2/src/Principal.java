@@ -4,9 +4,9 @@ import clases.Simulacion;
 public class Principal{
 	
 	/*
+	 * GUARDAR Y CARGAR ADN
 	 * ENTRENAR RED
 	 * CREAR ALGORITMO
-	 * GUARDAR Y CARGAR ADN
 	 * PODER PROBAR UN ADN
 	 * PODER CONTINUAR ENTRENAMIENTO CON ADN, ENTORNO Y RED ALMACENADA
 	 * ENTORNO GRAFICO
@@ -148,6 +148,7 @@ public class Principal{
 	
 	public static void entrenamiento() {
 		
+		System.err.println("PROXIMAMENTE");
 		
 	}
 	

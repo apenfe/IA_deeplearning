@@ -43,25 +43,6 @@ public class RedNeuronal{
 		
 	}
 	
-	/*
-	public RedNeuronal(String nombre_simulacion, int numeroCapas, int[] numeroNeuronas, double[][] bias, int[] funcion, double[][] pesosDeLaCapa) {
-		
-		this.entradas=numeroNeuronas[0];
-		this.salidas=numeroNeuronas[numeroNeuronas.length-1];
-		this.numCapas=numeroCapas;
-		this.nombre=nombre_simulacion;
-		this.capas = new Capas[numeroCapas];
-		
-		for (int i = 0; i < capas.length; i++) {
-			
-			capas[i]= new Capas(numeroNeuronas[i], bias[i], funcion[i], pesosDeLaCapa[i]); 
-			
-		}
-		
-		this.numNeuronas = getNumNeuronas();
-		
-	}*/
-	
 	public double[] probarRed(double[] entradas) {
 		
 		double[] anterioresentradas = entradas;
