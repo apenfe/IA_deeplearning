@@ -46,7 +46,15 @@ public class Simulacion{
 		
 	}
 
-	public void probar() {
+	public void entrenarDesdeCero() {
+		
+		System.out.println("Preparación de agentes y entorno...");
+		int numAgentes = Entradas.entero("¿Cuantos agentes desea añadir a la simulación? ");
+		barcos = new Barco[numAgentes];
+		
+		for (int i = 0; i < barcos.length; i++) {
+			
+		}
 
 		// 1º establezco el mejor adn en la red asignado pesos sinapticos
 		Barco barco = new Barco(0,entorno);
@@ -81,6 +89,12 @@ public class Simulacion{
 			}
 
 		} while (true);
+
+	}
+	
+	public void continuarEntrenamiento() {
+		
+		
 
 	}
 
@@ -158,6 +172,44 @@ public class Simulacion{
 		
 		return false;
 
+	}
+	
+	public boolean cargarADN(String nombreRed,String nombreADN) {
+		
+		DAO db = new DAO();
+		
+		double[] cargado =db.cargarGenes(nombreRed,nombreADN);
+		
+		if(cargado.length>0) {
+			this.adn_red=cargado;
+			return true;
+		}
+		
+		return false;
+		
+	}
+	
+	public boolean guardarADN(String nombreADN) {
+		
+		DAO db = new DAO();
+		
+		
+		
+		if(db.guardarGenes(red.getNombre(),nombreADN, red.getParametros())) {
+			
+			return true;
+		}
+		
+		return false;
+		
+	}
+
+	public double[] getAdn_red() {
+		return adn_red;
+	}
+
+	public void setAdn_red(double[] adn_red) {
+		this.adn_red = adn_red;
 	}
 	
 }

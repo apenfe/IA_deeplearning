@@ -4,7 +4,6 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
-import java.util.ArrayList;
 
 import entorno.Entorno;
 import red.RedNeuronal;
@@ -50,15 +49,83 @@ public class DAO{
 		
 	}
 	
-	public boolean guardarGenes(double[] genes) {
+	public boolean guardarGenes(String red, String adn, double[] genes) {
 		
-	
+		try {
+			
+			String descripcion = Entradas.texto("Inserte una descricion para este ADN: ");
+
+			Connection conn = DriverManager.getConnection(URL, USER, PASS);
+			Statement stmt = conn.createStatement();
+
+			String nn = "INSERT INTO adn(nombre,nombre_red,description) VALUES ('"+adn+"','"+red+"','"+descripcion+"')";
+			stmt.executeUpdate(nn);
+			
+			for (int i = 0; i < genes.length; i++) {
+				
+				String layer = "INSERT INTO gen(posicion,nombre_adn,valor) VALUES ("+i+",'"+adn+"',"+genes[i]+");";
+				stmt.executeUpdate(layer);
+				
+			}
+			
+			stmt.close();
+			conn.close();
+			
+			return true;
+
+		} catch (Exception e) {
+			
+			return false;
+			
+		}
 		
 	}
 	
-	public double[] cargarGenes(User u, String password) {
+	public double[] cargarGenes(String red, String adn) {
+		
+		double[] genes = new double[0];
+		int total = 0;
+		
+		try {
+
+			Connection conn = DriverManager.getConnection(URL, USER, PASS);
+			Statement stmt = conn.createStatement();
+
+			String consulta = "SELECT count(*) as total FROM gen WHERE nombre_adn = '"+adn+"';";
 			
-	
+			ResultSet rs = stmt.executeQuery(consulta);
+			
+			
+			while(rs.next()) {
+				
+				total=Integer.parseInt(rs.getString("total"));
+				
+			}
+			
+			genes = new double[total];
+			
+			String consulta2 = "SELECT * from gen WHERE nombre_adn = '"+adn+"' ORDER BY posicion;";
+			
+			rs = stmt.executeQuery(consulta2);
+			int i = 0;
+			
+			while(rs.next()) {
+				
+				genes[i]=Double.parseDouble(rs.getString("valor"));
+				i++;
+			}
+			
+			rs.close();
+			stmt.close();
+			conn.close();
+			return genes;
+
+		} catch (Exception e) {
+			
+			System.out.println(e);
+			return genes;
+			
+		}
 		
 	}
 	

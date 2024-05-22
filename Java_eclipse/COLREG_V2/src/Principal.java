@@ -4,7 +4,6 @@ import clases.Simulacion;
 public class Principal{
 	
 	/*
-	 * GUARDAR Y CARGAR ADN
 	 * ENTRENAR RED
 	 * CREAR ALGORITMO
 	 * PODER PROBAR UN ADN
@@ -29,7 +28,7 @@ public class Principal{
 			System.out.println("\n--- SIMULACION COLREG IA ---");
 			System.out.println("1 ---> CARGAR RED");
 			System.out.println("2 ---> CREAR NUEVA RED");
-			System.out.println("3 ---> ENTRENAR_RED");
+			System.out.println("3 ---> ENTRENAR_RED_DESDE_CERO");
 			System.out.println("4 ---> VER DATOS RED ACTUAL");
 			System.out.println("0 ---> SALIR");
 			int opcion = Entradas.entero("SELECCIONE UNA OPCION [0-4]: ");
@@ -100,6 +99,32 @@ public class Principal{
 			System.out.println("Error al cargar el entorno");
 		}
 		
+		boolean adn=false;
+		
+		String respuesta = Entradas.texto("¿Desea cargar un ADN? S - SI ");
+		
+		if(respuesta.equalsIgnoreCase("S")) {
+			
+			adn=true;
+			
+		}
+		
+		if(adn) { // ver como seleccionar entre varios adn
+			
+			String nombreADN = Entradas.texto("Inserte el nombre del ADN a cargar: ");
+			
+			if(simulacionActual.cargarADN(nombreRed,nombreADN)) {
+				
+				System.out.println("ADN cargado correctamente");
+				
+			}else {
+				
+				System.err.println("Error al cargar el ADN");
+				
+			}
+			
+		}
+		
 	}
 	
 	public static void crearSimulacion() {
@@ -148,8 +173,8 @@ public class Principal{
 	
 	public static void entrenamiento() {
 		
-		System.err.println("PROXIMAMENTE");
-		
+		simulacionActual.entrenarDesdeCero();
+	
 	}
 	
 }
