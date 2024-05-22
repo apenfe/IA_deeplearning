@@ -3,6 +3,17 @@ import clases.Simulacion;
 
 public class Principal{
 	
+	/*
+	 * ENTRENAR RED
+	 * CREAR ALGORITMO
+	 * GUARDAR Y CARGAR ADN
+	 * PODER PROBAR UN ADN
+	 * PODER CONTINUAR ENTRENAMIENTO CON ADN, ENTORNO Y RED ALMACENADA
+	 * ENTORNO GRAFICO
+	 * AÑADIR GRAFICAS DE ENTRENAMIENTO Y VISUALIZACION DE AGENTES
+	 * AÑADIR INTERFACES Y MEJORAS AL ENTORNO
+	 */
+	
 	public static Simulacion simulacionActual;
 	
 	public static void main(String[] args) {
@@ -73,13 +84,17 @@ public class Principal{
 		
 		simulacionActual= new Simulacion();
 		
-		if(simulacionActual.cargarRed()) {
+		String nombreRed = Entradas.texto("Inserte el nombre de la red a cargar: ");
+		
+		if(simulacionActual.cargarRed(nombreRed)) {
 			System.out.println("Red cargada correctamente");
 		}else {
 			System.out.println("Error al cargar la red");
 		}
 		
-		if(simulacionActual.cargarEntorno()) {
+		String nombreEntorno = Entradas.texto("Inserte el nombre del entorno a cargar: ");
+		
+		if(simulacionActual.cargarEntorno(nombreEntorno)) {
 			System.out.println("Entorno cargado correctamente");
 		}else {
 			System.out.println("Error al cargar el entorno");

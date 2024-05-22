@@ -62,10 +62,58 @@ public class DAO{
 		
 	}
 	
-	public RedNeuronal cargarRedNeuronal(String username, String password) {
+	public RedNeuronal cargarRedNeuronal(String nombre) {
+		
+		RedNeuronal cargado = null;
+		int[] numeroNeuronas = new int[0];
+		int[] funcion = new int[0];
+		String nombreSimulacion="";
+		int numCapas=0;
+		
+		try {
 
-		
-		
+			Connection conn = DriverManager.getConnection(URL, USER, PASS);
+			Statement stmt = conn.createStatement();
+
+			String consulta = "SELECT * FROM red WHHERE nombre = '"+nombre+"';";
+			
+			ResultSet rs = stmt.executeQuery(consulta);
+			
+			while(rs.next()) {
+				
+				nombreSimulacion+=rs.getString("nombre");
+				numCapas=Integer.parseInt(rs.getString("numCapas"));
+				
+			}
+			
+			numeroNeuronas = new int[numCapas];
+			funcion = new int[numCapas];
+			
+			String consulta2 = "SELECT * from capa WHERE red_nombre = '"+nombreSimulacion+"';";
+			
+			rs = stmt.executeQuery(consulta2);
+			int i = 0;
+			
+			while(rs.next()) {
+				
+				numeroNeuronas[i]=Integer.parseInt(rs.getString("numNeuronas"));
+				funcion[i]=Integer.parseInt(rs.getString("funcion"));
+				i++;
+			}
+			
+			cargado = new RedNeuronal(nombreSimulacion,numCapas,numeroNeuronas,funcion);
+			
+			rs.close();
+			stmt.close();
+			conn.close();
+			return cargado;
+
+		} catch (Exception e) {
+			
+			return cargado;
+			
+		}
+
 	}
 	
 	public boolean guardarEntorno(Entorno en) {

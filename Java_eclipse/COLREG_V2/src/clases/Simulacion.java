@@ -123,19 +123,40 @@ public class Simulacion{
 		
 		String salida="";
 		
-		//salida+=entorno.toString();
 		salida+=red.toString();
 		
 		return salida;
 		
 	}
 	
-	public boolean cargarEntorno() {
-		return true;
+	public boolean cargarEntorno(String nombre) {
+		
+		DAO db = new DAO();
+		
+		Entorno cargado =db.cargararEntorno(nombre);
+		
+		if(cargado!=null) {
+			this.entorno=cargado;
+			return true;
+		}
+		
+		return false;
+		
 	}
 	
-	public boolean cargarRed() {
-		return true;
+	public boolean cargarRed(String nombre) {
+		
+		DAO db = new DAO();
+		
+		RedNeuronal cargado =db.cargarRedNeuronal(nombre);
+		
+		if(cargado!=null) {
+			this.red=cargado;
+			return true;
+		}
+		
+		return false;
+
 	}
 	
 }
