@@ -10,14 +10,15 @@ public class Barco{
 	
 	private int id;
 	private double[] adn = new double[0];
+	private Entorno entorno;
+	
 	private double puntos;
 	private int sensorChoque;
 	private double pasos;
-	private final double horizonte = 15;
+	private final double HORIZONTE = 15;
 	private double x;
 	private double y;
 	private ArrayList<Double[]> camino = new ArrayList<>();
-	private Entorno entorno;
 	private double direccion;
 	
 	public Barco(int id, Entorno entorno) {
@@ -135,8 +136,8 @@ public class Barco{
 		double anguloRadianes = Math.toRadians(obtenerAngulo(0));
 
 		// Calcular las coordenadas del punto extremo
-		double xExtremo = x + horizonte * Math.cos(anguloRadianes);
-		double yExtremo = y + horizonte * Math.sin(anguloRadianes);
+		double xExtremo = x + HORIZONTE * Math.cos(anguloRadianes);
+		double yExtremo = y + HORIZONTE * Math.sin(anguloRadianes);
 		
 		if(entorno.fueraLimites(xExtremo, yExtremo)) {
 			this.sensorChoque++;
@@ -153,8 +154,8 @@ public class Barco{
 		double anguloRadianes = Math.toRadians(obtenerAngulo(-90));
 
 		// Calcular las coordenadas del punto extremo
-		double xExtremo = x + horizonte * Math.cos(anguloRadianes);
-		double yExtremo = y + horizonte * Math.sin(anguloRadianes);
+		double xExtremo = x + HORIZONTE * Math.cos(anguloRadianes);
+		double yExtremo = y + HORIZONTE * Math.sin(anguloRadianes);
 		
 		if(entorno.fueraLimites(xExtremo, yExtremo)) {
 			this.sensorChoque++;
@@ -172,8 +173,8 @@ public class Barco{
 		double anguloRadianes = Math.toRadians(obtenerAngulo(90));
 
 		// Calcular las coordenadas del punto extremo
-		double xExtremo = x + horizonte * Math.cos(anguloRadianes);
-		double yExtremo = y + horizonte * Math.sin(anguloRadianes);
+		double xExtremo = x + HORIZONTE * Math.cos(anguloRadianes);
+		double yExtremo = y + HORIZONTE * Math.sin(anguloRadianes);
 		
 		if(entorno.fueraLimites(xExtremo, yExtremo)) {
 			this.sensorChoque++;
@@ -190,8 +191,8 @@ public class Barco{
 		double anguloRadianes = Math.toRadians(obtenerAngulo(-45));
 
 		// Calcular las coordenadas del punto extremo
-		double xExtremo = x + horizonte * Math.cos(anguloRadianes);
-		double yExtremo = y + horizonte * Math.sin(anguloRadianes);
+		double xExtremo = x + HORIZONTE * Math.cos(anguloRadianes);
+		double yExtremo = y + HORIZONTE * Math.sin(anguloRadianes);
 		
 		if(entorno.fueraLimites(xExtremo, yExtremo)) {
 			this.sensorChoque++;
@@ -208,8 +209,8 @@ public class Barco{
 		double anguloRadianes = Math.toRadians(obtenerAngulo(45));
 
 		// Calcular las coordenadas del punto extremo
-		double xExtremo = x + horizonte * Math.cos(anguloRadianes);
-		double yExtremo = y + horizonte * Math.sin(anguloRadianes);
+		double xExtremo = x + HORIZONTE * Math.cos(anguloRadianes);
+		double yExtremo = y + HORIZONTE * Math.sin(anguloRadianes);
 		
 		if(entorno.fueraLimites(xExtremo, yExtremo)) {
 			this.sensorChoque++;
@@ -287,30 +288,6 @@ public class Barco{
 		return normalizar(y,0,entorno.getAlto());
 
 	}	
-	
-	private int proaOk() {
-		return -1;
-	}
-	
-	private int popaOk() {
-		return -1;
-	}
-	
-	private int baborOk() {
-		return -1;
-	}
-
-	private int estriborOk() {
-		return -1;
-	}
-	
-	private int amuraBaborOk() {
-		return -1;
-	}
-	
-	private int amuraEstriborOk() {
-		return -1;
-	}
 	
 	public double normalizar(double value, double min, double max) {
         // Normalizar el valor dentro del rango [0, 1]

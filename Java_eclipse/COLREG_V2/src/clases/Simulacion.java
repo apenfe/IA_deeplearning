@@ -54,41 +54,51 @@ public class Simulacion{
 		
 		for (int i = 0; i < barcos.length; i++) {
 			
+			barcos[i] = new Barco(i,this.entorno);
+			double[] param = new double[this.red.getParametros().length];
+			
+			for (int j = 0; j < param.length; j++) {
+				
+				param[j]= -1 + 2 * Math.random();
+				
+			}
+			
+			barcos[i].setAdn(param);
+			
 		}
 
-		// 1º establezco el mejor adn en la red asignado pesos sinapticos
-		Barco barco = new Barco(0,entorno);
-		
-		/* linea de testeo */
-		//barco.setAdn(asignarPesos_0());
-		/* linea de testeo */
-		
-		//red.asignarPesosSinapticosCapas(barco.getAdn(),barco.sensores().length);
-
 		System.out.println("Comienzo de la prueba...");
-
-		do {
-
-			double[] entradas = barco.sensores();
-			double[] salidas = red.probarRed(entradas);
-			barco.acciones(salidas);
-
-			if (barco.fin() || barco.getPasos() > 100000) {
-				System.out.println("\t\t\tFin simulación del Barco nº, Resumen:");
-
-				if (barco.getPasos() > 100000) {
-					System.out.println("\t\t\tEliminado por cantidad excesiva de pasos.");
-				} else {
-					System.out.println("\t\t\tEliminado por llegada a meta o salida.");
-				}
-				System.out.println("\t\t\tPuntos: " + barco.getPuntos());
-				System.out.println("\t\t\tPasos: " + barco.getPasos());
-				barco.printCamino();
+		
+		for (int i = 0; i < barcos.length; i++) {
 			
-				break;
-			}
+			red.setParametros(barcos[i].getAdn());
+			
+			do {
 
-		} while (true);
+				double[] entradas = barcos[i].sensores();
+				double[] salidas = red.probarRed(entradas);
+				barcos[i].acciones(salidas);
+
+				if (barcos[i].fin() || barcos[i].getPasos() > 10000) {
+					System.out.println("\t\t\tFin simulación del Barco nº "+(i+1)+", Resumen:");
+
+					if (barcos[i].getPasos() > 10000) {
+						System.out.println("\t\t\tEliminado por cantidad excesiva de pasos.");
+					} else {
+						System.out.println("\t\t\tEliminado por llegada a meta o salida.");
+					}
+					System.out.println("\t\t\tPuntos: " + barcos[i].getPuntos());
+					System.out.println("\t\t\tPasos: " + barcos[i].getPasos());
+					barcos[i].printCamino();
+					System.out.println();
+					break;
+				}
+
+			} while (true);
+			
+		}
+		
+		
 
 	}
 	
