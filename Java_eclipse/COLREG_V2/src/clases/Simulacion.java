@@ -129,7 +129,7 @@ public class Simulacion{
 				
 			}
 			
-			agentes[i].setAdn(param);
+			agentes[i].setCromosomas(param);
 			
 		}
 
@@ -137,7 +137,7 @@ public class Simulacion{
 		
 		for (int i = 0; i < agentes.length; i++) {
 			
-			red.setParametros(agentes[i].getAdn());
+			red.setParametros(agentes[i].getCromosomas());
 			
 			do {
 
@@ -155,7 +155,6 @@ public class Simulacion{
 					}
 					System.out.println("\t\t\tPuntos: " + agentes[i].getFitness());
 					System.out.println("\t\t\tPasos: " + agentes[i].getPasos());
-					//barcos[i].printCamino();
 					System.out.println();
 					break;
 				}
@@ -192,7 +191,7 @@ public class Simulacion{
 			
 			for (int i = 0; i < numAgentes; i++) {
 				
-				red.setParametros(poblacion.getIndividual(i).getAdn());
+				red.setParametros(poblacion.getIndividual(i).getCromosomas());
 				
 				do {
 
@@ -200,11 +199,16 @@ public class Simulacion{
 					double[] salidas = red.probarRed(entradas);
 					poblacion.getIndividual(i).acciones(salidas);
 
+					if (poblacion.getIndividual(i).win() || poblacion.getIndividual(i).lose() || poblacion.getIndividual(i).getPasos() > 10000) {
+						
+						break;
+					}
+/*
 					if (poblacion.getIndividual(i).fin() ||poblacion.getIndividual(i).getPasos() > 10000) {
 						
 						break;
 					}
-
+*/
 				} while (true);
 				
 			}
@@ -218,7 +222,13 @@ public class Simulacion{
 			poblacion = ga.mutarPoblacion(poblacion,entorno);
 			
 			ga.calculoFitnessPoblacion(poblacion);
-			
+			/*
+			Plot4Agent applet = new Plot4Agent();
+			applet.setXY((int)entorno.getAncho(),(int)entorno.getAlto());
+			applet.setBarcos(poblacion.getIndividuals());
+			applet.setInOut(entorno.getEntradaX(),entorno.getEntradaY(),entorno.getSalidaX(),entorno.getSalidaY());
+		    PApplet.runSketch(new String[]{"visual/Plot4Agent"}, applet);
+			*/
 			generacion++;
 			
 		}

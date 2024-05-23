@@ -14,22 +14,10 @@ public class Agente implements Ship{
 	public  ArrayList<Double[]> camino = new ArrayList<>();
 	public double direccion;
 	
-	///////////////////////////
-	
 	private double[] cromosomas = new double[0];
 	private double fitness = -1;
 	private int id;
 	public Entorno entorno;
-	
-	
-	
-	public Entorno getEntorno() {
-		return entorno;
-	}
-
-	public void setEntorno(Entorno entorno) {
-		this.entorno = entorno;
-	}
 
 	public Agente(int numeroCromosomas, Entorno entorno) {
 		
@@ -69,10 +57,6 @@ public class Agente implements Ship{
 
 	public void setId(int id) {
 		this.id = id;
-	}
-
-	public double[] getChromosome() {
-		return this.cromosomas;	
 	}
 
 	public int getChromosomeLength() {
@@ -128,19 +112,26 @@ public class Agente implements Ship{
 		this.x = entorno.getEntradaX();
 		this.y = entorno.getEntradaX();
 		this.direccion = Math.random()*360;
-		//this.direccion = 42;
+		//this.direccion = 40;
+		
+		this.addPaso(x,y);
+		
+	}
+	
+	private void addPaso(double x, double y) {
 		
 		Double[] posicion= new Double[2];
 		posicion[0]=x;
 		posicion[1]=y;
-		camino.add(posicion);
-		pasos++;
+		this.camino.add(posicion);
+		this.pasos++;
 		
 	}
 
 	@Override
 	public void acciones(double[] movimientos) {
-double max = Double.MIN_VALUE;
+		
+		double max = Double.MIN_VALUE;
 		
 		for (int i = 0; i < movimientos.length; i++) {
 			
@@ -152,100 +143,95 @@ double max = Double.MIN_VALUE;
 		
 		if(movimientos[0]==max) {
 			
-			girarDerecha();
-			avanzar();
+			this.girarDerecha();
+			this.avanzar();
 			
 		}else if(movimientos[2]==max){
 			
-			girarIzquierda();
-			avanzar();
+			this.girarIzquierda();
+			this.avanzar();
 			
 		}else {
 			
-			avanzar();
+			this.avanzar();
 			
 		}
 		
-		fin();
+		this.apuntaASalida(x,y);
+		this.seAcercaASalida(x,y);
 		
 	}
 
 	@Override
 	public void avanzar() {
+		
 		double anguloRadianes = Math.toRadians(direccion);
 
 		x = x + entorno.getPaso() * Math.cos(anguloRadianes);
 		y = y + entorno.getPaso() * Math.sin(anguloRadianes);
-		pasos++;
 		
-		Double[] posicion= new Double[2];
-		posicion[0]=x;
-		posicion[1]=y;
-		
-		camino.add(posicion);
+		this.addPaso(x, y);
 		
 	}
 
 	@Override
 	public void girarDerecha() {
-		this.direccion=obtenerAngulo(entorno.getPaso()*9);
-		Double[] posicion= new Double[2];
-		posicion[0]=x;
-		posicion[1]=y;
 		
-		camino.add(posicion);
-		this.pasos++;
+		this.direccion=obtenerAngulo(entorno.getPaso()*9);
 		
 	}
 
 	@Override
 	public void girarIzquierda() {
-		this.direccion=obtenerAngulo(-9*(entorno.getPaso()));
-		Double[] posicion= new Double[2];
-		posicion[0]=x;
-		posicion[1]=y;
 		
-		camino.add(posicion);
-		this.pasos++;
+		this.direccion=obtenerAngulo(-9*(entorno.getPaso()));
 		
 	}
 
 	@Override
 	public double[] sensores() {
-	double[] sensor = new double[13];
 		
-		sensor[0] = delante();
-		sensor[1] = costado_izquierdo();
-		sensor[2] = costado_derecho();
-		sensor[3] = amura_izquierda();
-		sensor[4] = amura_derecha();
-		sensor[5] = distanciaAsalida();
-		sensor[6] = distanciaAentrada();
-		sensor[7] = direccionActual();
-		sensor[8] = seccion_derecha();
-		sensor[9] = seccion_izquierda();
-		sensor[10] = seccion_frontal();
-		sensor[11] = posY();
-		sensor[12] = posX();
+		double[] sensor = new double[14];
+		
+		sensor[0] = this.delante();
+		sensor[1] = this.costado_izquierdo();
+		sensor[2] = this.costado_derecho();
+		sensor[3] = this.amura_izquierda();
+		sensor[4] = this.amura_derecha();
+		sensor[5] = this.distanciaAsalida();
+		sensor[6] = this.distanciaAentrada();
+		sensor[7] = this.direccionActual();
+		sensor[8] = this.seccion_derecha();
+		sensor[9] = this.seccion_izquierda();
+		sensor[10] = this.seccion_frontal();
+		sensor[11] = this.posY();
+		sensor[12] = this.posX();
+		sensor[13] = this.direccionCorrecta();
 
 		return sensor;
 	}
 
 	@Override
 	public int delante() {
+		
 		// Convertir el ángulo a radianes
-				double anguloRadianes = Math.toRadians(obtenerAngulo(0));
+		double anguloRadianes = Math.toRadians(obtenerAngulo(0));
 
-				// Calcular las coordenadas del punto extremo
-				double xExtremo = x + HORIZONTE * Math.cos(anguloRadianes);
-				double yExtremo = y + HORIZONTE * Math.sin(anguloRadianes);
+		// Calcular las coordenadas del punto extremo
+		double xExtremo = x + HORIZONTE * Math.cos(anguloRadianes);
+		double yExtremo = y + HORIZONTE * Math.sin(anguloRadianes);
 				
-				if(entorno.fueraLimites(xExtremo, yExtremo)) {
-					this.sensorChoque++;
-					return 1;
-				}else {
-					return -1;
-				}
+		if(entorno.fueraLimites(xExtremo, yExtremo)) {
+			
+			this.sensorChoque++;
+			return 1;
+			
+		}else {
+			
+			return -1;
+			
+		}
+		
 	}
 
 	@Override
@@ -319,29 +305,37 @@ double max = Double.MIN_VALUE;
 
 	@Override
 	public int seccion_derecha() {
+		
 		if(amura_derecha()==1&&costado_derecho()==1) {
+			
 			return 1;
+			
 		}else {
 			return -1;
 		}
+		
 	}
 
 	@Override
 	public int seccion_izquierda() {
+		
 		if(amura_izquierda()==1&&costado_izquierdo()==1) {
 			return 1;
 		}else {
 			return -1;
 		}
+		
 	}
 
 	@Override
 	public int seccion_frontal() {
+		
 		if(amura_izquierda()==1&&amura_derecha()==1&&delante()==1) {
 			return 1;
 		}else {
 			return -1;
 		}
+		
 	}
 
 	@Override
@@ -356,6 +350,28 @@ double max = Double.MIN_VALUE;
 	@Override
 	public double direccionActual() {
 		return normalizar(direccion,0,360);
+	}
+	
+	public int direccionCorrecta() { //****************************************************************
+		
+		double distActual = entorno.distanciaSalida(x, y);
+		// Convertir el ángulo a radianes
+		double anguloRadianes = Math.toRadians(obtenerAngulo(0));
+
+				// Calcular las coordenadas del punto extremo
+		double xExtremo = x + distActual * Math.cos(anguloRadianes);
+		double yExtremo = y + distActual * Math.sin(anguloRadianes);
+						
+		if(entorno.esSalida(xExtremo, yExtremo)) {
+			
+			return 1;
+					
+		}else {
+					
+			return -1;
+					
+		}
+		
 	}
 
 	@Override
@@ -387,27 +403,93 @@ double max = Double.MIN_VALUE;
         
         return normalizedValue;
 	}
+	
+	private int revisarListaPasos(double x, double y) {
+		
+		for (int i = 0; i < this.camino.size(); i++) {
+			
+			// recorrer un arrary y ver si ya h sido visitada la casilla, asi evito bucles, tambien puedo hacerlo con un area de margen
+			
+		}
+		
+	}
+	
+	private void seAcercaASalida(double x, double y) {
+		
+		Double[] anterior = camino.get(camino.size()-1);
+			
+		double distAnterior = entorno.distanciaSalida(anterior[0], anterior[1]);
+		double distActual = entorno.distanciaSalida(x, y);
+		
+		if(distAnterior>distActual) {
+			this.fitness+=1;
+		}else {
+			this.fitness-=3;
+		}		
+		
+	}
+	
+	private void apuntaASalida(double x, double y) {
+		
+		// saco la distancia a la salida
+		// hago un sensor que compruebe si es la salida a esa distancia
+		
+		double distActual = entorno.distanciaSalida(x, y);
+		// Convertir el ángulo a radianes
+		double anguloRadianes = Math.toRadians(obtenerAngulo(0));
+
+				// Calcular las coordenadas del punto extremo
+		double xExtremo = x + distActual * Math.cos(anguloRadianes);
+		double yExtremo = y + distActual * Math.sin(anguloRadianes);
+						
+		if(entorno.esSalida(xExtremo, yExtremo)) {
+			
+			//System.err.println("apunta");
+			fitness+=10;
+					
+		}else {
+					
+			fitness-=2;
+					
+		}
+	
+	}
 
 	@Override
 	public double calculateFitness() {
 		
-		 	double distanciaSalida = entorno.distanciaSalida(x, y);
-	        double penalizacionChoque = sensorChoque*2;
-	        double stepPenalty = pasos;
-	        double salida=0;
+		int nota =0;
+		
+		// recorrer un arrary y ver si ya h sido visitada la casilla, asi evito bucles, tambien puedo hacerlo con un area de margen
+		// si apunta hacia el 0,2 mas
+		// si uno de ellos  ha llegado a salida, contar los puntos extra y añadir penalizacion por pasos, para comprara con otros que si han llegado en menos pasos
+		
+		
+		 //double distanciaSalida = entorno.distanciaSalida(x, y);
+	   
+	     double stepPenalty = pasos;
+	     
+	     double penalizacionChoque = sensorChoque*3;
+	     fitness-= penalizacionChoque;
 	        
-	        if(entorno.esSalida(x, y)) {
-	        	salida=100000;
-	        }
+	     if(entorno.esSalida(x, y)) {
+	    	 
+	    	 fitness+=10000;
+	    	 
+	     }
+	     
+	     if(lose()) {
+	    	 fitness-=10000;
+	     }
 
-	        this.fitness =  salida-penalizacionChoque-stepPenalty-distanciaSalida ;
-	        return salida-penalizacionChoque-stepPenalty-distanciaSalida;
+	     return fitness;
 		
 	}
 
 	@Override
 	public double obtenerAngulo(double grados) {
-double angulo = direccion + grados;
+		
+		double angulo = direccion + grados;
 	    
 	    angulo = (angulo % 360 + 360) % 360;
 	    
@@ -416,6 +498,7 @@ double angulo = direccion + grados;
 
 	@Override
 	public boolean fin() {
+		
 		if(entorno.esSalida(x, y)) {
 			//puntos+=20000;
 			return true;
@@ -432,8 +515,9 @@ double angulo = direccion + grados;
 	@Override
 	public boolean win() {
 		if(entorno.esSalida(x, y)) {
-			//puntos+=20000;
+			
 			return true;
+			
 		}
 		
 		return false;
@@ -442,7 +526,7 @@ double angulo = direccion + grados;
 	@Override
 	public boolean lose() {
 		if(entorno.fueraLimites(x, y)) {
-			//puntos-=10000;
+			
 			return true;
 		}
 		
@@ -450,22 +534,13 @@ double angulo = direccion + grados;
 	}
 
 	@Override
-	public double[] getAdn() {
-		return cromosomas;
-	}
-
-	@Override
-	public void setAdn(double[] cromosomas) {
-		this.cromosomas = cromosomas;
-		
-	}
-
-	@Override
 	public float[][] caminoFloat() {
+		
 		int numRows = camino.size();
         float[][] resultado = new float[numRows][];
 
         for (int i = 0; i < numRows; i++) {
+        	
             Double[] fila = camino.get(i);
             int numCols = fila.length;
             resultado[i] = new float[numCols];
@@ -473,6 +548,7 @@ double angulo = direccion + grados;
             for (int j = 0; j < numCols; j++) {
                 resultado[i][j] = fila[j].floatValue();
             }
+            
         }
         
         return resultado;
@@ -482,11 +558,13 @@ double angulo = direccion + grados;
 	public double getPasos() {
 		return pasos;
 	}
+	
+	public Entorno getEntorno() {
+		return entorno;
+	}
 
-	@Override
-	public void setPasos(double pasos) {
-		this.pasos = pasos;
-		
+	public void setEntorno(Entorno entorno) {
+		this.entorno = entorno;
 	}
 	
 }

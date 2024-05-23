@@ -12,6 +12,9 @@ public class Principal{
 	 * ENTORNO GRAFICO
 	 * AÑADIR GRAFICAS DE ENTRENAMIENTO Y VISUALIZACION DE AGENTES
 	 * AÑADIR INTERFACES Y MEJORAS AL ENTORNO
+	 * HACER FUNCION FITNES BUNA
+	 * MEJORAR CRUCE Y MUTACION
+	 * AÑADIR ENTORNOS COMPLEJOS
 	 */
 	
 	public static Simulacion simulacionActual;
@@ -174,7 +177,7 @@ public class Principal{
 	
 	public static void entrenamiento() {
 		
-		simulacionActual.entrenarDesdeCero();
+		//simulacionActual.entrenarDesdeCero();
 		simulacionActual.entrenarDesdeCeroAlgoritmogenetico();
 	
 	}

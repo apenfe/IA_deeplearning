@@ -56,15 +56,9 @@ public interface Ship{
 	public boolean win();
 	
 	public boolean lose();
-
-	public double[] getAdn();
-
-	public void setAdn(double[] cromosomas);
 		
 	public float[][] caminoFloat();
 
 	public double getPasos();
-
-	public void setPasos(double pasos);
 
 }
