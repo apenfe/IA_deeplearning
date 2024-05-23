@@ -1,18 +1,8 @@
 package agente;
 
 import java.util.ArrayList;
-import entorno.Entorno;
 
 public interface Ship{
-	
-	public int sensorChoque=0;
-	public double pasos=0;
-	public final double HORIZONTE = 15;
-	public double x=0;
-	public double y=0;
-	public  ArrayList<Double[]> camino = new ArrayList<>();
-	public double direccion=0;
-	
 	
 	public ArrayList<Double[]> getCamino();
 	public void setCamino(ArrayList<Double[]> camino);
@@ -57,7 +47,7 @@ public interface Ship{
 	
 	public double normalizar(double value, double min, double max);
 	
-	public void calculateFitness();
+	public double calculateFitness();
 	
 	public double obtenerAngulo(double grados);
 	

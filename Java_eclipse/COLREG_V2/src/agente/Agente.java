@@ -19,35 +19,39 @@ public class Agente implements Ship{
 	private double[] cromosomas = new double[0];
 	private double fitness = -1;
 	private int id;
-	private Entorno entorno;
+	public Entorno entorno;
 	
-	public Agente(int id, Entorno entorno) {
-		
-		this.id = id;
+	
+	
+	public Entorno getEntorno() {
+		return entorno;
+	}
+
+	public void setEntorno(Entorno entorno) {
 		this.entorno = entorno;
-		initShip();
-		
 	}
 
-	public Agente(double[] chromosome) {
-		
-		this.cromosomas = chromosome;
-		
-	}
-
-	public Agente(int numeroCromosomas) {
+	public Agente(int numeroCromosomas, Entorno entorno) {
 		
 		this.cromosomas = new double[numeroCromosomas];
+		this.entorno = entorno;
 		
-		for (int gene = 0; gene < numeroCromosomas; gene++) {
+		for (int i = 0; i < cromosomas.length; i++) {
 			
-			if (0.5 < Math.random()) {
-				this.setGene(gene, 1);
-			} else {
-				this.setGene(gene, 0);
-			}
+			cromosomas[i]= -1 + 2 * Math.random();
 			
 		}
+		
+		this.initShip();
+		
+	}
+
+	public Agente(double[] chromosome, Entorno entorno, int id) {
+		
+		this.id=id;
+		this.cromosomas = chromosome;
+		this.entorno = entorno;
+		this.initShip();
 		
 	}
 
@@ -385,18 +389,19 @@ double max = Double.MIN_VALUE;
 	}
 
 	@Override
-	public void calculateFitness() {
-		 double distanciaSalida = entorno.distanciaSalida(x, y)*12;
+	public double calculateFitness() {
+		
+		 	double distanciaSalida = entorno.distanciaSalida(x, y);
 	        double penalizacionChoque = sensorChoque*2;
 	        double stepPenalty = pasos;
-
-	        double premioLlegada = 0;
-	      
-	        if (entorno.esSalida(x, y)) {
-	            premioLlegada = 1000000;
+	        double salida=0;
+	        
+	        if(entorno.esSalida(x, y)) {
+	        	salida=100000;
 	        }
 
-	        fitness = distanciaSalida - penalizacionChoque - stepPenalty + premioLlegada;
+	        this.fitness =  salida-penalizacionChoque-stepPenalty-distanciaSalida ;
+	        return salida-penalizacionChoque-stepPenalty-distanciaSalida;
 		
 	}
 

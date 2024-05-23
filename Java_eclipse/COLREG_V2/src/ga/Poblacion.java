@@ -4,25 +4,27 @@ import java.util.Arrays;
 import java.util.Comparator;
 
 import agente.Agente;
+import entorno.Entorno;
 
 public class Poblacion {
 	
 	private Agente poblacion[];
 	private double fitnessPoblacion = -1;
+	private Entorno entorno;
 
-	public Poblacion(int numeroIndividuos) {
+	public Poblacion(int numeroIndividuos, Entorno entorno) {
 		
 		this.poblacion = new Agente[numeroIndividuos];
-		
+		this.entorno=entorno;
 	}
 
-	public Poblacion(int tamanoPoblacion, int numeroCromosomas) {
+	public Poblacion(int tamanoPoblacion, int numeroCromosomas,Entorno entorno) {
 		
 		this.poblacion = new Agente[tamanoPoblacion];
 		
 		for (int i = 0; i < tamanoPoblacion; i++) {
 			
-			Agente agente = new Agente(numeroCromosomas);
+			Agente agente = new Agente(numeroCromosomas,entorno);
 			this.poblacion[i] = agente;
 			
 		}
@@ -62,7 +64,7 @@ public class Poblacion {
 		
 	}
 
-	public double getPopulationFitness() {
+	public double getPopulationFitness() { // ver
 		
 		int max = poblacion.length;
 		

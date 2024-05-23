@@ -119,13 +119,6 @@ public class Entorno{
 	public int[] getOrigen() {
 		return ORIGEN;
 	}
-
-	@Override
-	public String toString() {
-		
-		return nombre+"#"+alto+"#"+ancho+"#"+entradaX+"#"+entradaY+"#"+salidaX+"#"+salidaY+"#"+paso+"#"+areaAprox;
-		
-	}
 	
 	public boolean esSalida(double x, double y) {
 		

@@ -32,7 +32,7 @@ public class Plot4Agent extends PApplet {
 		this.puntos = b.caminoFloat();
 	}
 	
-	public void setColor(Agente b) {
+	public void setColor(Agente b) { // no tienen id
         
 		this.color=new int[3];
 		

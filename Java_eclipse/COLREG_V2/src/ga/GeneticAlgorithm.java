@@ -1,6 +1,7 @@
 package ga;
 
 import agente.Agente;
+import entorno.Entorno;
 
 public class GeneticAlgorithm {
 
@@ -8,37 +9,30 @@ public class GeneticAlgorithm {
 	private double ratioMutacion;
 	private double ratioDeCruce;
 	private int elite;
+	private Entorno entorno;
 
-	public GeneticAlgorithm(int tamanoPoblacion, double ratioMutacion, double ratioDeCruce, int elite) {
+	public GeneticAlgorithm(int tamanoPoblacion, double ratioMutacion, double ratioDeCruce, int elite, Entorno entorno) {
 
 		this.tamanoPoblacion = tamanoPoblacion;
 		this.ratioMutacion = ratioMutacion;
 		this.ratioDeCruce = ratioDeCruce;
 		this.elite = elite;
+		this.entorno=entorno;
 
 	}
 
 	public Poblacion iniciarPoblacion(int numeroCromosomas) {
 
-		Poblacion poblacion = new Poblacion(this.tamanoPoblacion, numeroCromosomas);
+		Poblacion poblacion = new Poblacion(this.tamanoPoblacion, numeroCromosomas,this.entorno);
 		return poblacion;
 
 	}
 
 	public double calculoFitnessAgente(Agente agente) {
-		// Track number of correct genes
-		int genesCorrectos = 0;
-		// Loop over individual's genes
-		for (int i = 0; i < agente.getChromosomeLength(); i++) {
-			// Add one fitness point for each "1" found
-			if (agente.getGene(i) == 1) {
-				genesCorrectos += 1;
-			}
-		}
-		// Calculate fitness
-		double fitness = (double) genesCorrectos / agente.getChromosomeLength();
-		// Store fitness
-		agente.setFitness(fitness);
+		
+		double fitness = agente.calculateFitness();
+		
+		//agente.setFitness(fitness);
 		return fitness;
 		
 	}
@@ -57,16 +51,12 @@ public class GeneticAlgorithm {
 		
 	}
 
-	public boolean condicionTerminacion(Poblacion poblacion) {
-		
-		for (Agente agente : poblacion.getIndividuals()) {
+	public boolean condicionTerminacion(int generacion, int genMax) { // ver
 			
-			if (agente.getFitness() == 1) {
+		if (generacion>=genMax) {
 				
-				return true;
+			return true;
 				
-			}
-			
 		}
 		
 		return false;
@@ -74,12 +64,11 @@ public class GeneticAlgorithm {
 
 	public Agente seleccionarPadre(Poblacion poblacion) {
 		
-		// Get individuals
 		Agente agentes[] = poblacion.getIndividuals();
-		// Spin roulette wheel
+		
 		double fitnessPoblacion = poblacion.getPopulationFitness();
 		double posicionRuleta = Math.random() * fitnessPoblacion;
-		// Find parent
+		
 		double spinWheel = 0;
 		
 		for (Agente agente : agentes) {
@@ -98,23 +87,20 @@ public class GeneticAlgorithm {
 		
 	}
 
-	public Poblacion cruzarPoblacion(Poblacion poblacion) {
+	public Poblacion cruzarPoblacion(Poblacion poblacion,Entorno entorno) {
 		
-		// Create new population
-		Poblacion nuevaPoblacion = new Poblacion(poblacion.size());
+		Poblacion nuevaPoblacion = new Poblacion(poblacion.size(),entorno);
 		
-		// Loop over current population by fitness
 		for (int i = 0; i < poblacion.size(); i++) {
 			
 			Agente padre = poblacion.getFittest(i);  // porque es una i??
 			
-			// Apply crossover to this individual?
 			if (this.ratioDeCruce > Math.random() && i > this.elite) {
-				// Initialize offspring
-				Agente hijo = new Agente(padre.getChromosomeLength());
-				// Find second parent
+				
+				Agente hijo = new Agente(padre.getChromosomeLength(),entorno);
+				
 				Agente madre = seleccionarPadre(poblacion);
-				// Loop over genome
+				
 				for (int gen = 0; gen < padre.getChromosomeLength(); gen++) {
 					// Use half of parent1's genes and half of parent2's genes
 					if (0.5 > Math.random()) {
@@ -137,32 +123,32 @@ public class GeneticAlgorithm {
 		
 	}
 
-	public Poblacion mutarPoblacion(Poblacion poblacion) {
+	public Poblacion mutarPoblacion(Poblacion poblacion,Entorno entorno) {
 		
-		// Initialize new population
-		Poblacion nuevaPoblacion = new Poblacion(this.tamanoPoblacion);
+		Poblacion nuevaPoblacion = new Poblacion(this.tamanoPoblacion,entorno);
 		
-		// Loop over current population by fitness
 		for (int i = 0; i < poblacion.size(); i++) {
 			
 			Agente agente = poblacion.getFittest(i);
 			
-			// Loop over individual's genes
 			for (int j = 0; j < agente.getChromosomeLength(); j++) {
 				
-				// Skip mutation if this is an elite individual
 				if (i >= this.elite) {
 					
-					// Does this gene need mutation?
 					if (this.ratioMutacion > Math.random()) {
 						// Get new gene
-						int nuevoGen = 1;
-
-						if (agente.getGene(j) == 1) {
-							nuevoGen = 0;
+						double gen = agente.getGene(j);
+						double nuevoGen=0;
+						
+						if (0.5 > Math.random()) {
+							nuevoGen += 0.3;
+						} else {
+							nuevoGen -= 0.3;
 						}
+
+						
 						// Mutate gene
-						agente.setGene(j, nuevoGen);
+						agente.setGene(j, gen+nuevoGen);
 					}
 				}
 			}
