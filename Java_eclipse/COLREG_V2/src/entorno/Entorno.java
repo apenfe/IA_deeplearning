@@ -1,10 +1,17 @@
 package entorno;
 
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
+
 import clases.DAO;
 import clases.Entradas;
 
 public class Entorno{
 	
+	private int[][][] mapa;
 	private String nombre;
 	private final int[] ORIGEN = {0,0};
 	private double alto;
@@ -28,6 +35,12 @@ public class Entorno{
 		this.paso = paso;
 		this.areaAprox = areaAprox;
 		
+		if(cargarCarta()) {
+			System.out.println("Carga correcta");
+		}else {
+			System.err.println("Error al cargar");
+		}
+		
 	}
 	
 	public Entorno(String nombre, double alto, double ancho, double entradaX, double entradaY, double salidaX, double salidaY, double paso, double areaAprox) {
@@ -41,6 +54,12 @@ public class Entorno{
 		this.salidaY =  salidaY;
 		this.paso =  paso;
 		this.areaAprox =  areaAprox;
+		
+		if(cargarCarta()) {
+			System.out.println("Carga correcta");
+		}else {
+			System.err.println("Error al cargar");
+		}
 		
 	}
 
@@ -150,17 +169,34 @@ public class Entorno{
 		
 	}
 	
+	private boolean esTierra(double x, double y) {
+		
+				
+		 int ix = (int) x;
+	        int iy = (int) y;
+
+	        // Verificar que las coordenadas estén dentro de los límites de la imagen
+	        if (ix >= 0 && ix < mapa.length && iy >= 0 && iy < mapa[0].length) {
+	            return (mapa[ix][iy][0] == 210 && mapa[ix][iy][1] == 180 && mapa[ix][iy][2] == 142);
+	        }
+	        
+	        return false;
+		
+	}
+	
 	public boolean fueraLimites(double x, double y) {
 		
 		if(x>alto||x<0||y>ancho||y<0) {
 			
 			return true;
 			
-		}else {
-			
-			return false;
-			
 		}
+		
+		if(esTierra(x,y)) {
+			return true;
+		}
+		
+		return false;
 		
 	}
 	
@@ -175,7 +211,46 @@ public class Entorno{
 		}
 	
 		return false;
+
+	}
+
+	public boolean cargarCarta() {
+
+		try {
+		
+			File file = new File("mapas\\mapa_1.png");
+			BufferedImage image = ImageIO.read(file);
+
+			int width = image.getWidth();
+			int height = image.getHeight();
+
+			this.mapa = new int[height][width][3];
+
+			for (int x = 0; x < width; x++) {
+				
+				for (int y = 0; y < height; y++) {
+					
+					int pixel = image.getRGB(x, y);
+
+					int red = (pixel >> 16) & 0xff;
+					int green = (pixel >> 8) & 0xff;
+					int blue = pixel & 0xff;
+
+					this.mapa[y][x][0] = red;
+					this.mapa[y][x][1] = green;
+					this.mapa[y][x][2] = blue;
+					
+				}
+			}
+
+			return true;
+			
+		} catch (IOException e) {
+			
+			return false;
+			
+		}
 		
 	}
-	
+
 }

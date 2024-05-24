@@ -8,7 +8,7 @@ public class Agente implements Ship{
 	
 	public int sensorChoque;
 	public double pasos;
-	public final double HORIZONTE = 15;
+	public final double HORIZONTE = 25;
 	public double x;
 	public double y;
 	public  ArrayList<Double[]> camino = new ArrayList<>();
@@ -150,7 +150,7 @@ public class Agente implements Ship{
 		
 		this.apuntaASalida(x,y);
 		this.seAcercaASalida(x,y);
-		
+		this.revisarListaPasos(x,y);
 	}
 
 	@Override
@@ -432,11 +432,13 @@ public class Agente implements Ship{
         return normalizedValue;
 	}
 	
-	private int revisarListaPasos(double x, double y) {
+	private void revisarListaPasos(double x, double y) {
 		
 		for (int i = 0; i < this.camino.size(); i++) {
 			
-			// recorrer un arrary y ver si ya h sido visitada la casilla, asi evito bucles, tambien puedo hacerlo con un area de margen
+			if(x==camino.get(i)[0] && y==camino.get(i)[1]) {
+				fitness-=10;
+			}
 			
 		}
 		

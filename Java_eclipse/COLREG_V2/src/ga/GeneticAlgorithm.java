@@ -10,8 +10,9 @@ public class GeneticAlgorithm {
 	private double ratioDeCruce;
 	private int elite;
 	private Entorno entorno;
+	private final double MUTACION = 0.3;
 
-	public GeneticAlgorithm(int tamanoPoblacion, double ratioMutacion, double ratioDeCruce, int elite, Entorno entorno) {
+	public GeneticAlgorithm(int tamanoPoblacion, double ratioMutacion, double ratioDeCruce, int elite, Entorno entorno) { // ratio de cruce entre 0 y 1
 
 		this.tamanoPoblacion = tamanoPoblacion;
 		this.ratioMutacion = ratioMutacion;
@@ -32,7 +33,6 @@ public class GeneticAlgorithm {
 		
 		double fitness = agente.calculateFitness();
 		
-		//agente.setFitness(fitness);
 		return fitness;
 		
 	}
@@ -62,7 +62,7 @@ public class GeneticAlgorithm {
 		return false;
 	}
 
-	public Agente seleccionarPadre(Poblacion poblacion) {
+	public Agente seleccionarPadre(Poblacion poblacion) { // creo que aqui no está seleccionando bien el padre
 		
 		Agente agentes[] = poblacion.getIndividuals();
 		
@@ -89,11 +89,11 @@ public class GeneticAlgorithm {
 
 	public Poblacion cruzarPoblacion(Poblacion poblacion,Entorno entorno) {
 		
-		Poblacion nuevaPoblacion = new Poblacion(poblacion.size(),entorno);
+		Poblacion nuevaPoblacion = new Poblacion(poblacion.size());
 		
 		for (int i = 0; i < poblacion.size(); i++) {
 			
-			Agente padre = poblacion.getFittest(i);  // porque es una i??
+			Agente padre = poblacion.getFittest(i);
 			
 			if (this.ratioDeCruce > Math.random() && i > this.elite) {
 				
@@ -123,9 +123,9 @@ public class GeneticAlgorithm {
 		
 	}
 
-	public Poblacion mutarPoblacion(Poblacion poblacion,Entorno entorno) {
+	public Poblacion mutarPoblacion(Poblacion poblacion) {
 		
-		Poblacion nuevaPoblacion = new Poblacion(this.tamanoPoblacion,entorno);
+		Poblacion nuevaPoblacion = new Poblacion(this.tamanoPoblacion);
 		
 		for (int i = 0; i < poblacion.size(); i++) {
 			
@@ -141,11 +141,10 @@ public class GeneticAlgorithm {
 						double nuevoGen=0;
 						
 						if (0.5 > Math.random()) {
-							nuevoGen += 0.3;
+							nuevoGen += Math.random()*MUTACION;
 						} else {
-							nuevoGen -= 0.3;
+							nuevoGen -= Math.random()*MUTACION;
 						}
-
 						
 						// Mutate gene
 						agente.setGene(j, gen+nuevoGen);

@@ -10,12 +10,11 @@ public class Poblacion {
 	
 	private Agente poblacion[];
 	private double fitnessPoblacion = -1;
-	private Entorno entorno;
 
-	public Poblacion(int numeroIndividuos, Entorno entorno) {
+	public Poblacion(int numeroIndividuos) {
 		
 		this.poblacion = new Agente[numeroIndividuos];
-		this.entorno=entorno;
+		
 	}
 
 	public Poblacion(int tamanoPoblacion, int numeroCromosomas,Entorno entorno) {

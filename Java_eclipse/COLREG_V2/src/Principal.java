@@ -4,15 +4,11 @@ import clases.Simulacion;
 public class Principal{
 	
 	/*
-	 * VISUALIZACION MULTIAGENTE
-	 * ENTRENAR RED
-	 * PODER PROBAR UN ADN
-	 * PODER CONTINUAR ENTRENAMIENTO CON ADN, ENTORNO Y RED ALMACENADA
 	 * ENTORNO GRAFICO
 	 * AÑADIR GRAFICAS DE ENTRENAMIENTO Y VISUALIZACION DE AGENTES
 	 * AÑADIR INTERFACES Y MEJORAS AL ENTORNO
 	 * HACER FUNCION FITNES BUENA
-	 * MEJORAR CRUCE Y MUTACION
+	 * MEJORAR CRUCE
 	 * AÑADIR ENTORNOS COMPLEJOS
 	 */
 	
@@ -32,10 +28,12 @@ public class Principal{
 			System.out.println("1 ---> CARGAR RED Y ENTORNO");
 			System.out.println("2 ---> CREAR NUEVA RED Y ENTORNO");
 			System.out.println("3 ---> ENTRENAR_RED_DESDE_CERO");
-			System.out.println("4 ---> PRUEBA RAPIDA AGENTES");
+			System.out.println("4 ---> PRUEBA RAPIDA AGENTES_RANDOM");
 			System.out.println("5 ---> VER DATOS RED ACTUAL");
+			System.out.println("6 ---> PRUEBA RAPIDA AGENTES_ADN");
+			System.out.println("7 ---> CONTINUAR ENTRENANDO RED");
 			System.out.println("0 ---> SALIR");
-			int opcion = Entradas.entero("SELECCIONE UNA OPCION [0-4]: ");
+			int opcion = Entradas.entero("SELECCIONE UNA OPCION [0-6]: ");
 			
 			if(opcion == 1) {
 				
@@ -69,6 +67,24 @@ public class Principal{
 				}else {
 					
 					verSimulacion();
+				}
+				
+			}else if(opcion == 6) {
+				
+				if(simulacionActual==null) {
+					System.err.println("\nDebe cargar o crear una simulacion");
+				}else {
+					
+					pruebaRapidaADN();
+				}
+				
+			}else if(opcion == 7) {
+				
+				if(simulacionActual==null) {
+					System.err.println("\nDebe cargar o crear una simulacion");
+				}else {
+					
+					continuarEntrenamiento();
 				}
 				
 			}else if(opcion == 0) {
@@ -192,7 +208,19 @@ public class Principal{
 	
 	public static void pruebaRapida() {
 		
-		simulacionActual.entrenarDesdeCero();
+		simulacionActual.probarRandom();
+	
+	}
+	
+	public static void pruebaRapidaADN() {
+		
+		simulacionActual.probarADN();
+	
+	}
+	
+	public static void continuarEntrenamiento() {
+		
+		simulacionActual.continuarEntrenamiento();
 	
 	}
 	
