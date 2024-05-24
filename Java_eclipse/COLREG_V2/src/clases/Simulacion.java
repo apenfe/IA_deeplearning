@@ -6,6 +6,7 @@ import entorno.Entorno;
 import red.*;
 import visual.Plot4;
 import visual.Plot4Agent;
+import visual.Plot5Agent;
 import ga.*;
 import processing.core.PApplet;
 
@@ -114,6 +115,9 @@ public class Simulacion{
 	*/
 	public void entrenarDesdeCero() {
 		
+		this.entorno.setAreaAprox(10);
+		this.entorno.setSalidaX(800); // y
+		this.entorno.setSalidaY(1700); // x
 		System.out.println("Preparación de agentes y entorno...");
 		int numAgentes = Entradas.entero("¿Cuantos agentes desea añadir a la simulación? ");
 		agentes = new Agente[numAgentes];
@@ -145,17 +149,26 @@ public class Simulacion{
 				double[] salidas = red.probarRed(entradas);
 				agentes[i].acciones(salidas);
 
-				if (agentes[i].fin() || agentes[i].getPasos() > 10000) {
+				if (agentes[i].fin() || agentes[i].getPasos() > 17000) {
 					System.out.println("\t\t\tFin simulación del Barco nº "+(i+1)+", Resumen:");
 
-					if (agentes[i].getPasos() > 10000) {
+					if (agentes[i].getPasos() > 17000) {
 						System.out.println("\t\t\tEliminado por cantidad excesiva de pasos.");
 					} else {
 						System.out.println("\t\t\tEliminado por llegada a meta o salida.");
 					}
-					System.out.println("\t\t\tPuntos: " + agentes[i].getFitness());
-					System.out.println("\t\t\tPasos: " + agentes[i].getPasos());
-					System.out.println();
+					
+					if(agentes[i].win()) {
+						System.err.println("\t\t\tPuntos: " + agentes[i].getFitness());
+						System.err.println("\t\t\tPasos: " + agentes[i].getPasos());
+						System.out.println();
+					}else {
+						System.out.println("\t\t\tPuntos: " + agentes[i].getFitness());
+						System.out.println("\t\t\tPasos: " + agentes[i].getPasos());
+						System.out.println();
+						
+					}
+					
 					break;
 				}
 
@@ -163,31 +176,47 @@ public class Simulacion{
 			
 		}
 		
-		Plot4Agent applet = new Plot4Agent();
+		Plot5Agent applet = new Plot5Agent();
 		applet.setXY((int)entorno.getAncho(),(int)entorno.getAlto());
 		applet.setBarcos(agentes);
 		applet.setInOut(entorno.getEntradaX(),entorno.getEntradaY(),entorno.getSalidaX(),entorno.getSalidaY());
-	    PApplet.runSketch(new String[]{"visual/Plot4Agent"}, applet);
+	    PApplet.runSketch(new String[]{"visual/Plot5Agent"}, applet);
 
 	}
 	
 	public void entrenarDesdeCeroAlgoritmogenetico() {
 		
+		this.entorno.setAreaAprox(10);
+		this.entorno.setSalidaX(800); // y
+		this.entorno.setSalidaY(1700); // x
 		System.out.println("Preparación de agentes y entorno...");
 		
 		//int tamanoPoblacion, double ratioMutacion, double ratioDeCruce, int elite
 		int numAgentes = Entradas.entero("¿Cuantos agentes desea añadir a la simulación? ");
 		int numGeneraciones = Entradas.entero("¿Cuantas generaciones desea simular? ");
 		
-		this.ga = new GeneticAlgorithm(numAgentes, 0.01, 0.95, 10,this.entorno);
+		this.ga = new GeneticAlgorithm(numAgentes, 0.01, 0.95, 12,this.entorno);
 
 		Poblacion poblacion = ga.iniciarPoblacion(this.red.getParametros().length); // numero de cromosomas
 
 		ga.calculoFitnessPoblacion(poblacion);
 		
+		///////
+		System.err.println(entorno.getAreaAprox());
+		///
 		int generacion = 1;
 		
 		while (ga.condicionTerminacion(generacion,numGeneraciones) == false) {
+			
+			System.out.println("Generacion: "+generacion+" entorno: "+poblacion.getFittest(0).getEntorno().getNombre());
+
+			//System.out.println("Fitness de la poblacion: "+poblacion.getPopulationFitness()+"%, Best solution: " + poblacion.getFittest(0).toString());
+
+			poblacion = ga.cruzarPoblacion(poblacion,entorno);
+			
+			poblacion = ga.mutarPoblacion(poblacion,entorno);
+			
+			ga.calculoFitnessPoblacion(poblacion);
 			
 			for (int i = 0; i < numAgentes; i++) {
 				
@@ -199,36 +228,17 @@ public class Simulacion{
 					double[] salidas = red.probarRed(entradas);
 					poblacion.getIndividual(i).acciones(salidas);
 
-					if (poblacion.getIndividual(i).win() || poblacion.getIndividual(i).lose() || poblacion.getIndividual(i).getPasos() > 10000) {
-						
+					if (poblacion.getIndividual(i).win() || poblacion.getIndividual(i).lose() || poblacion.getIndividual(i).getPasos() > 17000) {
+						if(poblacion.getIndividual(i).win()) {
+							System.err.print("-");
+						}
 						break;
 					}
-/*
-					if (poblacion.getIndividual(i).fin() ||poblacion.getIndividual(i).getPasos() > 10000) {
-						
-						break;
-					}
-*/
+
 				} while (true);
 				
 			}
-			
-			System.out.println("Generacion: "+generacion+" entorno: "+poblacion.getFittest(0).getEntorno().getNombre());
-
-			//System.out.println("Fitness de la poblacion: "+poblacion.getPopulationFitness()+"%, Best solution: " + poblacion.getFittest(0).toString());
-
-			poblacion = ga.cruzarPoblacion(poblacion,entorno);
-			
-			poblacion = ga.mutarPoblacion(poblacion,entorno);
-			
-			ga.calculoFitnessPoblacion(poblacion);
-			/*
-			Plot4Agent applet = new Plot4Agent();
-			applet.setXY((int)entorno.getAncho(),(int)entorno.getAlto());
-			applet.setBarcos(poblacion.getIndividuals());
-			applet.setInOut(entorno.getEntradaX(),entorno.getEntradaY(),entorno.getSalidaX(),entorno.getSalidaY());
-		    PApplet.runSketch(new String[]{"visual/Plot4Agent"}, applet);
-			*/
+			//System.out.println();
 			generacion++;
 			
 		}
@@ -238,11 +248,11 @@ public class Simulacion{
 		
 		//****************************************************************************************
 		
-		Plot4Agent applet = new Plot4Agent();
+		Plot5Agent applet = new Plot5Agent();
 		applet.setXY((int)entorno.getAncho(),(int)entorno.getAlto());
 		applet.setBarcos(poblacion.getIndividuals());
 		applet.setInOut(entorno.getEntradaX(),entorno.getEntradaY(),entorno.getSalidaX(),entorno.getSalidaY());
-	    PApplet.runSketch(new String[]{"visual/Plot4Agent"}, applet);
+	    PApplet.runSketch(new String[]{"visual/Plot5Agent"}, applet);
 
 	}
 	

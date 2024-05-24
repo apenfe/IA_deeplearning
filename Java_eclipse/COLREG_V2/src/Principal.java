@@ -5,14 +5,13 @@ public class Principal{
 	
 	/*
 	 * VISUALIZACION MULTIAGENTE
-	 * CREAR ALGORITMO
 	 * ENTRENAR RED
 	 * PODER PROBAR UN ADN
 	 * PODER CONTINUAR ENTRENAMIENTO CON ADN, ENTORNO Y RED ALMACENADA
 	 * ENTORNO GRAFICO
 	 * AÑADIR GRAFICAS DE ENTRENAMIENTO Y VISUALIZACION DE AGENTES
 	 * AÑADIR INTERFACES Y MEJORAS AL ENTORNO
-	 * HACER FUNCION FITNES BUNA
+	 * HACER FUNCION FITNES BUENA
 	 * MEJORAR CRUCE Y MUTACION
 	 * AÑADIR ENTORNOS COMPLEJOS
 	 */
@@ -30,10 +29,11 @@ public class Principal{
 		do {
 			
 			System.out.println("\n--- SIMULACION COLREG IA ---");
-			System.out.println("1 ---> CARGAR RED");
-			System.out.println("2 ---> CREAR NUEVA RED");
+			System.out.println("1 ---> CARGAR RED Y ENTORNO");
+			System.out.println("2 ---> CREAR NUEVA RED Y ENTORNO");
 			System.out.println("3 ---> ENTRENAR_RED_DESDE_CERO");
-			System.out.println("4 ---> VER DATOS RED ACTUAL");
+			System.out.println("4 ---> PRUEBA RAPIDA AGENTES");
+			System.out.println("5 ---> VER DATOS RED ACTUAL");
 			System.out.println("0 ---> SALIR");
 			int opcion = Entradas.entero("SELECCIONE UNA OPCION [0-4]: ");
 			
@@ -54,6 +54,15 @@ public class Principal{
 				}
 				
 			}else if(opcion == 4) {
+				
+				if(simulacionActual==null) {
+					System.err.println("\nDebe cargar o crear una simulacion");
+				}else {
+					
+					pruebaRapida();
+				}
+				
+			}else if(opcion == 5) {
 				
 				if(simulacionActual==null) {
 					System.err.println("\nDebe cargar o crear una simulacion");
@@ -177,8 +186,13 @@ public class Principal{
 	
 	public static void entrenamiento() {
 		
-		//simulacionActual.entrenarDesdeCero();
 		simulacionActual.entrenarDesdeCeroAlgoritmogenetico();
+	
+	}
+	
+	public static void pruebaRapida() {
+		
+		simulacionActual.entrenarDesdeCero();
 	
 	}
 	

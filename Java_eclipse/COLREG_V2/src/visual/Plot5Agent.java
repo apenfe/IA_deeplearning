@@ -3,7 +3,7 @@ package visual;
 import agente.Agente;
 import processing.core.PApplet;
 
-public class Plot4Agent extends PApplet {
+public class Plot5Agent extends PApplet {
 	
 	Agente[] agentes = new Agente[0];
 	float[][] puntos = new float[0][0];
@@ -13,7 +13,7 @@ public class Plot4Agent extends PApplet {
 	int speed = 15; // Number of points to draw per frame
 	int[] color; // Array to store colors for each barco
 	
-	public Plot4Agent() {
+	public Plot5Agent() {
 		
 	}
 	
@@ -64,10 +64,10 @@ public class Plot4Agent extends PApplet {
 	}
 
 	public void setInOut(double xE, double yE, double xS, double yS) {
-		this.xE = xE;
-		this.yE = yE;
-		this.xS = xS;
-		this.yS = yS;
+		this.xE = yE;
+		this.yE = xE;
+		this.xS = yS;
+		this.yS = xS;
 	}
 
 	// Method to configure the window
