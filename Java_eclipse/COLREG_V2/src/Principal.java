@@ -33,7 +33,7 @@ public class Principal{
 			System.out.println("6 ---> PRUEBA RAPIDA AGENTES_ADN");
 			System.out.println("7 ---> CONTINUAR ENTRENANDO RED");
 			System.out.println("0 ---> SALIR");
-			int opcion = Entradas.entero("SELECCIONE UNA OPCION [0-6]: ");
+			int opcion = Entradas.entero("SELECCIONE UNA OPCION [0-7]: ");
 			
 			if(opcion == 1) {
 				
@@ -128,31 +128,9 @@ public class Principal{
 			System.out.println("Error al cargar el entorno");
 		}
 		
-		boolean adn=false;
+		String nombreMapa = Entradas.texto("Inserte el nombre del mapa: ");
 		
-		String respuesta = Entradas.texto("¿Desea cargar un ADN? S - SI ");
-		
-		if(respuesta.equalsIgnoreCase("S")) {
-			
-			adn=true;
-			
-		}
-		
-		if(adn) { // ver como seleccionar entre varios adn
-			
-			String nombreADN = Entradas.texto("Inserte el nombre del ADN a cargar: ");
-			
-			if(simulacionActual.cargarADN(nombreRed,nombreADN)) {
-				
-				System.out.println("ADN cargado correctamente");
-				
-			}else {
-				
-				System.err.println("Error al cargar el ADN");
-				
-			}
-			
-		}
+		simulacionActual.getEntorno().setCarta("mapas\\"+nombreMapa+".png");
 		
 	}
 	

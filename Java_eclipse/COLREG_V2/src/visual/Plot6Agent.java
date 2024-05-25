@@ -16,11 +16,13 @@ public class Plot6Agent extends PApplet {
 	int[] color; // Array to store colors for each barco
 	int generacion;
 	double maxFitness;
+	String mapa;
 	
 	
-	public Plot6Agent(int generacion, double maxFitness) {
+	public Plot6Agent(int generacion, double maxFitness,String mapa) {
 		this.generacion=generacion;
 		this.maxFitness=maxFitness;
+		this.mapa=mapa;
 	}
 	
 	public void setBarcos(Agente[] agentes) {
@@ -38,7 +40,7 @@ public class Plot6Agent extends PApplet {
 	
 	public void setup() {
 		//frameRate(20); // Set the frame rate to 30 FPS to slow down the animation
-		this.fondo = loadImage("\\mapas\\mapa_1.png"); // Reemplaza con la ruta de tu imagen
+		this.fondo = loadImage(mapa); // Reemplaza con la ruta de tu imagen
 	}
 
 	public void setPuntos(Agente b) {

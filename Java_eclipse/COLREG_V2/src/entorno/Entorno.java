@@ -11,6 +11,7 @@ import clases.Entradas;
 
 public class Entorno{
 	
+	public String carta;
 	private int[][][] mapa;
 	private String nombre;
 	private final int[] ORIGEN = {0,0};
@@ -218,7 +219,7 @@ public class Entorno{
 
 		try {
 		
-			File file = new File("mapas\\mapa_1.png");
+			File file = new File(this.carta);
 			BufferedImage image = ImageIO.read(file);
 
 			int width = image.getWidth();
@@ -251,6 +252,14 @@ public class Entorno{
 			
 		}
 		
+	}
+
+	public String getCarta() {
+		return carta;
+	}
+
+	public void setCarta(String carta) {
+		this.carta = carta;
 	}
 
 }

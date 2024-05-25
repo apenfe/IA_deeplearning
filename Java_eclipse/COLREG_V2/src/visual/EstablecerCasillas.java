@@ -9,14 +9,15 @@ public class EstablecerCasillas extends PApplet {
 	int rightX = 0, rightY = 0; // Coordenadas para salida
 	PImage fondo;
 	int x, y;
+	String mapa;
 	
-	public EstablecerCasillas() {
-
+	public EstablecerCasillas(String mapa) {
+		this.mapa=mapa;
 	}
 	
 	public void setup() {
 		
-		this.fondo = loadImage("\\mapas\\mapa_1.png");
+		this.fondo = loadImage(mapa);
 	}
 	
 	public void setXY(int x, int y) {

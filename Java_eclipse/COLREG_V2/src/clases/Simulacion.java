@@ -12,6 +12,7 @@ import processing.core.PApplet;
 public class Simulacion{
 	
 	private double[] adn_red = new double[0];
+	private double[] adn_red_2 = new double[0];
 	private Entorno entorno;
 	private Agente[] agentes = new Agente[0];
 	private RedNeuronal red;
@@ -101,7 +102,7 @@ public class Simulacion{
 			
 		}
 		
-		int indice = -1;
+		int indice = 0;
 		double max= Double.MIN_VALUE;
 		
 		for (int i = 0; i < agentes.length; i++) {
@@ -122,7 +123,7 @@ public class Simulacion{
 		
 		String nombreADN = Entradas.texto("\nInserte el nombre del ADN a cargar: ");
 			
-		if(cargarADN(this.red.getNombre(),nombreADN)) {
+		if(cargarADN(this.red.getNombre(),nombreADN,true)) {
 				
 			System.out.println("ADN cargado correctamente");
 				
@@ -289,7 +290,7 @@ public class Simulacion{
 	
 	private void establecerEntradaSalida() {
 		
-		EstablecerCasillas applet = new EstablecerCasillas();
+		EstablecerCasillas applet = new EstablecerCasillas(this.entorno.carta);
 		applet.setXY((int)entorno.getAncho(),(int)entorno.getAlto());
 		 PApplet.runSketch(new String[]{"visual/EstablecerCasillas"}, applet);
 		double[] meter = new double[4];
@@ -312,7 +313,7 @@ public class Simulacion{
 
 	    }while(true);
 
-	    this.entorno.setAreaAprox(10);
+	    this.entorno.setAreaAprox(30);
 		this.entorno.setSalidaX(meter[3]); // y
 		this.entorno.setSalidaY(meter[2]); // x
 		this.entorno.setEntradaX(meter[1]); // y
@@ -323,7 +324,7 @@ public class Simulacion{
 	
 	private void verSimulacion(Agente[] agentes, int generacion, double fitness) {
 		
-		Plot6Agent applet = new Plot6Agent(generacion,fitness);
+		Plot6Agent applet = new Plot6Agent(generacion,fitness,this.entorno.carta);
 		applet.setXY((int)entorno.getAncho(),(int)entorno.getAlto());
 		applet.setBarcos(agentes);
 		applet.setInOut(entorno.getEntradaX(),entorno.getEntradaY(),entorno.getSalidaX(),entorno.getSalidaY());
@@ -335,9 +336,9 @@ public class Simulacion{
 		
 		establecerEntradaSalida();
 		
-		String nombreADN = Entradas.texto("Inserte el nombre del ADN a cargar: ");
+		String nombreADN = Entradas.texto("\nInserte el nombre del ADN a cargar: ");
 		
-		if(cargarADN(this.red.getNombre(),nombreADN)) {
+		if(cargarADN(this.red.getNombre(),nombreADN,true)) {
 				
 			System.out.println("ADN cargado correctamente");
 				
@@ -348,12 +349,30 @@ public class Simulacion{
 				
 		}
 		
+		String respuesta = Entradas.texto("¿Desea cruzar un segundo ADN? S - SI ");
+		
+		if(respuesta.equalsIgnoreCase("S")) {
+			
+			String nombreADN2 = Entradas.texto("Inserte el nombre del ADN a cargar: ");
+			
+			if(this.cargarADN(this.red.getNombre(),nombreADN2,false)) {
+				
+				System.out.println("ADN cargado correctamente");
+				
+			}else {
+				
+				System.err.println("Error al cargar el ADN");
+				
+			}
+			
+		}
+		
 		System.out.println("Preparación de agentes y entorno...");
 		
 		int numAgentes = Entradas.entero("¿Cuantos agentes desea añadir a la simulación? ");
 		int numGeneraciones = Entradas.entero("¿Cuantas generaciones desea simular? ");
 		
-		this.ga = new GeneticAlgorithm(numAgentes, 0.02, 0.90, 12,this.entorno);
+		this.ga = new GeneticAlgorithm(numAgentes, 0.03, 0.92, 22,this.entorno);
 
 		Poblacion poblacion = ga.iniciarPoblacion(this.red.getParametros().length);
 
@@ -361,7 +380,11 @@ public class Simulacion{
 		
 		for (int i = 0; i < poblacion.size(); i++) {
 			
-			poblacion.getIndividual(i).setCromosomas(adn_red);
+			if(Math.random()>0.5 && adn_red.length>0) {
+				poblacion.getIndividual(i).setCromosomas(adn_red_2);
+			}else {
+				poblacion.getIndividual(i).setCromosomas(adn_red);
+			}
 			
 		}
 		
@@ -387,7 +410,7 @@ public class Simulacion{
 					double[] salidas = red.probarRed(entradas);
 					poblacion.getIndividual(i).acciones(salidas);
 
-					if (poblacion.getIndividual(i).win() || poblacion.getIndividual(i).lose() || poblacion.getIndividual(i).getPasos() > 17000) {
+					if (poblacion.getIndividual(i).win() || poblacion.getIndividual(i).lose() || poblacion.getIndividual(i).getPasos() > 44000) {
 						if(poblacion.getIndividual(i).win()) {
 							System.err.print("-");
 						}
@@ -398,7 +421,7 @@ public class Simulacion{
 				
 			}
 			
-			String respuesta = Entradas.texto("¿Desea ver la "+generacion+" generacion? S - SI ");
+			respuesta = Entradas.texto("¿Desea ver la "+generacion+" generacion? S - SI ");
 			
 			if(respuesta.equalsIgnoreCase("S")) {
 				
@@ -413,7 +436,7 @@ public class Simulacion{
 		System.out.println("Solucion encontrada en " + generacion + "generaciones.");
 		System.out.println("Mejor solucion: " + poblacion.getFittest(0).toString());
 		
-		Plot6Agent plot = new Plot6Agent(generacion,poblacion.getFittest(0).getFitness());
+		Plot6Agent plot = new Plot6Agent(generacion,poblacion.getFittest(0).getFitness(),this.entorno.carta);
 		plot.setXY((int)entorno.getAncho(),(int)entorno.getAlto());
 		plot.setBarcos(poblacion.getIndividuals());
 		plot.setInOut(entorno.getEntradaX(),entorno.getEntradaY(),entorno.getSalidaX(),entorno.getSalidaY());
@@ -421,7 +444,7 @@ public class Simulacion{
 	    
 	    boolean adn=false;
 		
-		String respuesta = Entradas.texto("¿Desea guardar el ADN? S - SI ");
+		respuesta = Entradas.texto("¿Desea guardar el ADN? S - SI ");
 		
 		if(respuesta.equalsIgnoreCase("S")) {
 			
@@ -523,14 +546,19 @@ public class Simulacion{
 
 	}
 	
-	public boolean cargarADN(String nombreRed,String nombreADN) {
+	public boolean cargarADN(String nombreRed,String nombreADN, boolean primero) {
 		
 		DAO db = new DAO();
 		
 		double[] cargado =db.cargarGenes(nombreRed,nombreADN);
 		
 		if(cargado.length>0) {
-			this.adn_red=cargado;
+			
+			if(primero) {
+				this.adn_red=cargado;
+			}else {
+				this.adn_red_2=cargado;
+			}
 			return true;
 		}
 		

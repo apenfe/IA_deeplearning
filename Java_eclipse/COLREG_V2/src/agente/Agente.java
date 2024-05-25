@@ -101,9 +101,9 @@ public class Agente implements Ship{
 		
 		this.x = entorno.getEntradaX();
 		this.y = entorno.getEntradaY();
-		this.direccion = Math.random()*360;
+		//this.direccion = Math.random()*360;
 		//this.direccion = Math.random()*270;
-		//this.direccion = 81;
+		this.direccion = 0;
 		
 		this.addPaso(x,y);
 		
@@ -148,9 +148,13 @@ public class Agente implements Ship{
 			
 		}
 		
+		if(entorno.esSalida(x, y)) {
+			fitness=Double.MAX_VALUE;
+			return;
+		}
 		this.apuntaASalida(x,y);
 		this.seAcercaASalida(x,y);
-		//this.revisarListaPasos(x,y);
+		this.revisarListaPasos(x,y);
 	}
 
 	@Override
@@ -434,7 +438,7 @@ public class Agente implements Ship{
 	
 	private void revisarListaPasos(double x, double y) {
 		
-		for (int i = 0; i < this.camino.size(); i++) {
+		for (int i = 0; i < this.camino.size()-1; i++) {
 			
 			if(x==camino.get(i)[0] && y==camino.get(i)[1]) {
 				fitness-=15;
@@ -489,8 +493,6 @@ public class Agente implements Ship{
 	@Override
 	public double calculateFitness() {
 		
-		int nota =0;
-		
 		// recorrer un arrary y ver si ya h sido visitada la casilla, asi evito bucles, tambien puedo hacerlo con un area de margen
 		// si apunta hacia el 0,2 mas
 		// si uno de ellos  ha llegado a salida, contar los puntos extra y añadir penalizacion por pasos, para comprara con otros que si han llegado en menos pasos
@@ -500,14 +502,18 @@ public class Agente implements Ship{
 	   
 	     double stepPenalty = pasos;
 	     fitness+=stepPenalty*2;
-	     double penalizacionChoque = sensorChoque*5;
+	     double penalizacionChoque = sensorChoque*1;
 	     //fitness-= penalizacionChoque;
-	     fitness+= penalizacionChoque;
+	     fitness-= penalizacionChoque;
 	        
 	     if(entorno.esSalida(x, y)) {
 	    	 
-	    	 fitness+=10000000;
+	    	 fitness=Double.MAX_VALUE-30;
 	    	 
+	     }
+	     
+	     if(pasos>43999) {
+	    	 fitness=Double.MIN_VALUE-30;
 	     }
 	     
 	     if(lose()) {
