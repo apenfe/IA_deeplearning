@@ -14,14 +14,25 @@ public class Plot6Agent extends PApplet {
 	int[] currentPoint = new int[0]; // Track the current point to draw
 	int speed = 15; // Number of points to draw per frame
 	int[] color; // Array to store colors for each barco
+	int generacion;
+	double maxFitness;
 	
-	public Plot6Agent() {
-
+	
+	public Plot6Agent(int generacion, double maxFitness) {
+		this.generacion=generacion;
+		this.maxFitness=maxFitness;
 	}
 	
 	public void setBarcos(Agente[] agentes) {
 		this.agentes = agentes;
 		this.currentPoint=new int[agentes.length];
+		
+		for (int i = 0; i < agentes.length; i++) {
+			
+			if(agentes[i].getFitness()>maxFitness) {
+				this.maxFitness=agentes[i].getFitness();
+			}
+		}
 		
 	}
 	
@@ -39,6 +50,13 @@ public class Plot6Agent extends PApplet {
         
 		this.color=new int[3];
 		
+		if(b.getFitness()>=maxFitness) {
+			this.color[0]=0;
+			this.color[1]=0;
+			this.color[2]=0;
+			return;
+		}
+		
 		if(b.win()) {
 			
 			this.color[0]=0;
@@ -53,14 +71,14 @@ public class Plot6Agent extends PApplet {
 			
 		}else {
 			
-			this.color[0]=0;
-			this.color[1]=0;
+			this.color[0]=255;
+			this.color[1]=255;
 			this.color[2]=255;
 			
 		}
 		
 	}
-//********************************************	
+
 	// Method to draw an arrow
 	
 	public void drawArrow(float x, float y, float angle) {
@@ -81,7 +99,7 @@ public class Plot6Agent extends PApplet {
 		endShape(CLOSE);
 		popMatrix();
 	}
-//***********************************
+
 	public void setXY(int x, int y) {
 		this.x = x;
 		this.y = y;
@@ -104,6 +122,14 @@ public class Plot6Agent extends PApplet {
 	public void draw() {
 		
 		background(fondo);
+		
+		fill(255, 255, 255, 200); // Color blanco con transparencia (alfa de 200)
+        rect(0, 0, 200, 60); // Fondo blanco semitransparente para el texto
+        fill(0); // Color negro para el texto
+        textAlign(LEFT, TOP); // Alinear el texto en la parte superior izquierda
+        text("GENERACION: "+generacion, 5, 5);
+        text("Nº AGENTES: "+agentes.length, 5, 20);
+        text("FITNESS MAXIMO: "+maxFitness, 5, 35);
 
 		// Draw entry and exit points
 		fill(150, 0, 0);

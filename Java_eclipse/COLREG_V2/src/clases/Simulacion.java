@@ -53,33 +53,7 @@ public class Simulacion{
 	
 	public void probarRandom() {
 		
-		EstablecerCasillas applet = new EstablecerCasillas();
-		applet.setXY((int)entorno.getAncho(),(int)entorno.getAlto());
-		 PApplet.runSketch(new String[]{"visual/EstablecerCasillas"}, applet);
-		double[] meter = new double[4];
-	    
-	    do {
-	    	int count=0;
-	    	
-	    	meter = applet.getInOut();
-	    	
-	    	for (int i = 0; i < meter.length; i++) {
-	    		
-	    		System.out.println(meter[i]);
-				if(meter[i]!=0) {
-					count++;
-				}
-			}
-	    	
-	    	if(count==4) {
-	    		break;
-	    	}
-	    	
-	    }while(true);
-	    
-	    this.entorno.setAreaAprox(20);
-		this.entorno.setSalidaX(meter[3]); // y
-		this.entorno.setSalidaY(meter[2]); // x
+		establecerEntradaSalida();
 		
 		System.out.println("Preparación de agentes y entorno...");
 		int numAgentes = Entradas.entero("¿Cuantos agentes desea añadir a la simulación? ");
@@ -127,18 +101,26 @@ public class Simulacion{
 			
 		}
 		
-		Plot6Agent plot = new Plot6Agent();
-		plot.setXY((int)entorno.getAncho(),(int)entorno.getAlto());
-		plot.setBarcos(agentes);
-		plot.setInOut(entorno.getEntradaX(),entorno.getEntradaY(),entorno.getSalidaX(),entorno.getSalidaY());
-	    PApplet.runSketch(new String[]{"visual/Plot6Agent"}, plot);
+		int indice = -1;
+		double max= Double.MIN_VALUE;
+		
+		for (int i = 0; i < agentes.length; i++) {
+			
+			if(agentes[i].getFitness()>max) {
+				indice=i;
+			}
+			
+		}
+		
+		verSimulacion(agentes,0,agentes[indice].getFitness());
 
 	}
 	
 	public void probarADN() {
 		
-
-		String nombreADN = Entradas.texto("Inserte el nombre del ADN a cargar: ");
+		this.establecerEntradaSalida();
+		
+		String nombreADN = Entradas.texto("\nInserte el nombre del ADN a cargar: ");
 			
 		if(cargarADN(this.red.getNombre(),nombreADN)) {
 				
@@ -151,25 +133,13 @@ public class Simulacion{
 				
 		}
 		
-		this.entorno.setAreaAprox(20);
-		this.entorno.setSalidaX(500); // y
-		this.entorno.setSalidaY(1700); // x
-		
 		System.out.println("Preparación de agentes y entorno...");
 		int numAgentes = Entradas.entero("¿Cuantos agentes desea añadir a la simulación? ");
 		agentes = new Agente[numAgentes];
 		
 		for (int i = 0; i < agentes.length; i++) {
 			
-			agentes[i] = new Agente(i,this.entorno);
-			double[] param = new double[this.red.getParametros().length];
-			
-			for (int j = 0; j < param.length; j++) {
-				
-				param[j]= -1 + 2 * Math.random();
-				
-			}
-			
+			agentes[i] = new Agente(i,this.entorno);	
 			agentes[i].setCromosomas(this.adn_red);
 			
 		}
@@ -201,20 +171,27 @@ public class Simulacion{
 			
 		}
 		
-		Plot6Agent applet = new Plot6Agent();
-		applet.setXY((int)entorno.getAncho(),(int)entorno.getAlto());
-		applet.setBarcos(agentes);
-		applet.setInOut(entorno.getEntradaX(),entorno.getEntradaY(),entorno.getSalidaX(),entorno.getSalidaY());
-	    PApplet.runSketch(new String[]{"visual/Plot6Agent"}, applet);
+		int indice = 0;
+		double max= Double.MIN_VALUE;
+		
+		for (int i = 0; i < agentes.length; i++) {
+			
+			if(agentes[i].getFitness()>max) {
+				indice=i;
+			}
+			
+		}
+		
+		verSimulacion(agentes,0,agentes[indice].getFitness());
 
 	}
+	
 	
 	public void entrenarDesdeCeroAlgoritmogenetico() {
 		
 		this.establecerEntradaSalida();
 		
 		System.out.println("Preparación de agentes y entorno...");
-		
 		//int tamanoPoblacion, double ratioMutacion, double ratioDeCruce, int elite
 		int numAgentes = Entradas.entero("¿Cuantos agentes desea añadir a la simulación? ");
 		int numGeneraciones = Entradas.entero("¿Cuantas generaciones desea simular? ");
@@ -259,21 +236,31 @@ public class Simulacion{
 			}
 			
 			generacion++;
+			System.out.println();
+			String respuesta = Entradas.texto("¿Desea ver la "+generacion+" generacion? S - SI ");
+			
+			if(respuesta.equalsIgnoreCase("S")) {
+				
+				verSimulacion(poblacion.getIndividuals(),generacion,poblacion.getFittest(0).getFitness());
+				
+			}
 			
 		}
 		
 		System.out.println("Solucion encontrada en " + generacion + "generaciones.");
 		System.out.println("Mejor solucion: " + poblacion.getFittest(0).toString());
 		
-		Plot6Agent applet = new Plot6Agent();
-		applet.setXY((int)entorno.getAncho(),(int)entorno.getAlto());
-		applet.setBarcos(poblacion.getIndividuals());
-		applet.setInOut(entorno.getEntradaX(),entorno.getEntradaY(),entorno.getSalidaX(),entorno.getSalidaY());
-	    PApplet.runSketch(new String[]{"visual/Plot6Agent"}, applet);
+		String respuesta = Entradas.texto("¿Desea ver la "+generacion+" generacion? S - SI ");
+		
+		if(respuesta.equalsIgnoreCase("S")) {
+			
+			verSimulacion(poblacion.getIndividuals(),generacion,poblacion.getFittest(0).getFitness());
+			
+		}
 	    
 	    boolean adn=false;
 		
-		String respuesta = Entradas.texto("¿Desea guardar el ADN? S - SI ");
+		respuesta = Entradas.texto("¿Desea guardar el ADN? S - SI ");
 		
 		if(respuesta.equalsIgnoreCase("S")) {
 			
@@ -299,39 +286,54 @@ public class Simulacion{
 
 	}
 	
+	
 	private void establecerEntradaSalida() {
 		
 		EstablecerCasillas applet = new EstablecerCasillas();
 		applet.setXY((int)entorno.getAncho(),(int)entorno.getAlto());
 		 PApplet.runSketch(new String[]{"visual/EstablecerCasillas"}, applet);
 		double[] meter = new double[4];
-	    
+
 	    do {
 	    	int count=0;
-	    	
+
 	    	meter = applet.getInOut();
-	    	
+
 	    	for (int i = 0; i < meter.length; i++) {
-	    		
-	    		System.out.println(meter[i]);
+	    		System.out.print(meter[i]);
 				if(meter[i]!=0) {
 					count++;
 				}
 			}
-	    	
+
 	    	if(count==4) {
 	    		break;
 	    	}
-	    	
+
 	    }while(true);
-	    
-	    this.entorno.setAreaAprox(20);
+
+	    this.entorno.setAreaAprox(10);
 		this.entorno.setSalidaX(meter[3]); // y
 		this.entorno.setSalidaY(meter[2]); // x
+		this.entorno.setEntradaX(meter[1]); // y
+		this.entorno.setEntradaY(meter[0]); // x
+		
+	}
+	
+	
+	private void verSimulacion(Agente[] agentes, int generacion, double fitness) {
+		
+		Plot6Agent applet = new Plot6Agent(generacion,fitness);
+		applet.setXY((int)entorno.getAncho(),(int)entorno.getAlto());
+		applet.setBarcos(agentes);
+		applet.setInOut(entorno.getEntradaX(),entorno.getEntradaY(),entorno.getSalidaX(),entorno.getSalidaY());
+	    PApplet.runSketch(new String[]{"visual/Plot6Agent"}, applet);
 		
 	}
 	
 	public void continuarEntrenamiento() {
+		
+		establecerEntradaSalida();
 		
 		String nombreADN = Entradas.texto("Inserte el nombre del ADN a cargar: ");
 		
@@ -345,8 +347,6 @@ public class Simulacion{
 			return;
 				
 		}
-		
-		this.establecerEntradaSalida();
 		
 		System.out.println("Preparación de agentes y entorno...");
 		
@@ -398,6 +398,14 @@ public class Simulacion{
 				
 			}
 			
+			String respuesta = Entradas.texto("¿Desea ver la "+generacion+" generacion? S - SI ");
+			
+			if(respuesta.equalsIgnoreCase("S")) {
+				
+				verSimulacion(poblacion.getIndividuals(),generacion,poblacion.getFittest(0).getFitness());
+				
+			}
+			
 			generacion++;
 			System.out.println();
 		}
@@ -405,7 +413,7 @@ public class Simulacion{
 		System.out.println("Solucion encontrada en " + generacion + "generaciones.");
 		System.out.println("Mejor solucion: " + poblacion.getFittest(0).toString());
 		
-		Plot6Agent plot = new Plot6Agent();
+		Plot6Agent plot = new Plot6Agent(generacion,poblacion.getFittest(0).getFitness());
 		plot.setXY((int)entorno.getAncho(),(int)entorno.getAlto());
 		plot.setBarcos(poblacion.getIndividuals());
 		plot.setInOut(entorno.getEntradaX(),entorno.getEntradaY(),entorno.getSalidaX(),entorno.getSalidaY());

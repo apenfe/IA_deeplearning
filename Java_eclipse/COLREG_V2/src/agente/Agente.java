@@ -100,7 +100,7 @@ public class Agente implements Ship{
 	public void initShip() {
 		
 		this.x = entorno.getEntradaX();
-		this.y = entorno.getEntradaX();
+		this.y = entorno.getEntradaY();
 		this.direccion = Math.random()*360;
 		//this.direccion = Math.random()*270;
 		//this.direccion = 81;
@@ -437,7 +437,7 @@ public class Agente implements Ship{
 		for (int i = 0; i < this.camino.size(); i++) {
 			
 			if(x==camino.get(i)[0] && y==camino.get(i)[1]) {
-				fitness-=10;
+				fitness-=15;
 			}
 			
 		}
@@ -454,7 +454,8 @@ public class Agente implements Ship{
 		if(distAnterior>distActual) {
 			this.fitness+=1;
 		}else {
-			this.fitness-=3;
+			this.fitness-=2;
+			//this.fitness-=3;
 		}		
 		
 	}
@@ -475,7 +476,7 @@ public class Agente implements Ship{
 		if(entorno.esSalida(xExtremo, yExtremo)) {
 			
 			//System.err.println("apunta");
-			fitness+=10;
+			fitness+=8;
 					
 		}else {
 					
@@ -498,9 +499,10 @@ public class Agente implements Ship{
 		 //double distanciaSalida = entorno.distanciaSalida(x, y);
 	   
 	     double stepPenalty = pasos;
-	     
-	     double penalizacionChoque = sensorChoque*3;
-	     fitness-= penalizacionChoque;
+	     fitness+=pasos;
+	     double penalizacionChoque = sensorChoque*5;
+	     //fitness-= penalizacionChoque;
+	     fitness+= penalizacionChoque;
 	        
 	     if(entorno.esSalida(x, y)) {
 	    	 
@@ -509,7 +511,7 @@ public class Agente implements Ship{
 	     }
 	     
 	     if(lose()) {
-	    	 fitness-=10000;
+	    	 fitness-=100000;
 	     }
 
 	     return fitness;
@@ -530,12 +532,12 @@ public class Agente implements Ship{
 	public boolean fin() {
 		
 		if(entorno.esSalida(x, y)) {
-			//puntos+=20000;
+			
 			return true;
 		}
 		
 		if(entorno.fueraLimites(x, y)) {
-			//puntos-=10000;
+			
 			return true;
 		}
 		
