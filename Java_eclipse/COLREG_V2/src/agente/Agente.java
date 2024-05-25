@@ -150,7 +150,7 @@ public class Agente implements Ship{
 		
 		this.apuntaASalida(x,y);
 		this.seAcercaASalida(x,y);
-		this.revisarListaPasos(x,y);
+		//this.revisarListaPasos(x,y);
 	}
 
 	@Override
@@ -454,7 +454,7 @@ public class Agente implements Ship{
 		if(distAnterior>distActual) {
 			this.fitness+=1;
 		}else {
-			this.fitness-=2;
+			//this.fitness-=2;
 			//this.fitness-=3;
 		}		
 		
@@ -476,11 +476,11 @@ public class Agente implements Ship{
 		if(entorno.esSalida(xExtremo, yExtremo)) {
 			
 			//System.err.println("apunta");
-			fitness+=8;
+			fitness+=1;
 					
 		}else {
 					
-			fitness-=2;
+			//fitness-=2;
 					
 		}
 	
@@ -499,14 +499,14 @@ public class Agente implements Ship{
 		 //double distanciaSalida = entorno.distanciaSalida(x, y);
 	   
 	     double stepPenalty = pasos;
-	     fitness+=pasos;
+	     fitness+=stepPenalty*2;
 	     double penalizacionChoque = sensorChoque*5;
 	     //fitness-= penalizacionChoque;
 	     fitness+= penalizacionChoque;
 	        
 	     if(entorno.esSalida(x, y)) {
 	    	 
-	    	 fitness+=100000;
+	    	 fitness+=10000000;
 	    	 
 	     }
 	     
