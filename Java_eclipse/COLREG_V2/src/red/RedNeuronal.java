@@ -3,6 +3,7 @@ package red;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import agente.Agente;
 import clases.DAO;
 import ga.Poblacion;
 
@@ -15,7 +16,7 @@ public class RedNeuronal{
 	private int numNeuronas;
 	private Capas[] capas = new Capas[0];
 	
-	public RedNeuronal(String nombre_simulacion, int numeroCapas, int[] numeroNeuronas, int[] funcion) { // minimo modo
+	public RedNeuronal(String nombre_simulacion, int numeroCapas, int[] numeroNeuronas, int[] funcion) {
 		
 		this.entradas=numeroNeuronas[0];
 		this.salidas=numeroNeuronas[numeroNeuronas.length-1];
@@ -41,7 +42,7 @@ public class RedNeuronal{
 		
 	}
 	
-	public double[] probarRed(double[] entradas) {
+/*	private double[] probarRed(double[] entradas) {
 		
 		double[] anterioresentradas = entradas;
 		
@@ -65,9 +66,19 @@ public class RedNeuronal{
 
 		return salidas;
 
-	}
+	}*/
 	
-	// -----------------------------------  DISCRIMINACION ULTIMA CAPA -------------------------------------------------------------------------
+	private double[] probarRedV2(double[] entradas) {
+		
+		double[] anterioresentradas = entradas;
+	    
+	    for (int i = 0; i < capas.length; i++) {
+	        anterioresentradas = capas[i].probarCapa(anterioresentradas);
+	    }
+	    
+	    return anterioresentradas;
+
+	}
 	
 	private int getNumNeuronas() {
 		
@@ -159,8 +170,6 @@ public class RedNeuronal{
 				
 			}
 			
-			//*****************ver*********************
-			
 			for (int j = 0; j < pesosParaCapa.length; j++) {
 				
 				item1++;
@@ -175,15 +184,13 @@ public class RedNeuronal{
 				
 			}
 			
-			//*****************ver*********************
-			
 			capas[i].actualizarCapa(pesosParaCapa,biasParaCapa);
 			
 		}
 		
 	}
 	
-	private double[] separarBiasPesos(boolean pesos, double[] datos) { // revisar si esta bien   creo que si
+	private double[] separarBiasPesos(boolean pesos, double[] datos) {
 		
 		if(pesos) {
 			
@@ -223,11 +230,7 @@ public class RedNeuronal{
 		
 		DAO db = new DAO();
 		
-		if(db.guardarRed(this)) {
-			return true;
-		}
-		
-		return false;
+		return db.guardarRed(this);
 		
 	}
 	
@@ -239,20 +242,45 @@ public class RedNeuronal{
 			
 			do {
 
-				double[] entradas = poblacion.getIndividual(i).sensores();
-				double[] salidas = this.probarRed(entradas);
-				poblacion.getIndividual(i).acciones(salidas);
+				poblacion.getIndividual(i).acciones(this.probarRedV2(poblacion.getIndividual(i).sensores()));
 
 				if (poblacion.getIndividual(i).win() || poblacion.getIndividual(i).lose() || poblacion.getIndividual(i).getPasos() > 17000) {
+					
 					if(poblacion.getIndividual(i).win()) {
 						System.err.print("-");
 					}
+					
 					break;
 				}
 
 			} while (true);
 			
 		}
+	}
+	
+	public void probarPoblacion(Agente[] agentes) {
+		
+		for (int i = 0; i < agentes.length; i++) {
+			
+			this.setParametros(agentes[i].getCromosomas());
+			
+			do {
+
+				agentes[i].acciones(this.probarRedV2(agentes[i].sensores()));
+
+				if (agentes[i].win() || agentes[i].lose() || agentes[i].getPasos() > 17000) {
+					
+					if(agentes[i].win()) {
+						System.err.print("-");
+					}
+					
+					break;
+				}
+
+			} while (true);
+			
+		}
+		
 	}
 
 	public String getNombre() {

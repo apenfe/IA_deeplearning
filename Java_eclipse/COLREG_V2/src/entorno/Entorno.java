@@ -134,15 +134,7 @@ public class Entorno{
 	
 	public boolean esSalida(double x, double y) {
 		
-		if(distanciaSalida(x,y)<=areaAprox) {
-			
-			return true;
-			
-		}else {
-			
-			return false;
-			
-		}
+		return distanciaSalida(x,y)<=areaAprox;
 		
 	}
 	
@@ -155,41 +147,30 @@ public class Entorno{
 	}
 	
 	public double distanciaEntrada(double x, double y) {
-		
-		double diferenciaX = x - entradaX;
-        double diferenciaY = y - entradaY;
-        return Math.sqrt(diferenciaX * diferenciaX + diferenciaY * diferenciaY);
-		
-	}
-	
-	private boolean esTierra(double x, double y) {
-		
-				
-		 int ix = (int) x;
-	        int iy = (int) y;
 
-	        // Verificar que las coordenadas estén dentro de los límites de la imagen
-	        if (ix >= 0 && ix < mapa.length && iy >= 0 && iy < mapa[0].length) {
-	            return (mapa[ix][iy][0] == 210 && mapa[ix][iy][1] == 180 && mapa[ix][iy][2] == 142);
-	        }
-	        
-	        return false;
-		
+		double diferenciaX = x - entradaX;
+		double diferenciaY = y - entradaY;
+		return Math.sqrt(diferenciaX * diferenciaX + diferenciaY * diferenciaY);
+
+	}
+
+	private boolean esTierra(double x, double y) {
+
+		int ix = (int) x;
+		int iy = (int) y;
+
+		// Verificar que las coordenadas estén dentro de los límites de la imagen
+		if (ix >= 0 && ix < mapa.length && iy >= 0 && iy < mapa[0].length) {
+			return (mapa[ix][iy][0] == 210 && mapa[ix][iy][1] == 180 && mapa[ix][iy][2] == 142);
+		}
+
+		return false;
+
 	}
 	
 	public boolean fueraLimites(double x, double y) {
 		
-		if(x>alto||x<0||y>ancho||y<0) {
-			
-			return true;
-			
-		}
-		
-		if(esTierra(x,y)) {
-			return true;
-		}
-		
-		return false;
+		return esTierra(x,y) || x>alto||x<0||y>ancho||y<0;
 		
 	}
 	
@@ -197,13 +178,7 @@ public class Entorno{
 		
 		DAO db = new DAO();
 		
-		if(db.guardarEntorno(this)) {
-			
-			return true;
-			
-		}
-	
-		return false;
+		return db.guardarEntorno(this);
 
 	}
 
@@ -211,7 +186,6 @@ public class Entorno{
 
 		try {
 		
-			System.out.println(this.carta);
 			File file = new File(this.carta);
 			BufferedImage image = ImageIO.read(file);
 
@@ -223,7 +197,7 @@ public class Entorno{
 			for (int x = 0; x < width; x++) {
 				
 				for (int y = 0; y < height; y++) {
-					System.out.print(x+","+y+" ");
+					
 					int pixel = image.getRGB(x, y);
 
 					int red = (pixel >> 16) & 0xff;
@@ -236,7 +210,6 @@ public class Entorno{
 					
 				}
 				
-				System.out.println();
 			}
 
 			return true;

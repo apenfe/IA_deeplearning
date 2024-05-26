@@ -80,30 +80,7 @@ public class Simulacion{
 
 		System.out.println("Comienzo de la prueba...");
 		
-		for (int i = 0; i < agentes.length; i++) {
-			
-			red.setParametros(agentes[i].getCromosomas());
-			
-			do {
-
-				double[] entradas = agentes[i].sensores();
-				double[] salidas = red.probarRed(entradas);
-				agentes[i].acciones(salidas);
-
-				if (agentes[i].fin() || agentes[i].getPasos() > 17000) {
-
-					if(agentes[i].win()) {
-						System.err.println("Agente: "+i);
-					}else {
-						System.out.println("Agente: "+i);
-					}
-				
-					break;
-				}
-
-			} while (true);
-			
-		}
+		this.red.probarPoblacion(agentes);
 		
 		int indice = 0;
 		double max= Double.MIN_VALUE;
@@ -150,30 +127,7 @@ public class Simulacion{
 
 		System.out.println("Comienzo de la prueba...");
 		
-		for (int i = 0; i < agentes.length; i++) {
-			
-			red.setParametros(agentes[i].getCromosomas());
-			
-			do {
-
-				double[] entradas = agentes[i].sensores();
-				double[] salidas = red.probarRed(entradas);
-				agentes[i].acciones(salidas);
-
-				if (agentes[i].fin() || agentes[i].getPasos() > 17000) {
-					
-					if(agentes[i].win()) {
-						System.err.println("Agente: "+i);
-					}else {
-						System.out.println("Agente: "+i);
-					}
-					
-					break;
-				}
-
-			} while (true);
-			
-		}
+		this.red.probarPoblacion(agentes);
 		
 		int indice = 0;
 		double max= Double.MIN_VALUE;
@@ -218,26 +172,7 @@ public class Simulacion{
 			
 			ga.calculoFitnessPoblacion(poblacion);
 			
-			for (int i = 0; i < numAgentes; i++) {
-				
-				red.setParametros(poblacion.getIndividual(i).getCromosomas());
-				
-				do {
-
-					double[] entradas = poblacion.getIndividual(i).sensores();
-					double[] salidas = red.probarRed(entradas);
-					poblacion.getIndividual(i).acciones(salidas);
-
-					if (poblacion.getIndividual(i).win() || poblacion.getIndividual(i).lose() || poblacion.getIndividual(i).getPasos() > 17000) {
-						if(poblacion.getIndividual(i).win()) {
-							System.err.print("-");
-						}
-						break;
-					}
-
-				} while (true);
-				
-			}
+			this.red.probarPoblacion(poblacion);
 			
 			generacion++;
 			System.out.println();
@@ -404,26 +339,7 @@ public class Simulacion{
 			
 			ga.calculoFitnessPoblacion(poblacion);
 			
-			for (int i = 0; i < numAgentes; i++) {
-				
-				red.setParametros(poblacion.getIndividual(i).getCromosomas());
-				
-				do {
-
-					double[] entradas = poblacion.getIndividual(i).sensores();
-					double[] salidas = red.probarRed(entradas);
-					poblacion.getIndividual(i).acciones(salidas);
-
-					if (poblacion.getIndividual(i).win() || poblacion.getIndividual(i).lose() || poblacion.getIndividual(i).getPasos() > 44000) {
-						if(poblacion.getIndividual(i).win()) {
-							System.err.print("-");
-						}
-						break;
-					}
-
-				} while (true);
-				
-			}
+			this.red.probarPoblacion(poblacion);
 			
 			respuesta = Entradas.texto("¿Desea ver la "+generacion+" generacion? S - SI ");
 			
