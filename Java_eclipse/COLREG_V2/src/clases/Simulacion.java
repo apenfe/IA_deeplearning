@@ -253,7 +253,9 @@ public class Simulacion{
 		this.entorno.setEntradaX(meter[1]); // y
 		this.entorno.setEntradaY(meter[0]); // x
 		this.entorno.setPaso(0.3);
-		System.out.println();
+		
+		//int max = Entradas.texto("\nInserte el numero de pasos maximo ("+e+"): ");
+		//System.out.println();
 		
 	}
 	
@@ -287,6 +289,8 @@ public class Simulacion{
 		
 		String respuesta = Entradas.texto("¿Desea cruzar un segundo ADN? S - SI ");
 		
+		boolean segundo=false;
+		
 		if(respuesta.equalsIgnoreCase("S")) {
 			
 			String nombreADN2 = Entradas.texto("Inserte el nombre del ADN a cargar: ");
@@ -294,7 +298,7 @@ public class Simulacion{
 			if(this.cargarADN(this.red.getNombre(),nombreADN2,false)) {
 				
 				System.out.println("ADN cargado correctamente");
-				
+				segundo=true;
 			}else {
 				
 				System.err.println("Error al cargar el ADN");
@@ -316,7 +320,7 @@ public class Simulacion{
 		
 		for (int i = 0; i < poblacion.size(); i++) {
 			
-			if(Math.random()>0.5 && adn_red.length>0) {
+			if(Math.random()>0.5 && adn_red.length>0&&segundo) {
 				poblacion.getIndividual(i).setCromosomas(adn_red_2);
 			}else {
 				poblacion.getIndividual(i).setCromosomas(adn_red);
@@ -492,5 +496,6 @@ public class Simulacion{
 	public void setAdn_red(double[] adn_red) {
 		this.adn_red = adn_red;
 	}
+
 	
 }

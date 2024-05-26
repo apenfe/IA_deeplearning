@@ -4,6 +4,7 @@ import agente.Agente;
 import processing.core.PApplet;
 import processing.core.PImage;
 
+
 public class Plot6Agent extends PApplet {
 	
 	PImage fondo;

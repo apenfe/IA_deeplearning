@@ -87,7 +87,7 @@ public class Agente implements Ship{
 		}
 		
 		if(entorno.esSalida(x, y)) {
-			fitness=Double.MAX_VALUE;
+			fitness+=5000000;
 			return;
 		}
 		
@@ -448,14 +448,14 @@ public class Agente implements Ship{
 	     //fitness-= penalizacionChoque;
 	     fitness-= penalizacionChoque;
 	        
-	     if(entorno.esSalida(x, y)) {
+	   //  if(entorno.esSalida(x, y)) {
 	    	 
-	    	 fitness=Double.MAX_VALUE-30;
+	    //	 fitness=Double.MAX_VALUE-30;
 	    	 
-	     }
+	    // }
 	     
-	     if(pasos>43999) {
-	    	 fitness=Double.MIN_VALUE-30;
+	     if(pasos>this.maxPasos-1) {
+	    	 fitness=Double.MIN_VALUE;
 	     }
 	     
 	     if(lose()) {

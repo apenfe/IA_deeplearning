@@ -222,6 +222,8 @@ public class RedNeuronal{
 					
 					if(poblacion.getIndividual(i).win()) {
 						System.err.print("-");
+					}else {
+						System.out.print("-");
 					}
 					
 					break;
@@ -246,6 +248,8 @@ public class RedNeuronal{
 					
 					if(agentes[i].win()) {
 						System.err.print("-");
+					}else {
+						System.out.print("-");
 					}
 					
 					break;
