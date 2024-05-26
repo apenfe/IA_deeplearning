@@ -4,11 +4,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import clases.DAO;
+import ga.Poblacion;
 
 public class RedNeuronal{
-	
-	// crear desde datos anteriores
-	// funciones para discriminar que hacer con la ultima capa
 	
 	private String nombre;
 	private int entradas;
@@ -231,6 +229,30 @@ public class RedNeuronal{
 		
 		return false;
 		
+	}
+	
+	public void probarPoblacion(Poblacion poblacion) {
+		
+		for (int i = 0; i < poblacion.size(); i++) {
+			
+			this.setParametros(poblacion.getIndividual(i).getCromosomas());
+			
+			do {
+
+				double[] entradas = poblacion.getIndividual(i).sensores();
+				double[] salidas = this.probarRed(entradas);
+				poblacion.getIndividual(i).acciones(salidas);
+
+				if (poblacion.getIndividual(i).win() || poblacion.getIndividual(i).lose() || poblacion.getIndividual(i).getPasos() > 17000) {
+					if(poblacion.getIndividual(i).win()) {
+						System.err.print("-");
+					}
+					break;
+				}
+
+			} while (true);
+			
+		}
 	}
 
 	public String getNombre() {

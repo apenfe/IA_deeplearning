@@ -108,16 +108,6 @@ public class Agente implements Ship{
 		this.addPaso(x,y);
 		
 	}
-	
-	private void addPaso(double x, double y) {
-		
-		Double[] posicion= new Double[2];
-		posicion[0]=x;
-		posicion[1]=y;
-		this.camino.add(posicion);
-		this.pasos++;
-		
-	}
 
 	@Override
 	public void acciones(double[] movimientos) {
@@ -180,6 +170,16 @@ public class Agente implements Ship{
 	public void girarIzquierda() {
 		
 		this.direccion=obtenerAngulo(-10*(entorno.getPaso()));
+		
+	}
+	
+	private void addPaso(double x, double y) {
+		
+		Double[] posicion= new Double[2];
+		posicion[0]=x;
+		posicion[1]=y;
+		this.camino.add(posicion);
+		this.pasos++;
 		
 	}
 

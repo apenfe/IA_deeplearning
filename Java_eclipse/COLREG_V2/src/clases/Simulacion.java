@@ -4,7 +4,6 @@ import agente.Agente;
 import entorno.Entorno;
 import red.*;
 import visual.EstablecerCasillas;
-import visual.Plot5Agent;
 import visual.Plot6Agent;
 import ga.*;
 import processing.core.PApplet;
@@ -53,6 +52,10 @@ public class Simulacion{
 	}
 	
 	public void probarRandom() {
+		
+		String nombreMapa = Entradas.texto("Inserte el nombre del mapa: ");
+		
+		this.entorno.setCarta("mapas\\"+nombreMapa+".png");
 		
 		establecerEntradaSalida();
 		
@@ -193,7 +196,7 @@ public class Simulacion{
 		this.establecerEntradaSalida();
 		
 		System.out.println("Preparación de agentes y entorno...");
-		//int tamanoPoblacion, double ratioMutacion, double ratioDeCruce, int elite
+		
 		int numAgentes = Entradas.entero("¿Cuantos agentes desea añadir a la simulación? ");
 		int numGeneraciones = Entradas.entero("¿Cuantas generaciones desea simular? ");
 		
@@ -290,9 +293,9 @@ public class Simulacion{
 	
 	private void establecerEntradaSalida() {
 		
-		EstablecerCasillas applet = new EstablecerCasillas(this.entorno.carta);
+		EstablecerCasillas applet = new EstablecerCasillas(this.entorno.getCarta());
 		applet.setXY((int)entorno.getAncho(),(int)entorno.getAlto());
-		 PApplet.runSketch(new String[]{"visual/EstablecerCasillas"}, applet);
+		PApplet.runSketch(new String[]{"visual/EstablecerCasillas"}, applet);
 		double[] meter = new double[4];
 
 	    do {
@@ -318,13 +321,14 @@ public class Simulacion{
 		this.entorno.setSalidaY(meter[2]); // x
 		this.entorno.setEntradaX(meter[1]); // y
 		this.entorno.setEntradaY(meter[0]); // x
+		System.out.println();
 		
 	}
 	
 	
 	private void verSimulacion(Agente[] agentes, int generacion, double fitness) {
 		
-		Plot6Agent applet = new Plot6Agent(generacion,fitness,this.entorno.carta);
+		Plot6Agent applet = new Plot6Agent(generacion,fitness,this.entorno.getCarta());
 		applet.setXY((int)entorno.getAncho(),(int)entorno.getAlto());
 		applet.setBarcos(agentes);
 		applet.setInOut(entorno.getEntradaX(),entorno.getEntradaY(),entorno.getSalidaX(),entorno.getSalidaY());
@@ -435,12 +439,6 @@ public class Simulacion{
 		
 		System.out.println("Solucion encontrada en " + generacion + "generaciones.");
 		System.out.println("Mejor solucion: " + poblacion.getFittest(0).toString());
-		
-		Plot6Agent plot = new Plot6Agent(generacion,poblacion.getFittest(0).getFitness(),this.entorno.carta);
-		plot.setXY((int)entorno.getAncho(),(int)entorno.getAlto());
-		plot.setBarcos(poblacion.getIndividuals());
-		plot.setInOut(entorno.getEntradaX(),entorno.getEntradaY(),entorno.getSalidaX(),entorno.getSalidaY());
-	    PApplet.runSketch(new String[]{"visual/Plot6Agent"}, plot);
 	    
 	    boolean adn=false;
 		
@@ -570,14 +568,7 @@ public class Simulacion{
 		
 		DAO db = new DAO();
 		
-		
-		
-		if(db.guardarGenes(red.getNombre(),nombreADN, mejor.getCromosomas())) {
-			
-			return true;
-		}
-		
-		return false;
+		return db.guardarGenes(red.getNombre(),nombreADN, mejor.getCromosomas());
 		
 	}
 

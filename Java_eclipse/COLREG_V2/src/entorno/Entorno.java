@@ -11,7 +11,7 @@ import clases.Entradas;
 
 public class Entorno{
 	
-	public String carta;
+	private String carta="";
 	private int[][][] mapa;
 	private String nombre;
 	private final int[] ORIGEN = {0,0};
@@ -35,12 +35,8 @@ public class Entorno{
 		this.salidaY = Entradas.entero("Seleccione coordenada y de salida (y): ");
 		this.paso = paso;
 		this.areaAprox = areaAprox;
-		
-		if(cargarCarta()) {
-			System.out.println("Carga correcta");
-		}else {
-			System.err.println("Error al cargar");
-		}
+		this.carta="mapas\\mapa_1.png";
+		cargarCarta();
 		
 	}
 	
@@ -55,12 +51,8 @@ public class Entorno{
 		this.salidaY =  salidaY;
 		this.paso =  paso;
 		this.areaAprox =  areaAprox;
-		
-		if(cargarCarta()) {
-			System.out.println("Carga correcta");
-		}else {
-			System.err.println("Error al cargar");
-		}
+		this.carta="mapas\\mapa_1.png";
+		cargarCarta();
 		
 	}
 
@@ -219,6 +211,7 @@ public class Entorno{
 
 		try {
 		
+			System.out.println(this.carta);
 			File file = new File(this.carta);
 			BufferedImage image = ImageIO.read(file);
 
@@ -230,7 +223,7 @@ public class Entorno{
 			for (int x = 0; x < width; x++) {
 				
 				for (int y = 0; y < height; y++) {
-					
+					System.out.print(x+","+y+" ");
 					int pixel = image.getRGB(x, y);
 
 					int red = (pixel >> 16) & 0xff;
@@ -242,6 +235,8 @@ public class Entorno{
 					this.mapa[y][x][2] = blue;
 					
 				}
+				
+				System.out.println();
 			}
 
 			return true;
@@ -260,6 +255,7 @@ public class Entorno{
 
 	public void setCarta(String carta) {
 		this.carta = carta;
+		cargarCarta();
 	}
 
 }

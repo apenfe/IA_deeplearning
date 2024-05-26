@@ -18,7 +18,6 @@ public class Plot6Agent extends PApplet {
 	double maxFitness;
 	String mapa;
 	
-	
 	public Plot6Agent(int generacion, double maxFitness,String mapa) {
 		this.generacion=generacion;
 		this.maxFitness=maxFitness;
@@ -39,8 +38,9 @@ public class Plot6Agent extends PApplet {
 	}
 	
 	public void setup() {
-		//frameRate(20); // Set the frame rate to 30 FPS to slow down the animation
-		this.fondo = loadImage(mapa); // Reemplaza con la ruta de tu imagen
+		
+		this.fondo = loadImage(mapa);
+		
 	}
 
 	public void setPuntos(Agente b) {
@@ -80,8 +80,6 @@ public class Plot6Agent extends PApplet {
 		}
 		
 	}
-
-	// Method to draw an arrow
 	
 	public void drawArrow(float x, float y, float angle) {
 			
@@ -114,10 +112,9 @@ public class Plot6Agent extends PApplet {
 		this.yS = xS;
 	}
 
-	// Method to configure the window
 	public void settings() {
 
-		size(x , y ); // offset of 20 per axis
+		size(x,y);
 	}
 
 	// Method to draw on the canvas
@@ -133,9 +130,8 @@ public class Plot6Agent extends PApplet {
         text("Nº AGENTES: "+agentes.length, 5, 20);
         text("FITNESS MAXIMO: "+maxFitness, 5, 35);
 
-		// Draw entry and exit points
 		fill(150, 0, 0);
-		ellipse((float) xE , (float) yE , 20, 20);
+		ellipse((float) xE ,(float) yE , 20, 20);
 		fill(255, 0, 0);
 		ellipse((float) xE , (float) yE , 10, 10);
 		
@@ -144,7 +140,7 @@ public class Plot6Agent extends PApplet {
 		fill(0, 150, 0);
 		ellipse((float) xS , (float) yS , 20, 20);
 		
-		// Draw the points progressively
+		// Dibujar los puntos prograsivamente
 		stroke(0, 0, 200);
 		noFill();
 		
@@ -178,6 +174,7 @@ public class Plot6Agent extends PApplet {
 				float nextY = puntos[currentPoint[j] + 1][0] ;
 				angle = atan2(nextY - yPos, nextX - xPos);
 			}
+			
 			drawArrow(xPos, yPos, degrees(angle));
 			
 		}
