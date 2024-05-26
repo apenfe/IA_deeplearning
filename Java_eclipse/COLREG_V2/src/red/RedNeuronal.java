@@ -42,32 +42,6 @@ public class RedNeuronal{
 		
 	}
 	
-/*	private double[] probarRed(double[] entradas) {
-		
-		double[] anterioresentradas = entradas;
-		
-		double[] nuevasentradas = capas[0].probarCapa(entradas);
-		anterioresentradas=nuevasentradas;
-
-		for (int i = 1; i < capas.length; i++) {
-		
-			nuevasentradas = capas[i].probarCapa(anterioresentradas);
-			anterioresentradas=nuevasentradas;
-			
-		}
-		
-		double[] salidas = new double[anterioresentradas.length];
-		
-		for (int i = 0; i < salidas.length; i++) {
-			
-			salidas[i]=anterioresentradas[i];
-			
-		}
-
-		return salidas;
-
-	}*/
-	
 	private double[] probarRedV2(double[] entradas) {
 		
 		double[] anterioresentradas = entradas;
@@ -244,7 +218,7 @@ public class RedNeuronal{
 
 				poblacion.getIndividual(i).acciones(this.probarRedV2(poblacion.getIndividual(i).sensores()));
 
-				if (poblacion.getIndividual(i).win() || poblacion.getIndividual(i).lose() || poblacion.getIndividual(i).getPasos() > 17000) {
+				if (poblacion.getIndividual(i).win() || poblacion.getIndividual(i).lose() || poblacion.getIndividual(i).getPasos() > poblacion.getIndividual(i).getMaxPasos()) {
 					
 					if(poblacion.getIndividual(i).win()) {
 						System.err.print("-");
@@ -268,7 +242,7 @@ public class RedNeuronal{
 
 				agentes[i].acciones(this.probarRedV2(agentes[i].sensores()));
 
-				if (agentes[i].win() || agentes[i].lose() || agentes[i].getPasos() > 17000) {
+				if (agentes[i].win() || agentes[i].lose() || agentes[i].getPasos() > agentes[i].getMaxPasos()) {
 					
 					if(agentes[i].win()) {
 						System.err.print("-");

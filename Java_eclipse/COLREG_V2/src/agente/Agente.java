@@ -13,6 +13,7 @@ public class Agente implements Ship{
 	public double y;
 	public  ArrayList<Double[]> camino = new ArrayList<>();
 	public double direccion;
+	public int maxPasos = 17000;
 	
 	private double[] cromosomas = new double[0];
 	private double fitness = -1;
@@ -41,61 +42,6 @@ public class Agente implements Ship{
 		
 	}
 
-	public double[] getCromosomas() {
-		return cromosomas;
-	}
-
-	public void setCromosomas(double[] cromosomas) {
-		this.cromosomas = cromosomas;
-	}
-
-	public int getChromosomeLength() {
-		return this.cromosomas.length;
-	}
-
-	public void setGene(int indice, double gen) {
-		this.cromosomas[indice] = gen;
-	}
-
-	public double getGene(int indice) {
-		return this.cromosomas[indice];
-	}
-
-	public void setFitness(double fitness) {
-		this.fitness = fitness;
-	}
-
-	public double getFitness() {
-		return this.fitness;
-	}
-
-	public String toString() {
-		
-		String exit = "";
-		
-		for (int gen = 0; gen < this.cromosomas.length; gen++) {
-			
-			exit += this.cromosomas[gen];
-			
-		}
-		
-		return exit;
-		
-	}
-
-	@Override
-	public ArrayList<Double[]> getCamino() {
-		
-		return camino;
-	}
-
-	@Override
-	public void setCamino(ArrayList<Double[]> camino) {
-		
-		this.camino = camino;
-		
-	}
-
 	@Override
 	public void initShip() {
 		
@@ -108,6 +54,8 @@ public class Agente implements Ship{
 		this.addPaso(x,y);
 		
 	}
+	
+	// ******************************** ACTUADORES **************************************************
 
 	@Override
 	public void acciones(double[] movimientos) {
@@ -142,9 +90,11 @@ public class Agente implements Ship{
 			fitness=Double.MAX_VALUE;
 			return;
 		}
+		
 		this.apuntaASalida(x,y);
 		this.seAcercaASalida(x,y);
 		this.revisarListaPasos(x,y);
+		
 	}
 
 	@Override
@@ -182,17 +132,26 @@ public class Agente implements Ship{
 		this.pasos++;
 		
 	}
+	
+	// ********************************************* SENSORES *********************************************
 
 	@Override
 	public double[] sensores() {
 		
 		double[] sensor = new double[14];
 		
-		sensor[0] = this.delante();
-		sensor[1] = this.costado_izquierdo();
-		sensor[2] = this.costado_derecho();
-		sensor[3] = this.amura_izquierda();
-		sensor[4] = this.amura_derecha();
+		//sensor[0] = this.delante();
+		//sensor[1] = this.costado_izquierdo();
+		//sensor[2] = this.costado_derecho();
+		//sensor[3] = this.amura_izquierda();
+		//sensor[4] = this.amura_derecha();
+		
+		sensor[0] = this.lidar(0,HORIZONTE);
+		sensor[1] = this.lidar(-90,HORIZONTE);
+		sensor[2] = this.lidar(90,HORIZONTE);
+		sensor[3] = this.lidar(-45,HORIZONTE);
+		sensor[4] = this.lidar(45,HORIZONTE);
+		
 		sensor[5] = this.distanciaAsalida();
 		sensor[6] = this.distanciaAentrada();
 		sensor[7] = this.direccionActual();
@@ -206,7 +165,7 @@ public class Agente implements Ship{
 		return sensor;
 	}
 
-	@Override
+	/*@Override
 	public int delante() {
 		
 		// Convertir el ángulo a radianes
@@ -296,6 +255,24 @@ public class Agente implements Ship{
 				}else {
 					return -1;
 				}
+	}*/
+	
+	public int lidar(int grados, double distancia) {
+		
+		// Convertir el ángulo a radianes
+		double anguloRadianes = Math.toRadians(obtenerAngulo(grados));
+
+		// Calcular las coordenadas del punto extremo
+		double xExtremo = x + distancia * Math.cos(anguloRadianes);
+		double yExtremo = y + distancia * Math.sin(anguloRadianes);
+				
+		if(entorno.fueraLimites(xExtremo, yExtremo)) {
+			this.sensorChoque++;
+			return 1;
+		}else {
+			return -1;
+		}
+		
 	}
 
 	@Override
@@ -603,6 +580,69 @@ public class Agente implements Ship{
 
 	public void setEntorno(Entorno entorno) {
 		this.entorno = entorno;
+	}
+
+	public int getMaxPasos() {
+		return maxPasos;
+	}
+
+	public void setMaxPasos(int maxPasos) {
+		this.maxPasos = maxPasos;
+	}
+	
+	public double[] getCromosomas() {
+		return cromosomas;
+	}
+
+	public void setCromosomas(double[] cromosomas) {
+		this.cromosomas = cromosomas;
+	}
+
+	public int getChromosomeLength() {
+		return this.cromosomas.length;
+	}
+
+	public void setGene(int indice, double gen) {
+		this.cromosomas[indice] = gen;
+	}
+
+	public double getGene(int indice) {
+		return this.cromosomas[indice];
+	}
+
+	public void setFitness(double fitness) {
+		this.fitness = fitness;
+	}
+
+	public double getFitness() {
+		return this.fitness;
+	}
+
+	public String toString() {
+		
+		String exit = "";
+		
+		for (int gen = 0; gen < this.cromosomas.length; gen++) {
+			
+			exit += this.cromosomas[gen];
+			
+		}
+		
+		return exit;
+		
+	}
+
+	@Override
+	public ArrayList<Double[]> getCamino() {
+		
+		return camino;
+	}
+
+	@Override
+	public void setCamino(ArrayList<Double[]> camino) {
+		
+		this.camino = camino;
+		
 	}
 	
 }

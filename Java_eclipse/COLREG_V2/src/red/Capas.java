@@ -164,11 +164,5 @@ public class Capas {
 	public void setFuncion(int funcion) {
 		this.funcion = funcion;
 	}
-
-	@Override
-	public String toString() {
-		return "Capas [numNeuronas=" + numNeuronas + ", numNeuronasCapaAnterior=" + numNeuronasCapaAnterior
-				+ ", funcion=" + funcion + ", perceptrones=" + Arrays.toString(perceptrones) + "]";
-	}
 	
 }

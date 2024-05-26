@@ -1,7 +1,5 @@
 package red;
 
-import java.util.Arrays;
-
 public class Perceptron {
 	
 	private double bias;
@@ -16,7 +14,7 @@ public class Perceptron {
 		this.bias = 0;
 		this.pesosSinapticos = new double[this.entradas];
 		
-		for (int i = 0; i < this.entradas; i++) {  // sera -1?
+		for (int i = 0; i < this.entradas; i++) {
 		
 			this.pesosSinapticos[i] = Math.random() * 11 - 5;	
 				
@@ -123,12 +121,6 @@ public class Perceptron {
 
 	public void setEntradas(int entradas) {
 		this.entradas = entradas;
-	}
-
-	@Override
-	public String toString() {
-		
-		return "Perceptron [bias=" + bias + ", funcion=" + funcion + ", pesosSinapticos=" + Arrays.toString(pesosSinapticos) + "]";
 	}
 	
 }

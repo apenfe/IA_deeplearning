@@ -19,16 +19,6 @@ public interface Ship{
 
 	public double[] sensores();
 	
-	public int delante();
-
-	public int costado_izquierdo();
-
-	public int costado_derecho();
-
-	public int amura_izquierda();
-
-	public int amura_derecha();
-	
 	public int seccion_derecha();
 	
 	public int seccion_izquierda();
