@@ -13,7 +13,7 @@ public class Agente implements Ship{
 	public double y;
 	public  ArrayList<Double[]> camino = new ArrayList<>();
 	public double direccion;
-	public int maxPasos = 17000;
+	public int maxPasos = 27000;
 	
 	private double[] cromosomas = new double[0];
 	private double fitness = -1;
@@ -47,9 +47,9 @@ public class Agente implements Ship{
 		
 		this.x = entorno.getEntradaX();
 		this.y = entorno.getEntradaY();
-		//this.direccion = Math.random()*360;
+		this.direccion = Math.random()*360;
 		//this.direccion = Math.random()*270;
-		this.direccion = 0;
+		//this.direccion = 0;
 		
 		this.addPaso(x,y);
 		
@@ -278,7 +278,7 @@ public class Agente implements Ship{
 	@Override
 	public int seccion_derecha() {
 		
-		if(amura_derecha()==1&&costado_derecho()==1) {
+		if(lidar(45,HORIZONTE)==1&& lidar(90,HORIZONTE)==1) {
 			
 			return 1;
 			
@@ -291,7 +291,7 @@ public class Agente implements Ship{
 	@Override
 	public int seccion_izquierda() {
 		
-		if(amura_izquierda()==1&&costado_izquierdo()==1) {
+		if(lidar(-45,HORIZONTE)==1&& lidar(-90,HORIZONTE)==1) {
 			return 1;
 		}else {
 			return -1;
@@ -302,7 +302,7 @@ public class Agente implements Ship{
 	@Override
 	public int seccion_frontal() {
 		
-		if(amura_izquierda()==1&&amura_derecha()==1&&delante()==1) {
+		if(lidar(-45,HORIZONTE)==1 && lidar(45,HORIZONTE)==1 && lidar(0,HORIZONTE)==1) {
 			return 1;
 		}else {
 			return -1;
@@ -312,22 +312,24 @@ public class Agente implements Ship{
 
 	@Override
 	public double distanciaAsalida() {
-		double distMin=0;
+		
 		double distMax = Math.sqrt(Math.pow(x,2)+Math.pow(y, 2));
 		double distancia = entorno.distanciaSalida(x, y);
 		
-		return normalizar(distancia,distMin,distMax);
+		return normalizar(distancia,0,distMax);
 	}
 
 	@Override
 	public double direccionActual() {
+		
 		return normalizar(direccion,0,360);
+		
 	}
 	
-	public int direccionCorrecta() { //****************************************************************
+	public int direccionCorrecta() {
 		
 		double distActual = entorno.distanciaSalida(x, y);
-		// Convertir el ángulo a radianes
+		
 		double anguloRadianes = Math.toRadians(obtenerAngulo(0));
 
 				// Calcular las coordenadas del punto extremo
@@ -345,51 +347,14 @@ public class Agente implements Ship{
 		}
 		
 	}
-	
-	public int direccionCorrectaV2() {
-	    // Obtener la distancia actual desde el entorno hasta la salida
-	    double distActual = entorno.distanciaSalida(x, y);
-	    
-	    for (int i=0 ; i<11; i++) {
-	        // Convertir el ángulo a radianes
-	        double anguloRadianes = Math.toRadians(i);
-
-	        // Calcular las coordenadas del punto extremo usando trigonometría
-	        double xExtremo = x + distActual * Math.cos(anguloRadianes);
-	        double yExtremo = y + distActual * Math.sin(anguloRadianes);
-
-	        // Verificar si las coordenadas calculadas son una salida
-	        if (entorno.esSalida(xExtremo, yExtremo)) {
-	        	System.err.println(i+" grados");
-	            return 1; // Indica que la dirección es correcta
-	        }
-	    }
-	    
-	    for (int i=350 ; i<360; i++) {
-	        // Convertir el ángulo a radianes
-	        double anguloRadianes = Math.toRadians(i);
-
-	        // Calcular las coordenadas del punto extremo usando trigonometría
-	        double xExtremo = x + distActual * Math.cos(anguloRadianes);
-	        double yExtremo = y + distActual * Math.sin(anguloRadianes);
-
-	        // Verificar si las coordenadas calculadas son una salida
-	        if (entorno.esSalida(xExtremo, yExtremo)) {
-	        	System.err.println(i+" grados");
-	            return 1; // Indica que la dirección es correcta
-	        }
-	    }
-
-	    return -1; // Indica que ninguna dirección en el rango es correcta
-	}
 
 	@Override
 	public double distanciaAentrada() {
-		double distMin=0;
+		
 		double distMax = Math.sqrt(Math.pow(x,2)+Math.pow(y, 2));
 		double distancia = entorno.distanciaEntrada(x, y);
 		
-		return normalizar(distancia,distMin,distMax);
+		return normalizar(distancia,0,distMax);
 	}
 
 	@Override

@@ -53,10 +53,6 @@ public class Simulacion{
 	
 	public void probarRandom() {
 		
-		String nombreMapa = Entradas.texto("Inserte el nombre del mapa: ");
-		
-		this.entorno.setCarta("mapas\\"+nombreMapa+".png");
-		
 		establecerEntradaSalida();
 		
 		System.out.println("Preparación de agentes y entorno...");
@@ -232,14 +228,14 @@ public class Simulacion{
 		applet.setXY((int)entorno.getAncho(),(int)entorno.getAlto());
 		PApplet.runSketch(new String[]{"visual/EstablecerCasillas"}, applet);
 		double[] meter = new double[4];
-
+		//System.out.println();
 	    do {
 	    	int count=0;
 
 	    	meter = applet.getInOut();
-
+	    	System.out.print("");
 	    	for (int i = 0; i < meter.length; i++) {
-	    		System.out.print(meter[i]);
+	    		//System.out.print("");
 				if(meter[i]!=0) {
 					count++;
 				}
@@ -256,6 +252,7 @@ public class Simulacion{
 		this.entorno.setSalidaY(meter[2]); // x
 		this.entorno.setEntradaX(meter[1]); // y
 		this.entorno.setEntradaY(meter[0]); // x
+		this.entorno.setPaso(0.3);
 		System.out.println();
 		
 	}

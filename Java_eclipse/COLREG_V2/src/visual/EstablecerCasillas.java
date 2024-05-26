@@ -45,6 +45,14 @@ public class EstablecerCasillas extends PApplet {
 	public void draw() {
 		
 		background(fondo);
+		
+		fill(255, 255, 255, 200); // Color blanco con transparencia (alfa de 200)
+        rect(0, 0, 200, 60); // Fondo blanco semitransparente para el texto
+        fill(0); // Color negro para el texto
+        textAlign(LEFT, TOP); // Alinear el texto en la parte superior izquierda
+        text("MAPA: "+mapa, 5, 5);
+        text("Entrada (Clic izquierdo) x: "+leftX+", y: "+leftY, 5, 20);
+        text("Salida (Clic Derecho) x: "+rightX+", y: "+rightY, 5, 35);
 
 		 // Dibujar las marcas si hay coordenadas válidas
 		  if (leftX != 0 && leftY != 0) {

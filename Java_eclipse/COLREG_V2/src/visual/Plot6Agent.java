@@ -12,7 +12,7 @@ public class Plot6Agent extends PApplet {
 	int x, y;
 	double xE, yE, xS, yS;
 	int[] currentPoint = new int[0]; // Track the current point to draw
-	int speed = 15; // Number of points to draw per frame
+	int speed = 25; // Number of points to draw per frame antes 15
 	int[] color; // Array to store colors for each barco
 	int generacion;
 	double maxFitness;
@@ -34,6 +34,8 @@ public class Plot6Agent extends PApplet {
 				this.maxFitness=agentes[i].getFitness();
 			}
 		}
+		
+		//this.speed = 15*agentes.length;
 		
 	}
 	

@@ -7,7 +7,6 @@ public class Principal{
 	 * ENTORNO GRAFICO
 	 * AÑADIR GRAFICAS DE ENTRENAMIENTO Y VISUALIZACION DE AGENTES
 	 * AÑADIR MEJORAS AL ENTORNO
-	 * CARGAR MAPA DESDE MENU
 	 * LIMITACION DE PASOS EN EJECUCION, VISUALIZAR DATOS DURANTE SIMULACION
 	 * HACER FUNCION FITNES BUENA, BUSCAR FORMA DE ESTANDARIZAR
 	 * MEJORAR CRUCE
@@ -143,6 +142,10 @@ public class Principal{
 			
 			System.out.println("Error al cargar el entorno");
 		}
+		
+		String nombreMapa = Entradas.texto("Inserte el nombre del mapa: ");
+		
+		simulacionActual.getEntorno().setCarta("mapas\\"+nombreMapa+".png");
 		
 	}
 	
